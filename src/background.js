@@ -2,7 +2,9 @@
               CONSTANTS & VARIABLES
 *************************************************/
 const canvas = document.querySelector("#canvas")
-// console.log(canvas);
+const ctx = canvas.getContext("2d")
+let background = new Image();
+background.src = "img/bowling_green_5.png";
 
 
 /*************************************************
@@ -38,8 +40,7 @@ class Background{
   }
 
   update() {
-    let c = gameArea.context;
-    c.drawImage(this.image,
+    ctx.drawImage(this.image,
       this.x + this.width,
       this.y,
       this.width, this.height);
@@ -59,16 +60,25 @@ class Background{
 
 let myBackground = new Background(1200, 400, "img/bowling_green_5.png", 0, 0);
 // console.log(myBackground);
+// myBackground.onload = myBackground.update()
+// myBackground.onload = myBackground.update()
 
 
+// function updateGameArea() {
+//     gameArea.clear();
+//     myBackground.dx = -0.5;
+//     myBackground.newPos();
+//     myBackground.update();
+//     debugger
+// }
 
-function updateGameArea() {
-    gameArea.clear();
-    myBackground.dx = -0.5;
-    myBackground.newPos();
-    myBackground.update();
-    // debugger
+
+// gameArea.start();
+
+// background.onload = function(){
+//     ctx.drawImage(background,0,0,1200,400);
+// }
+
+window.onload = function() {
+    myBackground.update()
 }
-
-
-gameArea.start();
