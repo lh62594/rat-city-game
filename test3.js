@@ -1,50 +1,60 @@
 const canvas = document.querySelector("#canvas");
+const fullWidth = 1000
+const fullHeight = 450
+canvas.width = fullWidth
+canvas.height = fullHeight
 // console.log(canvas);
 var c = canvas.getContext("2d");
-var e = canvas.getContext("2d");
-var b = canvas.getContext("2d"); // background line
-// <canvas id="canvas" width="800" height="400"></canvas>
+// var e = canvas.getContext("2d");
+// var b = canvas.getContext("2d"); // background line
 
 
-// black rectangles
-c.fillRect(0, 250, 800, 5);
-// c.fillRect(700, 190, 25, 60);
-
-
-// the player rectangle
-// c.fillStyle = "rgba(0, 0, 255, 0.7)";
-// c.fillRect(25, 225, 25, 25);
-
-
-var x = 900
-var y = 1200
-var dx = -1
-function animate() {
-  requestAnimationFrame(animate);
-
-  c.clearRect(0, 0, innerWidth, innerHeight)
-  b.fillRect(0, 250, 800, 5);
-  c.fillRect(x, 190, 25, 60);
-  e.fillRect(y, 220, 25, 30);
-
-  x += dx
-  y += dx
-
+// creates the "FLOOR"
+function createFloor() {
+  // var c = canvas.getContext("2d");
+  c.fillRect(0, 250, fullWidth, 5);
 }
+createFloor()
+
 
 // animate()
 
-function Obstacle(x, h) {
-  this.x = x;
-  this.y =
-  this.h = h;
-  this.dx = -1
+class Obstacle {
+  constructor(x, height) {
+    this.x = x
+    this.y = 250 - height
+    this.dx = -1
+    this.width = 40
+    this.height = height
+    this.c = canvas.getContext("2d");
+  }
 
-  this.draw = function() {
-    c.fillRect(x, 200, 25, h);
-    console.log(this.y);
+  draw() {
+    c.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  move() {
+    this.x += this.dx;
+    this.draw();
+  }
+
+  animate() {
+    window.requestAnimationFrame( () => {
+      this.animate()
+    });
+    this.c.clearRect(0, 0, innerWidth, innerHeight);
+    createFloor();
+    // debugger
+    this.move();
   }
 }
 
-var rec = new Obstacle(600, 50)
-rec.draw()
+
+let rectangle1 = new Obstacle(800, 20)
+let rectangle2 = new Obstacle(900, 50)
+// rectangle.draw()
+// rectangle1.animate()
+// rectangle1.draw()
+// rectangle2.draw()
+// rectangle2.animate()
+// animate(rectangle)
