@@ -2,8 +2,9 @@
             CONSTANTS & VARIABLES
 **************************************************/
 const canvas = document.querySelector("#canvas");
-const fullWidth = 1000
+const fullWidth = 1200
 const fullHeight = 450
+const floorPos = 315
 const bgSpeed = -1
 const pizzaSpeed = -2.5
 const obSpeed = -4
@@ -26,12 +27,12 @@ let jumpKey = false
             BACKGROUND CREATIONS
 **************************************************/
 // creates the "FLOOR"
-function createFloor() {
-  c.fillStyle = "rgba(0,0,0)"
-  c.fillRect(0, 250, fullWidth, 3);
-}
+// function createFloor() {
+//   c.fillStyle = "rgba(0,0,0)"
+//   c.fillRect(0, floorPos, fullWidth, 3);
+// }
 
-createFloor()
+// createFloor()
 
 
 /**************************************************
@@ -40,7 +41,7 @@ createFloor()
 class Obstacle {
   constructor(x, height) {
     this.x = x
-    this.y = 250 - height
+    this.y = floorPos - height
     this.dx = obSpeed
     this.width = 50
     this.height = height
@@ -64,7 +65,7 @@ class Obstacle {
 class Pizza {
   constructor(x) {
     this.x = x
-    this.y = 225
+    this.y = floorPos - 50
     this.dx = pizzaSpeed
     this.radius = 10
     // this.image = new Image();
@@ -125,7 +126,7 @@ class Background {
 class Player {
   constructor() {
     this.x = 200
-    this.y = 150
+    this.y = floorPos - 100
     this.width = 45
     this.height = 100
     this.gravity = 0
@@ -135,7 +136,7 @@ class Player {
   }
 
   draw() {
-    c.fillStyle = "#008000"
+    c.fillStyle = "rgba(255,255,255,1)"
     c.fillRect(this.x, this.y, this.width, this.height)
   }
 }
@@ -194,8 +195,8 @@ function createBackground() {
 function renderAll() {
   createObstacles()
   obstacles.forEach( o => o.draw() )
-  createBackground()
-  bgs.forEach( b => b.draw() )
+  // createBackground()
+  // bgs.forEach( b => b.draw() )
   createPizzas()
   pizzas.forEach( p => p.draw() )
   player.draw()
@@ -213,14 +214,14 @@ function animate() {
     animate()
   });
   c.clearRect(0, 0, innerWidth, innerHeight);
-  createFloor();
+  // createFloor();
   player.draw()
 
   obstacles.forEach( o => o.move() )
 
   pizzas.forEach( p => p.move() )
 
-  bgs.forEach( b => b.move() )
+  // bgs.forEach( b => b.move() )
 
 
 }
@@ -301,7 +302,7 @@ window.addEventListener("keyup", event => {
                 INVOKING FUNCTIONS
 **************************************************/
 renderAll()
-// animate()
+animate()
 
 
 
