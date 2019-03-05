@@ -13,12 +13,29 @@
     to {background-position: -100% 0}
 }
 
-#container {
-  background-size: 750px 450px;
+#canvas {
   background-image: url('img/bowling_green_1.png');
+  background-size: 750px 450px;
   background-position: 0px 0px
   background-repeat: repeat-x;
-  animation: backgroundScroll 9s linear infinite;
+  animation: backgroundScroll 8s linear infinite;
+}
+
+#container {
+  background-color: black;
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+}
+
+.stats {
+  /* background-size: 750px 50px; */
+  /* background-color: black; */
+  color: white;
+  float: right;
+  margin-right: 50px;
 }
 
 
