@@ -5,6 +5,11 @@
 // var myGamePiece;
 // var myBackground;
 const canvas = document.querySelector("#canvas")
+const fullWidth = 1000
+const fullHeight = 450
+// const speed = -3
+canvas.width = fullWidth
+canvas.height = fullHeight
 var c = canvas.getContext("2d")
 console.log(c);
 
