@@ -58,17 +58,20 @@ let jumpKey = false
                       CLASSES
 **************************************************/
 class Obstacle {
-  constructor(x, height) {
+  constructor(x) {
     this.x = x
-    this.y = floorPos - height
+    this.y = floorPos - 40
     this.dx = obSpeed
-    this.width = 50
-    this.height = height
+    this.width = 100
+    this.height = 50
+    this.image = new Image(50,50)
+    this.image.src = "img/rat.png"
   }
 
   draw() {
-    c.fillStyle = "rgba(0, 0, 0)"
-    c.fillRect(this.x, this.y, this.width, this.height);
+    // c.fillStyle = "rgba(0, 0, 0)"
+    // c.fillRect(this.x, this.y, this.width, this.height);
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 
   move() {
@@ -92,7 +95,7 @@ class StationSign {
   constructor() {
     this.x = 400
     this.y = 100
-    this.dx = - 1.2
+    this.dx = - 0.9
     this.width = 250
     this.height = 60
   }
@@ -129,19 +132,19 @@ class Pizza {
     this.x = x
     this.y = floorPos - 50
     this.dx = pizzaSpeed
-    this.radius = 10
-    this.image = new Image();
+    this.size = 40
+    this.image = new Image(50,50);
     this.image.src = "img/pizza.png"
-    this.jumping = false
   }
 
   draw() {
-    c.beginPath()
-    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = "rgba(0, 0, 255, 0.7)"
-    c.strokeStyle = "rgba(0, 0, 255, 0.7)"
-    c.stroke();
-    c.fill()
+    // c.beginPath()
+    // c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+    // c.fillStyle = "rgba(0, 0, 255, 0.7)"
+    // c.strokeStyle = "rgba(0, 0, 255, 0.7)"
+    // c.stroke();
+    // c.fill()
+    c.drawImage(this.image, this.x, this.y, this.size, this.size)
   }
 
   move() {
@@ -209,13 +212,16 @@ class Player {
   constructor() {
     this.x = 200
     this.y = floorPos - 100
-    this.width = 45
+    this.width = 70
     this.height = 100
+    this.image = new Image(50, 50)
+    this.image.src = "img/mario-pose2.png"
   }
 
   draw() {
-    c.fillStyle = "rgba(255,255,255,1)"
-    c.fillRect(this.x, this.y, this.width, this.height)
+    // c.fillStyle = "rgba(255,255,255,1)"
+    // c.fillRect(this.x, this.y, this.width, this.height)
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 }
 
@@ -365,8 +371,7 @@ let subway = new Subway(fullWidth)
 function createObstacles() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
-    var height = 30
-    obstacles.push(new Obstacle(x, height))
+    obstacles.push(new Obstacle(x))
   }
 }
 
@@ -403,29 +408,36 @@ function renderAll() {
 // add event listeners on the left/right arrows
 // gives illusion that character is moving, without actually moving the character
 function animate() {
-  if (obstacles != "") {
+  if (obstacles != "" && lives != 0) {
     requestAnimationFrame( () => {
       animate()
     });
 
     c.clearRect(0, 0, innerWidth, innerHeight);
     sign.move()
-
     player.draw()
-
     obstacles.forEach( o => o.move() )
-
     pizzas.forEach( p => p.move() )
-
     door.move()
     // subway.move()
-
-
     if(jumpKey == true && player.y == (floorPos - player.height)) {
       player.y = 150
     } else if (jumpKey == false){
       player.y = floorPos - player.height
     }
+  } else {
+    endLevel()
+  }
+}
+
+function bringSubway() {
+  if (subway.x > 200) {
+    requestAnimationFrame(bringSubway)
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    player.draw()
+    door.draw()
+    sign.draw()
+    subway.move()
   }
 }
 /**************************************************
@@ -454,18 +466,7 @@ function endLevel() {
   // console.log(obstacles, pizzas);
 }
 
-function bringSubway() {
-  if (subway.x > 200) {
-    requestAnimationFrame(bringSubway)
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    player.draw()
-    door.draw()
-    sign.draw()
-    subway.move()
-    // console.log("running animation on subway");
-    // console.log(subway.x);
-  }
-}
+
 
 function showStats() {
 
