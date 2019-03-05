@@ -1,0 +1,43 @@
+/* #canvas {
+  border-color: black;
+} */
+
+
+#testing {
+  color: red;
+}
+
+
+@keyframes backgroundScroll {
+    from {background-position: 0 0;}
+    to {background-position: -100% 0}
+}
+
+#container {
+  background-size: 1200px 450px;
+  background-image: url('img/bowling_green_5.png');
+  background-position: 0px 0px
+  background-repeat: repeat-x;
+  animation: backgroundScroll 10s linear infinite;
+}
+
+
+/* .wrapper {
+overflow: hidden;
+}
+
+#container {
+background: url('img/bowling_green_5.png') repeat-x;
+height: 560px;
+width: 5076px;
+animation: slide 60s linear infinite;
+}
+
+@keyframes slide{
+0%{
+  transform: translate3d(0, 0, 0);
+}
+100%{
+  transform: translate3d(-1692px, 0, 0);
+}
+} */
