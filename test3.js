@@ -2,12 +2,13 @@
             CONSTANTS & VARIABLES
 **************************************************/
 const canvas = document.querySelector("#canvas");
-const fullWidth = 1200
+const fullWidth = window.innerWidth
 const fullHeight = 450
 const floorPos = 315
 const bgSpeed = -1
 const pizzaSpeed = -2.5
 const obSpeed = -4
+const container = document.querySelector("#container")
 
 canvas.width = fullWidth
 canvas.height = fullHeight
@@ -56,7 +57,7 @@ class Obstacle {
     if (this.x + this.width < 0) {
       this.x = fullWidth + (Math.random()*525 + 475)
     }
-    this.x += this.dx
+    this.x += obSpeed
     this.draw();
   }
 
@@ -129,9 +130,9 @@ class Player {
     this.y = floorPos - 100
     this.width = 45
     this.height = 100
-    this.gravity = 0
-    this.gravitySpeed = 0
-    this.y_velocity = 0
+    // this.gravity = 0
+    // this.gravitySpeed = 0
+    // this.y_velocity = 0
     this.jumping = false
   }
 
@@ -140,6 +141,44 @@ class Player {
     c.fillRect(this.x, this.y, this.width, this.height)
   }
 }
+
+
+class Door {
+  constructor(x) {
+    this.x = x
+    this.y = floorPos - 200
+    this.dx = -1.2
+    this.width = 100
+    this.height = 200
+  }
+
+  draw() {
+    // drawing the rectangle of the door
+    c.fillStyle = ("rgba(46, 49, 49, 1)")
+    c.fillRect(this.x, this.y, this.width, this.height)
+    c.fillStyle = ("rgba(228, 233, 237, 1)")
+    c.fillRect(this.x + 20, 140, 60, 60)
+
+    // drawing the knob of the door
+    c.beginPath()
+    c.arc(this.x + 80, 225, 5, 0, Math.PI * 2, false)
+    c.fillStyle = "rgba(0, 0, 255, 1)"
+    c.strokeStyle = "rgba(0, 0, 255, 1)"
+    c.stroke();
+    c.fill()
+  }
+
+  move() {
+    if (this.x > 200) {
+      this.x += this.dx;
+      this.draw();
+    } else {
+      this.draw();
+      container.style.animation = "none"
+    }
+  }
+}
+
 
 
 
@@ -168,6 +207,7 @@ class Player {
             BACKGROUND CREATIONS
 **************************************************/
 let player = new Player
+let door = new Door(fullWidth * 2)
 
 function createObstacles() {
   for (var i = 0; i < 2; i++) {
@@ -213,79 +253,29 @@ function animate() {
   requestAnimationFrame( () => {
     animate()
   });
+
   c.clearRect(0, 0, innerWidth, innerHeight);
-  // createFloor();
   player.draw()
 
   obstacles.forEach( o => o.move() )
 
   pizzas.forEach( p => p.move() )
 
-  // bgs.forEach( b => b.move() )
+  door.move()
 
-
-}
-
-function playerJump() {
-  // for (var i = 0; i < 5; i++) {
-    if(jumpKey == true) {
-      player.y = 40
-    }
-    // console.log(player.y);
-    player.y += 10
-
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    createFloor();
-    player.draw()
-    animate()
-
-    if (player.y > 140) {
-      // player.jumping == false
-      player.y = 140
-      player.y_velocity = 0;
-
-    }
-  // }
-  requestAnimationFrame(playerJump)
-}
-
-
-function loop() {
-
-  if (player.jumping == false) {
-
-    player.y_velocity -= 20;
-    player.jumping = true;
-
+  if(jumpKey == true && player.y == (floorPos - player.height)) {
+    player.y = 150
+  } else if (jumpKey == false){
+    player.y = floorPos - player.height
   }
 
-  player.y_velocity += 1.5;// gravity
-  player.x += player.x_velocity;
-  player.y += player.y_velocity;
-  // player.x_velocity *= 0.9;// friction
-  // player.y_velocity *= 0.9;// friction
-
-  // if player is falling below floor line
-  if (player.y > 200) {
-    // player.jumping = false;
-    player.y = 200
-    player.y_velocity = 0;
-
-  }
-
-  requestAnimationFrame(loop);
-};
-
+}
 /**************************************************
                 EVENT LISTENERS
 **************************************************/
 window.addEventListener("keydown", event => {
   if (event.code == "ArrowUp" && jumpKey == false) {
     jumpKey = true
-    player.jumping == true
-    // window.requestAnimationFrame(playerJump)
-    // playerJump()
-    // loop()
     console.log(jumpKey);
   }
 })
@@ -303,10 +293,3 @@ window.addEventListener("keyup", event => {
 **************************************************/
 renderAll()
 animate()
-
-
-
-// b.draw()
-// let pizza = new Pizza(300)
-// pizza.draw()
-// draw()

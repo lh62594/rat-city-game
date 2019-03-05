@@ -18,7 +18,7 @@
   background-image: url('img/bowling_green_1.png');
   background-position: 0px 0px
   background-repeat: repeat-x;
-  animation: backgroundScroll 10s linear infinite;
+  animation: backgroundScroll 9s linear infinite;
 }
 
 
