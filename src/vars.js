@@ -1,17 +1,3 @@
-/*=================================================
-            TO DO LIST / CHALLENGES
-===================================================
-[ ] render the images (pizza, rats, etc)
-[X] collision check (KP)
-[ ] render score (LH)
-[ ] end level
-    --> stops everyting
-    --> hidden div
-[ ] BONUS STUFF
-    --> lives?
-    --> gravity
-*/
-
 /**************************************************
               CONSTANTS & VARIABLES
 **************************************************/
@@ -32,23 +18,31 @@ const floorPos = 315
 // setting constant speeds
 const bgSpeed = -0.9 // background speed
 const pizzaSpeed = -2.5 // pizza speed
-const obSpeed = -4 // obstacle speed
+const obSpeed = -4 // rat speed
 
+const levelPizza = {
+  1: 10,
+  2: 15,
+  3: 20
+}
+// setting the draw area of canvas
 let c = canvas.getContext("2d");
 
-//arrays
-let obstacles = []
+//arrays & other variables
+let rats = []
 let pizzas = []
 let collectedPizzas = 0
-let lives = 3 // MAYBE LATER
+let lives = 3
 let jumpKey = false
 let paused = false
+let curLevel = 1 // will change this
+let levelComplete = false
 
 
 /**************************************************
-                      CLASSES
+                  GAME PIECE CLASSES
 **************************************************/
-class Obstacle {
+class Rat {
   constructor(x) {
     this.x = x
     this.y = floorPos - 40
@@ -60,70 +54,28 @@ class Obstacle {
   }
 
   draw() {
-    // c.fillStyle = "rgba(0, 0, 0)"
-    // c.fillRect(this.x, this.y, this.width, this.height);
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 
   move() {
-    // debugger
     if (lives > -1) {
       if (this.x + this.width < 0) {
         this.x = fullWidth + (Math.random()*525 + 475)
       }
 
-      this.x += obSpeed
+      this.x += this.dx
       this.draw();
 
-      //if player hits an obstacle
-      if (this.x > player.x
-        && this.x < (player.x + player.width)
-        && this.y < (player.y + player.height)
-        && this.y > player.y ) {
-          // lives decrease
-          lives -= 1
-          // the game is paused
-          paused = true
+      //if player hits an rat
+      if (this.x > player.x && this.x < (player.x + player.width)
+        && this.y < (player.y + player.height) && this.y > player.y ) {
+          lives -= 1  // lives decrease
+          paused = true // the game is paused
         }
     }
   }
 
-} // end of Obstacle class
-
-class StationSign {
-  constructor() {
-    this.x = 400
-    this.y = 100
-    this.dx = bgSpeed
-    this.width = 250
-    this.height = 60
-  }
-
-  draw() {
-    c.strokeStyle = "rgba(0, 0, 0)" // sign black outside border
-    c.lineWidth = 20 // sign black outside border
-    c.strokeRect(this.x, this.y, this.width, this.height) // sign black outside border
-    c.strokeStyle = "rgba(255, 255, 255)" // sign white inside border
-    c.lineWidth = 5 // sign white inside border
-    c.strokeRect(this.x, this.y, this.width, this.height) // sign white inside border
-    c.fillStyle = "rgba(0, 0, 0)" // sign black background
-    c.fillRect(this.x, this.y, this.width, this.height); // sign black background
-
-
-    c.fillStyle = "rgba(255, 255, 255)" // sign text
-    c.font = "24px Arial"; // sign text
-    c.fillText("BOWLING GREEN", this.x + 24, this.y + 40); // sign text
-  }
-
-  move() {
-    if (this.x + this.width < 0) {
-      this.x = fullWidth + 100
-    }
-    this.x += this.dx;
-    this.draw();
-  }
-
-} // end of StationSign class
+} // end of Rat class
 
 class Pizza {
   constructor(x, num) {
@@ -152,16 +104,14 @@ class Pizza {
 
     // if the pizza hits the player, pizza collection goes up by 1
     // that pizza disappears from the screen & pizza array
-    if (this.x > player.x
-      && this.x < (player.x + player.width)
-      && this.y < (player.y + player.height)
-      && this.y > player.y ) {
-        this.x = 0
+    if (this.x > player.x && this.x < (player.x + player.width)
+      && this.y < (player.y + player.height) && this.y > player.y ) {
+        pizzas = pizzas.filter( p => p.num != this.num)
+
         collectedPizzas += 1
         score.innerText = `PIZZAS: ${collectedPizzas}`
     }
   }
-
 } // end of Pizza class
 
 class Player {
@@ -172,38 +122,45 @@ class Player {
     this.height = 100
     this.image = new Image(50, 50)
     this.image.src = "img/mario-pose2.png"
+    this.gravity = 0
+    this.gravitySpeed = 0
+    this.jumping = false
   }
 
   draw() {
-    // c.fillStyle = "rgba(255,255,255,1)"
-    // c.fillRect(this.x, this.y, this.width, this.height)
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
+    if (player.y > 60) {
+      this.gravitySpeed += this.gravity;
+      this.y += this.gravitySpeed;
+    }
+    else {
+      this.gravitySpeed = 0
+      player.y = 60.0001
+    }
+    this.hitBottom()
+  }
+
+  hitBottom() {
+    let rockbottom = floorPos - 100
+    if (this.y > rockbottom) {
+      this.y = rockbottom;
+    }
   }
 }
 
-class Door {
-  constructor(x) {
+class Column {
+  constructor(x, src) {
     this.x = x
-    this.y = floorPos - 200
-    this.dx = -1.2
-    this.width = 100
-    this.height = 200
+    this.y = 23
+    this.dx = bgSpeed
+    this.width = 90
+    this.height = floorPos - this.y - 5
+    this.image = new Image(50,50)
+    this.image.src = src
   }
 
   draw() {
-    // drawing the rectangle of the door
-    c.fillStyle = ("rgba(46, 49, 49, 1)")
-    c.fillRect(this.x, this.y, this.width, this.height)
-    c.fillStyle = ("rgba(228, 233, 237, 1)")
-    c.fillRect(this.x + 20, 140, 60, 60)
-
-    // drawing the knob of the door
-    c.beginPath()
-    c.arc(this.x + 80, 225, 5, 0, Math.PI * 2, false)
-    c.fillStyle = "rgba(0, 0, 255, 1)"
-    c.strokeStyle = "rgba(0, 0, 255, 1)"
-    c.stroke();
-    c.fill()
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 
   move() {
@@ -212,10 +169,38 @@ class Door {
       this.draw();
     } else {
       this.draw();
-      endLevel()
+      levelComplete = true // when you reach the column, you've completed the level
     }
   }
-} // end of Door class
+} // end of Column class
+
+
+/**************************************************
+                  BACKGROUND CLASSES
+**************************************************/
+class StationSign {
+  constructor(src) {
+    this.x = 400
+    this.y = 100
+    this.dx = bgSpeed
+    this.width = 270
+    this.height = 60
+    this.image = new Image(50,50)
+    this.image.src = src
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+    if (this.x + this.width < 0) {
+      this.x = fullWidth + 100
+    }
+    this.x += this.dx;
+    this.draw();
+  }
+} // end of StationSign class
 
 class Subway {
   constructor(x) {
@@ -329,152 +314,13 @@ class Subway {
   }
 } // end of Subway class
 
-class ContinueSign {
-  constructor() {
+class GameSign {
+  constructor(src) {
     this.image = new Image(50,50);
-    this.image.src = "img/continue.png"
+    this.image.src = src
   }
 
   draw() {
-    c.drawImage(this.image, 400, 100, 400, 200)
+    c.drawImage(this.image, 300, 60, 600, 300)
   }
-}
-
-
-
-/**************************************************
-            BACKGROUND CREATIONS
-**************************************************/
-let sign = new StationSign
-let player = new Player
-let door = new Door(fullWidth*3)
-let subway = new Subway(fullWidth + 100)
-let continueSign = new ContinueSign
-
-
-function createObstacles() {
-  for (var i = 0; i < 2; i++) {
-    var x = fullWidth + i * (Math.random()*525 + 475)
-    obstacles.push(new Obstacle(x))
-  }
-}
-
-function createPizzas() {
-  for (var i = 0; i < 10; i++) {
-    var x = fullWidth + i * (Math.random()*400 + 375) + 350
-    pizzas.push(new Pizza(x, i+1))
-  }
-}
-
-
-function renderLevelOne() {
-  createObstacles()
-  obstacles.forEach( o => o.draw() )
-  createPizzas()
-  pizzas.forEach( p => p.draw() )
-  player.draw()
-}
-
-
-/**************************************************
-              ANIMATION FUNCTIONS
-**************************************************/
-// to "move right" function
-// add event listeners on the left/right arrows
-// gives illusion that character is moving, without actually moving the character
-function animate() {
-  if (obstacles != "" && paused == false && lives != 0) {
-    requestAnimationFrame(animate)
-
-    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
-
-    sign.move() // move also includes this.draw()
-
-    player.draw()
-
-    obstacles.forEach( o => o.move() ) // this is doing each obstacle.move()
-
-    pizzas.forEach( p => p.move() )
-
-    door.move()
-
-    if(jumpKey == true && player.y == (floorPos - player.height)) {
-      player.y = 150
-    } else if (jumpKey == false){
-      player.y = floorPos - player.height
-    }
-  } else if (paused == true && lives != 0) {
-    restartLevel()
-  } else if (paused == true && lives == 0) {
-    // console.log("did I hit this?");
-    gameOver()
-  }
-}
-
-function bringSubway() { // subway animation goes, nothing else goes)
-  if (subway.x > 200) {
-    requestAnimationFrame(bringSubway)
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    player.draw()
-    door.draw()
-    sign.draw()
-    subway.move()
-  }
-}
-
-/**************************************************
-                EVENT LISTENERS
-**************************************************/
-window.addEventListener("keydown", event => {
-  if (event.code == "ArrowUp" && jumpKey == false) {
-    jumpKey = true
-  }
-})
-
-window.addEventListener("keyup", event => {
-  if (event.code == "ArrowUp") {
-  jumpKey = false
-  }
-})
-
-/**************************************************
-                HELPER FUNCTIONS
-**************************************************/
-function endLevel() {
-  obstacles = []
-  pizzas = []
-  canvas.style.animation = "none"
-  bringSubway()
-}
-
-function restartLevel() {
-  livesLeft.innerText = `LIVES: ${lives}`
-  continueSign.draw()
-  canvas.addEventListener("click", continueAfterClick)
-}
-
-function continueAfterClick() {
-  // makes all the obstacles and pizza disappear
-  obstacles = []
-  pizzas = []
-  // recreates all the pizzas and obstacles
-  createPizzas()
-  createObstacles()
-  // changes the pause to false
-  paused = false
-  animate()
-  // removes the event listener
-  canvas.removeEventListener("click", continueAfterClick, false)
-}
-
-function gameOver() {
-  console.log("GAME OVERRRR!!!");
-}
-
-/**************************************************
-                INVOKING FUNCTIONS
-**************************************************/
-renderLevelOne()
-animate()
-// firstRun()
-// subway.draw()
+} // end of GameSign class

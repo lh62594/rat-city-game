@@ -14,14 +14,17 @@
 }
 
 #canvas {
-  background-image: url('img/bowling_green_1.png');
+  background-image: url('');
   background-size: 750px 450px;
   background-position: 0px 0px
   background-repeat: repeat-x;
-  /* animation: backgroundScroll 8s linear infinite; */
 }
 
-#container1 {
+.scrolling-bg {
+  animation: backgroundScroll 8s linear infinite;
+}
+
+#container {
   background-color: black;
   margin: 0;
   position: absolute;

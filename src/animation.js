@@ -1,0 +1,164 @@
+/**************************************************
+            BACKGROUND CREATIONS
+**************************************************/
+let player = new Player
+let subway = new Subway(fullWidth + 100)
+
+// game signs
+let continueSign = new GameSign("img/continue.png")
+let gameOverSign = new GameSign("img/game-over.png")
+
+// station signs
+let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
+let wallStreetSign = new StationSign("img/wall-st-sign.png")
+
+// columns
+let bgColumn = new Column(600, "img/bowling-green-col.png")
+let wsColumn = new Column(fullWidth, "img/wall-st-col.png")
+
+// rats
+function createRats() {
+  for (var i = 0; i < 2; i++) {
+    var x = fullWidth + i * (Math.random()*525 + 475)
+    rats.push(new Rat(x))
+  }
+}
+
+// pizzas
+function createPizzas() {
+  for (var i = 0; i < levelPizza[curLevel]; i++) {
+    var x = fullWidth + i * (Math.random()*400 + 375) + 350
+    // pizzas take in arguments (x, num) --> num is like an index
+    pizzas.push(new Pizza(x, i+1))
+  }
+}
+
+/**************************************************
+              ANIMATION FUNCTIONS
+**************************************************/
+// to "move right" function
+// add event listeners on the left/right arrows
+// gives illusion that character is moving, without actually moving the character
+function animateOne() {
+  if (paused == false && lives != 0 && levelComplete == false) {
+    requestAnimationFrame(animateOne) // looping animation
+
+    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+
+    bowlingGreenSign.move() // move also includes this.draw()
+
+    bgColumn.move()
+
+    player.draw()
+
+    rats.forEach( o => o.move() ) // this is doing each rat.move()
+
+    pizzas.forEach( p => p.move() )
+
+    if(jumpKey == true && player.y == (floorPos - player.height)) {
+      player.y = 150
+    } else if (jumpKey == false){
+      player.y = floorPos - player.height
+    }
+
+  } else if (paused == true && lives != 0 && levelComplete == false) {
+
+    continueLevel()
+
+  } else if (paused == true && lives == 0 && levelComplete == false) {
+
+    gameOver()
+  } else if (levelComplete == true) {
+
+    completedLevel()
+  }
+}
+
+function animateTwo() {
+  if (paused == false && lives != 0 && levelComplete == false) {
+    requestAnimationFrame(animateTwo) // looping animation
+
+    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+
+    wallStreetSign.move() // move also includes this.draw()
+
+    wsColumn.move()
+
+    player.draw()
+
+    rats.forEach( o => o.move() ) // this is doing each rat.move()
+
+    pizzas.forEach( p => p.move() )
+
+    if(jumpKey == true && player.y == (floorPos - player.height)) {
+      player.y = 150
+    } else if (jumpKey == false){
+      player.y = floorPos - player.height
+    }
+
+  } else if (paused == true && lives != 0 && levelComplete == false) {
+
+    continueLevel()
+
+  } else if (paused == true && lives == 0 && levelComplete == false) {
+
+    gameOver()
+  } else if (levelComplete == true) {
+
+    completedLevel()
+  }
+}
+
+
+
+function bringSubway() { // subway animation goes, nothing else goes)
+  if (subway.x > 200) {
+    requestAnimationFrame(bringSubway)
+
+    c.clearRect(0, 0, innerWidth, innerHeight);
+
+    if (curLevel == 1) {
+      bowlingGreenSign.draw()
+      bgColumn.draw()
+    } else if (curLevel == 2) {
+      wallStreetSign.draw()
+      wsColumn.draw()
+    }
+
+    player.draw()
+    subway.move()
+  }
+}
+
+/**************************************************
+                EVENT LISTENERS
+**************************************************/
+// window.addEventListener("keydown", event => {
+//   if (event.code == "ArrowUp" && jumpKey == false) {
+//     jumpKey = true
+//   }
+// })
+//
+// window.addEventListener("keyup", event => {
+//   if (event.code == "ArrowUp") {
+//   jumpKey = false
+//   }
+// })
+
+window.addEventListener("keydown", event => {
+  if (event.code == "ArrowUp" && jumpKey == false) {
+    jumpKey = true
+
+  if (player.y === floorPos - 100) {
+    player.gravitySpeed = 0
+  }
+    player.gravity = -0.7
+  }
+})
+
+window.addEventListener("keyup", event => {
+  if (event.code == "ArrowUp") {
+  jumpKey = false
+  player.gravity = 0.3
+  }
+})
