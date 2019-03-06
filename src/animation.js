@@ -11,10 +11,14 @@ let gameOverSign = new GameSign("img/game-over.png")
 // station signs
 let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
 let wallStreetSign = new StationSign("img/wall-st-sign.png")
+let fultonStreetSign = new StationSign("img/fulton-st-sign.png")
+let unionSqSign = new StationSign("img/union-sq-sign.png")
 
 // columns
 let bgColumn = new Column(fullWidth, "img/bowling-green-col.png")
 let wsColumn = new Column(fullWidth, "img/wall-st-col.png")
+let fsColumn = new Column(fullWidth, "img/fulton-st-col.png")
+let usColumn = new Column(fullWidth, "img/union-sq-col.png")
 
 // rats
 function createRats() {
@@ -33,6 +37,47 @@ function createPizzas() {
   }
 }
 
+function levelDraws() {
+  if (curLevel == 1) {
+    bowlingGreenSign.draw()
+    bgColumn.draw()
+  } else if (curLevel == 2) {
+    wallStreetSign.draw()
+    wsColumn.draw()
+  } else if (curLevel == 3) {
+    fultonStreetSign.draw()
+    fsColumn.draw()
+  } else if (curLevel == 4) {
+
+  } else if (curLevel == 5) {
+    unionSqSign.draw()
+    usColumn.draw()
+  }
+  player.draw()
+}
+
+function levelMoves() {
+  if (curLevel == 1) {
+    bowlingGreenSign.move() // move also includes this.draw()
+    bgColumn.move()
+  } else if (curLevel == 2) {
+    wallStreetSign.move() // move also includes this.draw()
+    wsColumn.move()
+  } else if (curLevel == 3) {
+    fultonStreetSign.move()
+    fsColumn.move()
+  } else if (curLevel == 4) {
+
+  } else if (curLevel == 5) {
+    unionSqSign.move()
+    usColumn.move()
+  }
+
+  player.draw()
+  rats.forEach( o => o.move() )
+  pizzas.forEach( p => p.move() )
+}
+
 /**************************************************
               ANIMATION FUNCTIONS
 **************************************************/
@@ -45,19 +90,7 @@ function animate() {
 
     c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
 
-    if (curLevel == 1) {
-      bowlingGreenSign.move() // move also includes this.draw()
-      bgColumn.move()
-    } else if (curLevel == 2) {
-      wallStreetSign.move() // move also includes this.draw()
-      wsColumn.move()
-    }
-
-    player.draw()
-
-    rats.forEach( o => o.move() ) // this is doing each rat.move()
-
-    pizzas.forEach( p => p.move() )
+    levelMoves()
 
     if(jumpKey == true && player.y == (floorPos - player.height)) {
       player.y = 150
@@ -78,18 +111,8 @@ function animate() {
 function bringSubway() { // subway animation goes, nothing else goes)
   if (subway.x > 200) {
     requestAnimationFrame(bringSubway)
-
     c.clearRect(0, 0, innerWidth, innerHeight);
-
-    if (curLevel == 1) {
-      bowlingGreenSign.draw()
-      bgColumn.draw()
-    } else if (curLevel == 2) {
-      wallStreetSign.draw()
-      wsColumn.draw()
-    }
-
-    player.draw()
+    levelDraws()
     subway.move()
   }
 }

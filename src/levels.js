@@ -33,7 +33,30 @@ function renderLevelThree() {
   createRats()
   createPizzas()
   player.draw()
-  console.log("what happened?");
+}
+
+function renderLevelFive() {
+  pizzaSpeed = -7
+  ratSpeed = -10
+  curLevel = 5
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/union-sq-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  createRats()
+  createPizzas()
+  player.draw()
+}
+
+function renderTest() {
+  ratSpeed = -2
+  curLevel = 6
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/union-sq-bg.png')";
+  createRats()
+  // createPizzas()
+  player.draw()
 }
 
 
@@ -89,6 +112,12 @@ function continueToNextLevel() {
   } else if (curLevel == 2) {
     curLevel += 1
     startLevelThree()
+  } else if (curLevel == 3) {
+    curLevel += 1
+    startLevelFour()
+  } else if (curLevel == 4) {
+    curLevel += 1
+    startLevelFive
   }
 
   canvas.removeEventListener("click", continueToNextLevel)
@@ -116,11 +145,27 @@ function startLevelThree() {
   animate()
 }
 
+function startLevelFour() {
+
+  // animate()
+}
+
+function startLevelFive() {
+  renderLevelFive()
+  animate()
+}
+
+function startTest() {
+  renderTest()
+
+}
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-startLevelOne()
+// startLevelOne()
 // startLevelTwo()
+// startLevelFive()
+// startTest()
 
 /**************************************************
                       TESTS
