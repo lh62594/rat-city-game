@@ -367,7 +367,7 @@ function createPizzas() {
 }
 
 
-function renderAll() {
+function renderLevelOne() {
   createObstacles()
   obstacles.forEach( o => o.draw() )
   createPizzas()
@@ -474,7 +474,7 @@ function gameOver() {
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-renderAll()
+renderLevelOne()
 animate()
 // firstRun()
 // subway.draw()
