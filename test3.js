@@ -1,6 +1,6 @@
-/*=====================================
-        TO DO LIST / CHALLENGES
-=======================================
+/*=================================================
+            TO DO LIST / CHALLENGES
+===================================================
 [ ] render the images (pizza, rats, etc)
 [X] collision check (KP)
 [ ] render score (LH)
@@ -13,45 +13,36 @@
 */
 
 /**************************************************
-            CONSTANTS & VARIABLES
+              CONSTANTS & VARIABLES
 **************************************************/
+// document elements
 const canvas = document.querySelector("#canvas");
+const container = document.querySelector("#container")
+const restart = document.querySelector(".restart")
 const score = document.querySelector("#score");
+const livesLeft = document.querySelector("#lives");
+
+// canvas screen adjustments
 const fullWidth = 1200 //window.innerWidth
 const fullHeight = 450
-const floorPos = 315
-const bgSpeed = -1
-const pizzaSpeed = -2.5
-const obSpeed = -4
-const container = document.querySelector("#container")
-
 canvas.width = fullWidth
 canvas.height = fullHeight
+const floorPos = 315
+
+// setting constant speeds
+const bgSpeed = -0.9 // background speed
+const pizzaSpeed = -2.5 // pizza speed
+const obSpeed = -4 // obstacle speed
 
 let c = canvas.getContext("2d");
 
 //arrays
 let obstacles = []
 let pizzas = []
-// let bgs = []
-
 let collectedPizzas = 0
-
-
 let lives = 3 // MAYBE LATER
 let jumpKey = false
-
-
-/**************************************************
-            BACKGROUND CREATIONS
-**************************************************/
-// creates the "FLOOR"
-// function createFloor() {
-//   c.fillStyle = "rgba(0,0,0)"
-//   c.fillRect(0, floorPos, fullWidth, 3);
-// }
-
-// createFloor()
+let paused = false
 
 
 /**************************************************
@@ -75,17 +66,25 @@ class Obstacle {
   }
 
   move() {
-    if (this.x + this.width < 0) {
-      this.x = fullWidth + (Math.random()*525 + 475)
-    }
-    this.x += obSpeed
-    this.draw();
+    // debugger
+    if (lives > -1) {
+      if (this.x + this.width < 0) {
+        this.x = fullWidth + (Math.random()*525 + 475)
+      }
 
-    if (this.x > player.x
-      && this.x < (player.x + player.width)
-      && this.y < (player.y + player.height)
-      && this.y > player.y ) {
-        endLevel()
+      this.x += obSpeed
+      this.draw();
+
+      //if player hits an obstacle
+      if (this.x > player.x
+        && this.x < (player.x + player.width)
+        && this.y < (player.y + player.height)
+        && this.y > player.y ) {
+          // lives decrease
+          lives -= 1
+          // the game is paused
+          paused = true
+        }
     }
   }
 
@@ -95,7 +94,7 @@ class StationSign {
   constructor() {
     this.x = 400
     this.y = 100
-    this.dx = - 0.9
+    this.dx = bgSpeed
     this.width = 250
     this.height = 60
   }
@@ -138,12 +137,6 @@ class Pizza {
   }
 
   draw() {
-    // c.beginPath()
-    // c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    // c.fillStyle = "rgba(0, 0, 255, 0.7)"
-    // c.strokeStyle = "rgba(0, 0, 255, 0.7)"
-    // c.stroke();
-    // c.fill()
     c.drawImage(this.image, this.x, this.y, this.size, this.size)
   }
 
@@ -151,7 +144,6 @@ class Pizza {
     // if the pizza hits the left side of canvas, it gets destroyed
     if (this.x < 0) {
       pizzas.shift()
-      // console.log("length", pizzas.length);
     }
 
     // this is moving the pizza left
@@ -164,49 +156,13 @@ class Pizza {
       && this.x < (player.x + player.width)
       && this.y < (player.y + player.height)
       && this.y > player.y ) {
-        // pizzas.splice(this.num, 1)
         this.x = 0
         collectedPizzas += 1
         score.innerText = `PIZZAS: ${collectedPizzas}`
-        // console.log("hitting the pizza");
-        // console.log("score:", collectedPizzas);
-        // console.log(pizzas.length);
     }
   }
 
 } // end of Pizza class
-
-class Background {
-  constructor(x) {
-    this.x = x
-    this.y = 75
-    this.dx = bgSpeed
-    this.width = 60
-    this.height = 25
-    this.d = 500
-    this.image = new Image();
-    this.image.src = 'img/bowling_green_5.png'
-  }
-
-  draw() {
-    c.strokeStyle = "rgb(139,0,0)"
-    c.strokeRect(this.x + this.width/2, this.y, this.width, this.height)
-    c.strokeRect(this.x, this.y + this.height, this.width, this.height)
-    c.strokeRect(this.x + this.width, this.y + this.height, this.width, this.height)
-
-    c.strokeRect(this.d + this.x + this.width/2, this.y + 50, this.width, this.height)
-    c.strokeRect(this.d + this.x, this.y + this.height + 50, this.width, this.height)
-    c.strokeRect(this.d + this.x + this.width, this.y + this.height + 50, this.width, this.height)
-  }
-
-  move() {
-    if (this.x + this.d + 2 * this.width< 0) {
-      this.x = fullWidth
-    }
-    this.x += this.dx;
-    this.draw();
-  }
-} // end of Background class
 
 class Player {
   constructor() {
@@ -224,7 +180,6 @@ class Player {
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 }
-
 
 class Door {
   constructor(x) {
@@ -276,21 +231,39 @@ class Subway {
     c.fillRect(this.x, this.y, this.width, this.height)
 
     c.fillStyle = ("rgba(228, 233, 237, 1)") // window color
-    c.fillRect(this.x + 20, 160, 150, 120) // this is first window
-    c.fillRect(this.x + 450, 160, 280, 120) // this is second window
-    c.fillRect(this.x + 220, 180, 80, 100) // left door window
-    c.fillRect(this.x + 320, 180, 80, 100) // right door window
+    c.fillRect(this.x + 20, 160, 150, 120) // first window
+    c.fillRect(this.x + 450, 160, 320, 120) // second window
+    c.fillRect(this.x + 220, 180, 80, 100) // left door window (1)
+    c.fillRect(this.x + 320, 180, 80, 100) // right door window (1)
+    c.fillRect(this.x + 820, 180, 80, 100) // left door window (2)
+    c.fillRect(this.x + 920, 180, 80, 100) // right door window (2)
 
     c.fillStyle = ("rgba(80, 80, 80, 0.3)") // door color
-    c.fillRect(this.x + 210, 160, 200, 200) // this is the door
+    c.fillRect(this.x + 210, 160, 200, 200) // first door
+    c.fillRect(this.x + 810, 160, 200, 200) // second door
+
     c.strokeStyle = ("rgba(30, 30, 30, 0.5)") // door outline color
-    c.strokeRect(this.x + 210, 160, 100, 200) // left door outline
-    c.strokeRect(this.x + 310, 160, 100, 200) // right door outline
     c.strokeRect(this.x + 20, 160, 150, 120) // first window outline
-    c.strokeRect(this.x + 450, 160, 280, 120) // second window outline
+    c.strokeRect(this.x + 450, 160, 320, 120) // second window outline
+
+    c.strokeRect(this.x + 210, 160, 100, 200) // left door outline (1)
+    c.strokeRect(this.x + 310, 160, 100, 200) // right door outline (1)
+    c.strokeRect(this.x + 810, 160, 100, 200) // left door outline (2)
+    c.strokeRect(this.x + 910, 160, 100, 200) // right door outline (2)
+
 
     c.fillStyle = ("rgba(50, 50, 50, 0.8)") // step color
-    c.fillRect(this.x + 200, 360, 220, 10) // this is the step
+    c.fillRect(this.x + 200, 360, 220, 10) // this is the 1st step
+    c.fillRect(this.x + 800, 360, 220, 10) // this is the 2nd step
+
+    c.fillStyle = ("rgba(10, 10, 10, 0.8)") // sign color
+    // c.fillRect(this.x + 20, 160, 150, 40) // first window sign
+    c.fillRect(this.x + 450, 160, 320, 40) // second window sign
+
+    c.beginPath() // 4 train sign
+    c.arc((this.x + 500), 180, 15, 0, Math.PI * 2, false)
+    c.strokeStyle = "rgba(0, 240, 0, 1)"
+    c.stroke()
 
     // drawing the wheels
     c.beginPath() // outer wheel
@@ -356,6 +329,16 @@ class Subway {
   }
 } // end of Subway class
 
+class ContinueSign {
+  constructor() {
+    this.image = new Image(50,50);
+    this.image.src = "img/continue.png"
+  }
+
+  draw() {
+    c.drawImage(this.image, 400, 100, 400, 200)
+  }
+}
 
 
 
@@ -364,8 +347,9 @@ class Subway {
 **************************************************/
 let sign = new StationSign
 let player = new Player
-let door = new Door(fullWidth*2)
-let subway = new Subway(fullWidth)
+let door = new Door(fullWidth*3)
+let subway = new Subway(fullWidth + 100)
+let continueSign = new ContinueSign
 
 
 function createObstacles() {
@@ -382,19 +366,10 @@ function createPizzas() {
   }
 }
 
-function createBackground() {
-  for (var i = 0; i < 2; i++) {
-    var x = 100 + i * fullWidth
-    bgs.push(new Background(x))
-  }
-}
-
 
 function renderAll() {
   createObstacles()
   obstacles.forEach( o => o.draw() )
-  // createBackground()
-  // bgs.forEach( b => b.draw() )
   createPizzas()
   pizzas.forEach( p => p.draw() )
   player.draw()
@@ -408,29 +383,35 @@ function renderAll() {
 // add event listeners on the left/right arrows
 // gives illusion that character is moving, without actually moving the character
 function animate() {
-  if (obstacles != "" && lives != 0) {
-    requestAnimationFrame( () => {
-      animate()
-    });
+  if (obstacles != "" && paused == false && lives != 0) {
+    requestAnimationFrame(animate)
 
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    sign.move()
+    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+
+    sign.move() // move also includes this.draw()
+
     player.draw()
-    obstacles.forEach( o => o.move() )
+
+    obstacles.forEach( o => o.move() ) // this is doing each obstacle.move()
+
     pizzas.forEach( p => p.move() )
+
     door.move()
-    // subway.move()
+
     if(jumpKey == true && player.y == (floorPos - player.height)) {
       player.y = 150
     } else if (jumpKey == false){
       player.y = floorPos - player.height
     }
-  } else {
-    endLevel()
+  } else if (paused == true && lives != 0) {
+    restartLevel()
+  } else if (paused == true && lives == 0) {
+    // console.log("did I hit this?");
+    gameOver()
   }
 }
 
-function bringSubway() {
+function bringSubway() { // subway animation goes, nothing else goes)
   if (subway.x > 200) {
     requestAnimationFrame(bringSubway)
     c.clearRect(0, 0, innerWidth, innerHeight);
@@ -440,6 +421,7 @@ function bringSubway() {
     subway.move()
   }
 }
+
 /**************************************************
                 EVENT LISTENERS
 **************************************************/
@@ -463,44 +445,36 @@ function endLevel() {
   pizzas = []
   canvas.style.animation = "none"
   bringSubway()
-  // console.log(obstacles, pizzas);
 }
 
-
-
-function showStats() {
-
+function restartLevel() {
+  livesLeft.innerText = `LIVES: ${lives}`
+  continueSign.draw()
+  canvas.addEventListener("click", continueAfterClick)
 }
 
-function countPizzas() {
-
+function continueAfterClick() {
+  // makes all the obstacles and pizza disappear
+  obstacles = []
+  pizzas = []
+  // recreates all the pizzas and obstacles
+  createPizzas()
+  createObstacles()
+  // changes the pause to false
+  paused = false
+  animate()
+  // removes the event listener
+  canvas.removeEventListener("click", continueAfterClick, false)
 }
 
-// function createHearts() {
-//   let img = new Image();
-//   img.src = 'img/heart.png'
-//   // debugger
-//   canvas.onload( () => {
-//     // debugger
-//     c.drawImage(img, 100, 100, 50, 50)
-//   })
-// }
-//
-// createHearts()
+function gameOver() {
+  console.log("GAME OVERRRR!!!");
+}
 
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
 renderAll()
 animate()
-// pizzas[0].draw()
+// firstRun()
 // subway.draw()
-
-// let heart = new Life
-// heart.draw()
-
-// window.onload = function() {
-//   let img = new Image();
-//   img.src = 'img/heart.png'
-//   c.drawImage(img, 100, 100)
-// }

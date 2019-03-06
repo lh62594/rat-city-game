@@ -18,7 +18,7 @@
   background-size: 750px 450px;
   background-position: 0px 0px
   background-repeat: repeat-x;
-  animation: backgroundScroll 8s linear infinite;
+  /* animation: backgroundScroll 8s linear infinite; */
 }
 
 #container {
