@@ -15,16 +15,17 @@ canvas.width = fullWidth
 canvas.height = fullHeight
 const floorPos = 315
 
-// setting constant speeds
-const bgSpeed = -0.9 // background speed
-const pizzaSpeed = -2.5 // pizza speed
-const obSpeed = -4 // rat speed
-
 const levelPizza = {
   1: 10,
   2: 15,
   3: 20
 }
+
+// setting constant speeds
+let bgSpeed = -0.9 // background speed
+let pizzaSpeed = -2.5 // pizza speed
+let ratSpeed = -4 // rat speed
+
 // setting the draw area of canvas
 let c = canvas.getContext("2d");
 
@@ -46,7 +47,7 @@ class Rat {
   constructor(x) {
     this.x = x
     this.y = floorPos - 40
-    this.dx = obSpeed
+    this.dx = ratSpeed
     this.width = 100
     this.height = 50
     this.image = new Image(50,50)
@@ -76,6 +77,35 @@ class Rat {
   }
 
 } // end of Rat class
+
+class Boss {
+  constructor(x, src) {
+    this.x = x
+    this.y = floorPos - 90
+    this.dx = ratSpeed
+    this.width = 80
+    this.height = 100
+    this.image = new Image(50,50)
+    this.image.src = src
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+
+    this.x += this.dx
+    this.draw();
+
+    if (this.x > player.x && this.x < (player.x + player.width)
+      && this.y < (player.y + player.height) && this.y > player.y ) {
+        lives -= 1  // lives decrease
+        paused = true // the game is paused
+      }
+  }
+
+} // end of Boss class
 
 class Pizza {
   constructor(x, num) {
@@ -244,13 +274,19 @@ class Subway {
     c.fillStyle = ("rgba(10, 10, 10, 0.8)") // sign color
     // c.fillRect(this.x + 20, 160, 150, 40) // first window sign
     c.fillRect(this.x + 450, 160, 320, 40) // second window sign
+    c.font = "18px Arial"; // 4 train circle
+    c.fillStyle = ("#afff14")
+    c.fillText("4      LEXINGTON EXPRESS", this.x + 495, 187)
+    c.font = "14px Arial"; // continue sign
+    c.fillStyle = "rgba(0,0,0,1)"
+    c.fillText("CLICK HERE FOR NEXT LEVEL", this.x + 500, 310)
 
-    c.beginPath() // 4 train sign
+    c.beginPath() // 4 train sign circle
     c.arc((this.x + 500), 180, 15, 0, Math.PI * 2, false)
     c.strokeStyle = "rgba(0, 240, 0, 1)"
     c.stroke()
 
-    // drawing the wheels
+    //********************drawing the wheels**********************
     c.beginPath() // outer wheel
     c.arc((this.x + 50), (this.y + this.height + 10), 30, 0, Math.PI * 2, false)
     c.fillStyle = "rgba(5, 5, 5, 1)"
@@ -305,10 +341,10 @@ class Subway {
   }
 
   move() {
-    if (this.x > 200) {
+    if (this.x > 200 || subway.x < 200) {
       this.x += this.dx;
       this.draw();
-    } else {
+    } else if (this.x == 200){
       this.draw();
     }
   }

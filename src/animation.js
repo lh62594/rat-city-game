@@ -13,7 +13,7 @@ let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
 let wallStreetSign = new StationSign("img/wall-st-sign.png")
 
 // columns
-let bgColumn = new Column(600, "img/bowling-green-col.png")
+let bgColumn = new Column(fullWidth, "img/bowling-green-col.png")
 let wsColumn = new Column(fullWidth, "img/wall-st-col.png")
 
 // rats
@@ -39,15 +39,19 @@ function createPizzas() {
 // to "move right" function
 // add event listeners on the left/right arrows
 // gives illusion that character is moving, without actually moving the character
-function animateOne() {
+function animate() {
   if (paused == false && lives != 0 && levelComplete == false) {
-    requestAnimationFrame(animateOne) // looping animation
+    requestAnimationFrame(animate) // looping animation
 
     c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
 
-    bowlingGreenSign.move() // move also includes this.draw()
-
-    bgColumn.move()
+    if (curLevel == 1) {
+      bowlingGreenSign.move() // move also includes this.draw()
+      bgColumn.move()
+    } else if (curLevel == 2) {
+      wallStreetSign.move() // move also includes this.draw()
+      wsColumn.move()
+    }
 
     player.draw()
 
@@ -62,53 +66,13 @@ function animateOne() {
     }
 
   } else if (paused == true && lives != 0 && levelComplete == false) {
-
     continueLevel()
-
   } else if (paused == true && lives == 0 && levelComplete == false) {
-
     gameOver()
   } else if (levelComplete == true) {
-
     completedLevel()
   }
 }
-
-function animateTwo() {
-  if (paused == false && lives != 0 && levelComplete == false) {
-    requestAnimationFrame(animateTwo) // looping animation
-
-    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
-
-    wallStreetSign.move() // move also includes this.draw()
-
-    wsColumn.move()
-
-    player.draw()
-
-    rats.forEach( o => o.move() ) // this is doing each rat.move()
-
-    pizzas.forEach( p => p.move() )
-
-    if(jumpKey == true && player.y == (floorPos - player.height)) {
-      player.y = 150
-    } else if (jumpKey == false){
-      player.y = floorPos - player.height
-    }
-
-  } else if (paused == true && lives != 0 && levelComplete == false) {
-
-    continueLevel()
-
-  } else if (paused == true && lives == 0 && levelComplete == false) {
-
-    gameOver()
-  } else if (levelComplete == true) {
-
-    completedLevel()
-  }
-}
-
 
 
 function bringSubway() { // subway animation goes, nothing else goes)
@@ -130,35 +94,37 @@ function bringSubway() { // subway animation goes, nothing else goes)
   }
 }
 
+
+
 /**************************************************
                 EVENT LISTENERS
 **************************************************/
-// window.addEventListener("keydown", event => {
-//   if (event.code == "ArrowUp" && jumpKey == false) {
-//     jumpKey = true
-//   }
-// })
-//
-// window.addEventListener("keyup", event => {
-//   if (event.code == "ArrowUp") {
-//   jumpKey = false
-//   }
-// })
-
 window.addEventListener("keydown", event => {
   if (event.code == "ArrowUp" && jumpKey == false) {
     jumpKey = true
-
-  if (player.y === floorPos - 100) {
-    player.gravitySpeed = 0
-  }
-    player.gravity = -0.7
   }
 })
 
 window.addEventListener("keyup", event => {
   if (event.code == "ArrowUp") {
   jumpKey = false
-  player.gravity = 0.3
   }
 })
+
+// window.addEventListener("keydown", event => {
+//   if (event.code == "ArrowUp" && jumpKey == false) {
+//     jumpKey = true
+//
+//   if (player.y === floorPos - 100) {
+//     player.gravitySpeed = 0
+//   }
+//     player.gravity = -0.7
+//   }
+// })
+//
+// window.addEventListener("keyup", event => {
+//   if (event.code == "ArrowUp") {
+//   jumpKey = false
+//   player.gravity = 0.3
+//   }
+// })

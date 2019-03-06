@@ -2,6 +2,7 @@
                 RENDER LEVELS
 **************************************************/
 function renderLevelOne() {
+  curLevel = 1
   canvas.style.backgroundImage = "url('img/bowling_green_1.png')";
   createRats("img/rat.png")
   createPizzas()
@@ -9,6 +10,8 @@ function renderLevelOne() {
 }
 
 function renderLevelTwo() {
+  pizzaSpeed = -4
+  ratSpeed = -6
   curLevel = 2
   levelComplete = false
   subway.x = fullWidth + 100
@@ -17,6 +20,20 @@ function renderLevelTwo() {
   createRats()
   createPizzas()
   player.draw()
+}
+
+function renderLevelThree() {
+  pizzaSpeed = -5.5
+  ratSpeed = -8
+  curLevel = 3
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/fulton-st-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  createRats()
+  createPizzas()
+  player.draw()
+  console.log("what happened?");
 }
 
 
@@ -28,15 +45,13 @@ function continueLevel() {
   continueSign.draw()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueAfterClick)
-
-  console.log("did i hit this continue level thing");
 }
 
 function completedLevel() {
   rats = []
   pizzas = []
-  canvas.classList.remove("scrolling-bg")
   bringSubway()
+  canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueToNextLevel)
 }
 
@@ -62,13 +77,7 @@ function continueAfterClick() {
   paused = false
   canvas.classList.add("scrolling-bg")
 
-  if (curLevel == 1) {
-    animateOne()
-    console.log("did i hit? (1)");
-  } else if (curLevel == 2) {
-    animateTwo()
-    console.log("did i hit? (2)");
-  }
+  animate()
   // removes the event listener
   canvas.removeEventListener("click", continueAfterClick, false)
 }
@@ -77,9 +86,12 @@ function continueToNextLevel() {
   if (curLevel == 1) {
     curLevel += 1
     startLevelTwo()
+  } else if (curLevel == 2) {
+    curLevel += 1
+    startLevelThree()
   }
-  canvas.removeEventListener("click", continueToNextLevel)
 
+  canvas.removeEventListener("click", continueToNextLevel)
 }
 
 function clearCanvas() {
@@ -91,12 +103,17 @@ function clearCanvas() {
 **************************************************/
 function startLevelOne() {
   renderLevelOne()
-  animateOne()
+  animate()
 }
 
 function startLevelTwo() {
   renderLevelTwo()
-  animateTwo()
+  animate()
+}
+
+function startLevelThree() {
+  renderLevelThree()
+  animate()
 }
 
 /**************************************************
@@ -104,7 +121,6 @@ function startLevelTwo() {
 **************************************************/
 startLevelOne()
 // startLevelTwo()
-
 
 /**************************************************
                       TESTS
