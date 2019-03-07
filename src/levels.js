@@ -9,10 +9,26 @@ function allLevelRender() {
   player.draw()
 }
 
+function renderIntro() {
+  curLevel = "intro"
+  ratSpeed = -4
+  canvas.style.backgroundImage = "url('img/menu.png')"
+  canvas.style.backgroundSize = "1200px 450px"
+  canvas.classList.remove("scrolling-bg")
+  instructions.innerHTML = "click to get on the subway!"
+  createRats()
+}
+
 // bowling green
 function renderLevelOne() {
   curLevel = 1
   canvas.style.backgroundImage = "url('img/1/bowling_green_1.png')";
+  score.innerHTML = "🍕 0"
+  cansCollected.innerHTML = "🍺 0"
+  livesLeft.innerHTML = "❤️ ❤️ ❤️ "
+  instructions.innerHTML = "these are test instructions"
+  canvas.style.backgroundSize = "750px 450px"
+  canvas.classList.add("scrolling-bg")
   allLevelRender()
 }
 
@@ -121,6 +137,10 @@ function renderLevelEight() {
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
 **************************************************/
+function startGameOnClick() {
+  canvas.addEventListener("click", continueToNextLevel)
+}
+
 function continueLevel() {
   if (lives == 3) {
     livesLeft.innerText = `❤️ ❤️ ❤️`
@@ -172,7 +192,9 @@ function continueAfterClick() {
 }
 
 function continueToNextLevel() {
-  if (curLevel == 1) {
+  if (curLevel == "intro") {
+    startLevelOne()
+  } else if (curLevel == 1) {
     startLevelTwo()
   } else if (curLevel == 2) {
     startLevelThree()
@@ -203,6 +225,13 @@ function clearCanvas() {
 /**************************************************
                 START LEVEL FUNCTIONS
 **************************************************/
+
+function startIntro() {
+  startGameOnClick()
+  renderIntro()
+  // levelMovesIntro()
+}
+
 function startLevelOne() {
   renderLevelOne()
   animate()
@@ -272,3 +301,4 @@ startLevelSix()
 // column.draw()
 // startLevelSeven()
 // startLevelEight()
+// startIntro()

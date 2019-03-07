@@ -113,9 +113,21 @@ class Rat {
       this.image.src = "img/rat/4.png"
     } else if (counter > 72 && counter <= 80) {
       this.image.src = "img/rat/5.png"
+    } else if (counter > 80) {
+      // counter = 1
     }
+    // counter += 1
 
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  introMove() {
+    if (this.x + this.width < 0) {
+      this.x = fullWidth + (Math.random()*525 + 475)
+    }
+
+    this.x += this.dx
+    this.draw();
   }
 
   move() {
@@ -216,13 +228,14 @@ class Player {
       this.image.src = gif[8]
     } else if (counter > 72 && counter <= 80) {
       this.image.src = gif[9]
-    } else if (counter > 80) {
       counter = 1
     }
+    counter += 1
+
     // this.image.src = gif[counter/counter - counter]
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
     // c.drawImage(this.gif.image, 100, 100)
-    counter += 1
+
 
     if (player.x < 1) {
       player.x = 1
