@@ -5,16 +5,14 @@
 [X] collision check (KP)
 [X] render score (LH)
 [X] add boss levels
-[ ] get the subway to leave, then render next level
 [X] end level
     [X]--> stops everything
 
 3/7/19 to do:
-[ ] Intro screen up / [enter to play game]
-[ ] escalator at the end of the game?? !!!!
+[X] Intro screen up / [enter to play game]
 [ ] Build 4 more levels (one more boss - zombie!)
     [X] grand central concourse
-    [ ] 42nd street --> walk to rock center (avoid pigeon poop!)
+    [X.5] 42nd street --> walk to rock center (avoid pigeon poop!)
     [ ] elevator up --> bonus round to collect stuff!!!
     [ ] TOP OF THE ROCK --> last boss!!!!!
 

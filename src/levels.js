@@ -137,9 +137,9 @@ function renderLevelEight() {
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
 **************************************************/
-function startGameOnClick() {
-  canvas.addEventListener("click", continueToNextLevel)
-}
+// function startGameOnClick() {
+//   canvas.addEventListener("click", continueToNextLevel)
+// }
 
 function continueLevel() {
   if (lives == 3) {
@@ -157,8 +157,9 @@ function continueLevel() {
 function completedLevel() {
   rats = []
   pizzas = []
+  pigeons = []
 
-  if (curLevel < 6) {
+  if (curLevel < 7 && curLevel != "intro") {
     bringSubway()
   }
 
@@ -227,8 +228,9 @@ function clearCanvas() {
 **************************************************/
 
 function startIntro() {
-  startGameOnClick()
+  // startGameOnClick()
   renderIntro()
+  completedLevel()
   // levelMovesIntro()
 }
 
@@ -287,18 +289,15 @@ function startLevelTen() {
                 INVOKING FUNCTIONS
 **************************************************/
 // startLevelOne()
+// startIntro()
 // startLevelTwo()
 // startLevelThree()
-startLevelSix()
+// startLevelSix()
 // startTest()
 
 /**************************************************
                       TESTS
 **************************************************/
-// clearCanvas()
-// firstRun()
-// subway.draw()
-// column.draw()
-// startLevelSeven()
-// startLevelEight()
+startLevelEight()
 // startIntro()
+// startLevelFive()

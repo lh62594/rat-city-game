@@ -42,14 +42,15 @@ let streetSign = new StationSign("img/8/st-sign.png", 400, 23, 150, 287)
 
 
 // columns
-// constructor (x, src, w)
-let bgColumn = new Column(fullWidth*1.5, "img/1/bowling-green-col.png", 90) // column for level one: Bowling Green
-let wsColumn = new Column(fullWidth*1.75, "img/2/wall-st-col.png", 90)
-let fsColumn = new Column(fullWidth*2, "img/3/fulton-st-col.png", 90)
-let usColumn = new Column(fullWidth*2, "img/5/union-sq-col.png", 90)
-let gcColumn = new Column(fullWidth*2, "img/6/grand-central-col.png", 90)
-let gcDoor = new Column(fullWidth*2.5-350, "img/7/door.jpg", 250)
-let statue = new Column(fullWidth*2, "img/8/statue-1.png", 450)
+// constructor (x, src, w, h)
+let bgColumn = new Column(fullWidth*1.5, "img/1/bowling-green-col.png", 23, 90, 287) // column for level one: Bowling Green
+let wsColumn = new Column(fullWidth*1.75, "img/2/wall-st-col.png", 23, 90, 287)
+let fsColumn = new Column(fullWidth*2, "img/3/fulton-st-col.png", 23, 90, 287)
+let usColumn = new Column(fullWidth*2, "img/5/union-sq-col.png", 23, 90, 287)
+let gcColumn = new Column(fullWidth*2, "img/6/grand-central-col.png", 90, 287)
+let gcDoor = new Column(fullWidth*2.5-350, "img/7/door.jpg", 23, 250, 287)
+// let taxi42 = new Column(fullWidth*2, "img/8/door.png", 450)
+let taxi42 = new Column(fullWidth, "img/taxi.png", 170, 400, 175)
 
 
 // rats --> 2 rats per each level
@@ -121,7 +122,7 @@ function levelDraws() {
     ticketWindows.forEach( t => t.draw())
   } else if (curLevel == 8) {
     streetSign.draw()
-    statue.draw()
+    taxi42.draw()
   } else if (curLevel == 9) {
 
   }
@@ -132,6 +133,8 @@ function levelDraws() {
 function levelMovesExceptBoss() {
   cans.forEach( o => o.move())
   pizzas.forEach( p => p.move())
+  rats.forEach( o => o.move())
+  hearts.forEach( h => h.move())
 }
 
 function levelMovesIntro() {
@@ -148,7 +151,6 @@ function levelMoves() {
   } else if (curLevel == 2) {
     wallStreetSign.move() // move also includes this.draw()
     wsColumn.move()
-
     levelMovesExceptBoss()
   } else if (curLevel == 3) {
     fultonStreetSign.move()
@@ -156,6 +158,7 @@ function levelMoves() {
     levelMovesExceptBoss()
   } else if (curLevel == 4) {
     bbBoss.move()
+    rats.forEach( o => o.move())
     throws.forEach( t => t.move())
   } else if (curLevel == 5) {
     unionSqSign.move()
@@ -175,13 +178,12 @@ function levelMoves() {
     pigeons.forEach( p => p.move() )
   } else if (curLevel == 8) {
     streetSign.move()
-    statue.move()
+    levelMovesExceptBoss()
     pigeons.forEach( p => p.move() )
+    taxi42.move()
   }
 
   player.draw()
-  rats.forEach( o => o.move())
-  hearts.forEach( h => h.move())
 }
 
 function playerMovements() {

@@ -563,12 +563,12 @@ class GameSign {
 } // end of GameSign class
 
 class Column {
-  constructor(x, src, w) {
+  constructor(x, src, y, w, h) {
     this.x = x
-    this.y = 23
+    this.y = y
     this.dx = bgSpeed
     this.width = w
-    this.height = floorPos - this.y - 5
+    this.height = h
     this.image = new Image(50,50)
     this.image.src = src
   }
