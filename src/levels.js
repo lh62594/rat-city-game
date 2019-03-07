@@ -5,6 +5,7 @@ function allLevelRender() {
   createRats()
   createPizzas()
   createCans()
+  createHearts()
   player.draw()
 }
 

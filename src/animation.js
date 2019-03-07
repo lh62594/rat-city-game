@@ -91,12 +91,6 @@ function createCans() {
   }
 }
 
-// throws
-// function createThrows() {
-//   for (var i = 0; i < collectedCans; i++) {
-//       throws.push(new Throw(i+1))
-//   }
-// }
 
 /**************************************************
               ANIMATION FUNCTIONS

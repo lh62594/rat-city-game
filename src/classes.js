@@ -343,10 +343,10 @@ class Heart {
     this.num = num
     this.x = x
     this.y = floorPos - 150
-    this.dx = pizzaSpeed
+    this.dx = bgSpeed
     this.size = 40
     this.image = new Image(50,50);
-    this.image.src = stc
+    this.image.src = src
   }
 
   draw() {
