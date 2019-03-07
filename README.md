@@ -4,14 +4,24 @@
 [X] render the images (pizza, rats, etc)
 [X] collision check (KP)
 [X] render score (LH)
-[ ] add boss levels
+[X] add boss levels
 [ ] get the subway to leave, then render next level
-[ ] end level
-    [ ]--> stops everything
-    [ ]--> hidden div
+[X] end level
+    [X]--> stops everything
+
+3/7/19 to do:
+[ ] Intro screen up / [enter to play game]
+[ ] escalator at the end of the game?? !!!!
+[ ] Build 4 more levels (one more boss - zombie!)
+    [ ] grand central concourse
+    [ ] 42nd street --> walk to rock center (avoid pigeon poop!)
+    [ ] elevator up --> bonus round to collect stuff!!!
+    [ ] TOP OF THE ROCK --> last boss!!!!!
+
 [ ] BONUS STUFF
     [X] --> lives
     [ ] --> gravity
+    [ ] --> power ups
     [ ] --> Figure out how to put a .wav file for music
 
 
