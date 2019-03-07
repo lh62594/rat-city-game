@@ -38,17 +38,21 @@ function createTicketWindows() {
   }
 }
 
+let streetSign = new StationSign("img/8/st-sign.png", 400, 23, 150, 287)
+
 
 // columns
-let bgColumn = new Column(fullWidth, "img/1/bowling-green-col.png") // column for level one: Bowling Green
-let wsColumn = new Column(fullWidth, "img/2/wall-st-col.png")
-let fsColumn = new Column(fullWidth, "img/3/fulton-st-col.png")
-let usColumn = new Column(fullWidth, "img/5/union-sq-col.png")
-let gcColumn = new Column(fullWidth, "img/6/grand-central-col.png")
-let gcClock = new Column(fullWidth*2.5 - 200, "img/7/gc-clock.png")
+// constructor (x, src, w)
+let bgColumn = new Column(fullWidth*1.5, "img/1/bowling-green-col.png", 90) // column for level one: Bowling Green
+let wsColumn = new Column(fullWidth*1.75, "img/2/wall-st-col.png", 90)
+let fsColumn = new Column(fullWidth*2, "img/3/fulton-st-col.png", 90)
+let usColumn = new Column(fullWidth*2, "img/5/union-sq-col.png", 90)
+let gcColumn = new Column(fullWidth*2, "img/6/grand-central-col.png", 90)
+let gcDoor = new Column(fullWidth*2.5-350, "img/7/door.jpg", 250)
+let statue = new Column(fullWidth*2, "img/8/statue-1.png", 450)
 
 
-// rats
+// rats --> 2 rats per each level
 function createRats() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
@@ -56,13 +60,14 @@ function createRats() {
   }
 }
 
-// coffee cups
-function createCoffees() {
+// pigeon --> 2 pigeon per each level
+function createPigeons() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
-    coffees.push(new CoffeeCup(x))
+    pigeons.push(new Pigeon(x))
   }
 }
+
 
 // pizzas
 function createPizzas() {
@@ -112,8 +117,13 @@ function levelDraws() {
     grandCentralSign.draw()
     gcColumn.draw()
   } else if (curLevel == 7) {
-    gcClock.draw()
+    gcDoor.draw()
     ticketWindows.forEach( t => t.draw())
+  } else if (curLevel == 8) {
+    streetSign.draw()
+    statue.draw()
+  } else if (curLevel == 9) {
+
   }
 
   player.draw()
@@ -143,17 +153,23 @@ function levelMoves() {
   } else if (curLevel == 5) {
     unionSqSign.move()
     usColumn.move()
+    pigeons.forEach( p => p.move() )
     levelMovesExceptBoss()
   } else if (curLevel == 6) {
     grandCentralSign.move()
     gcColumn.move()
-    coffees.forEach( p => p.move() )
+    pigeons.forEach( p => p.move() )
     levelMovesExceptBoss()
   } else if (curLevel == 7) {
-    gcClock.move()
+    gcDoor.move()
     ticketWindows.forEach( t => t.move())
     lamps.forEach(l => l.move())
     levelMovesExceptBoss()
+    pigeons.forEach( p => p.move() )
+  } else if (curLevel == 8) {
+    streetSign.move()
+    statue.move()
+    pigeons.forEach( p => p.move() )
   }
 
   player.draw()

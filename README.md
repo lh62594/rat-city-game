@@ -13,7 +13,7 @@
 [ ] Intro screen up / [enter to play game]
 [ ] escalator at the end of the game?? !!!!
 [ ] Build 4 more levels (one more boss - zombie!)
-    [ ] grand central concourse
+    [X] grand central concourse
     [ ] 42nd street --> walk to rock center (avoid pigeon poop!)
     [ ] elevator up --> bonus round to collect stuff!!!
     [ ] TOP OF THE ROCK --> last boss!!!!!
@@ -21,7 +21,7 @@
 [ ] BONUS STUFF
     [X] --> lives
     [ ] --> gravity
-    [ ] --> power ups
+    [ ] --> power ups (got lives [x])
     [ ] --> Figure out how to put a .wav file for music
 
 

@@ -67,7 +67,7 @@ let ratSpeed = -4 // rat speed
 let bossSpeed = -1.5 // rat speed
 let throwSpeed = 6
 let playerSpeed = 5
-let coffeeSpeed = -6 // coffee speed
+let pigeonSpeed = -4 // pigeon speed
 
 // setting the draw area of canvas
 let c = canvas.getContext("2d");
@@ -78,7 +78,7 @@ let pizzas = []
 let cans = []
 let throws = []
 let hearts = []
-let coffees = [] // used in Level 6
+let pigeons = [] // used in Level 6
 let ticketWindows = [] // used in Level 7
 let lamps = [] // used in Level 7
 

@@ -9,12 +9,14 @@ function allLevelRender() {
   player.draw()
 }
 
+// bowling green
 function renderLevelOne() {
   curLevel = 1
   canvas.style.backgroundImage = "url('img/1/bowling_green_1.png')";
   allLevelRender()
 }
 
+// wall street
 function renderLevelTwo() {
   player.x = 100
   pizzaSpeed = -4
@@ -27,9 +29,10 @@ function renderLevelTwo() {
   allLevelRender()
 }
 
+// fulton street
 function renderLevelThree() {
   player.x = 100
-  pizzaSpeed = -5.5
+  pizzaSpeed = -5
   ratSpeed = -8
   curLevel = 3
   levelComplete = false
@@ -40,9 +43,10 @@ function renderLevelThree() {
   // console.log("is render level three going again?");
 }
 
+// brooklyn bridge city hall
 function renderLevelFour() {
   player.x = 100
-  ratSpeed = -2
+  ratSpeed = -4
   curLevel = 4
 
   canvas.style.backgroundImage = "url('img/4/bklyn-br-bg.png')";
@@ -55,48 +59,65 @@ function renderLevelFour() {
   player.draw()
 }
 
+// union square
 function renderLevelFive() {
-  player.x = 100
-  pizzaSpeed = -7
-  ratSpeed = -10
   curLevel = 5
+  player.x = 100
+  pizzaSpeed = -5
+  ratSpeed = -6
+  pigeonSpeed = -4
   levelComplete = false
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/5/union-sq-bg.png')";
   canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
   allLevelRender()
+  createPigeons()
 }
 
+// grand central
 function renderLevelSix() {
+  curLevel = 6
   player.x = 100
   pizzaSpeed = -5.5
-  ratSpeed = -5
-  curLevel = 6
-  coffeeSpeed = -6
+  ratSpeed = -7
+  pigeonSpeed = -5
   levelComplete = false
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/6/grand-central-bg.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
-  createCoffees()
+  createPigeons()
 }
 
 function renderLevelSeven() {
   player.x = 100
   pizzaSpeed = -5.5
-  ratSpeed = -5
+  ratSpeed = -7
   curLevel = 7
-  coffeeSpeed = -6
+  pigeonSpeed = -6
   levelComplete = false
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
   canvas.classList.add("scrolling-bg")
   createTicketWindows()
   allLevelRender()
-  // createCoffees()
+  createPigeons()
 }
 
+function renderLevelEight() {
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -5
+  curLevel = 8
+  pigeonSpeed = -6
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/8/42-st-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  allLevelRender()
+  createPigeons()
+}
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
 **************************************************/
@@ -139,6 +160,8 @@ function continueAfterClick() {
   // makes all the rats and pizza disappear
   rats = []
   createRats()
+  pigeons = []
+  createPigeons()
   // changes the pause to false
   paused = false
   canvas.classList.add("scrolling-bg")
@@ -236,8 +259,8 @@ function startLevelTen() {
 **************************************************/
 // startLevelOne()
 // startLevelTwo()
-startLevelThree()
-// startLevelSix()
+// startLevelThree()
+startLevelSix()
 // startTest()
 
 /**************************************************
@@ -248,3 +271,4 @@ startLevelThree()
 // subway.draw()
 // column.draw()
 // startLevelSeven()
+// startLevelEight()

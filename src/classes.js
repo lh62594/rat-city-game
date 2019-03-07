@@ -1,20 +1,42 @@
 /**************************************************
                   GAME PIECE CLASSES
 **************************************************/
-class CoffeeCup {
+class Pigeon {
   constructor(x) {
     this.x = x
     this.y = floorPos - 40
-    this.dx = coffeeSpeed
-    this.width = 40
+    this.dx = pigeonSpeed
+    this.width = 60
     this.height = 45
     this.image = new Image(50,50)
-    this.image.src = "img/coffee-cup.webp"
+    this.image.src = "img/pigeon/8.gif"
     this.flight = true
   }
 
   draw() {
+
+    if (counter > 1 && counter <= 10) {
+      this.image.src = "img/pigeon/0.gif"
+    } else if (counter > 10 && counter <= 19) {
+      this.image.src = "img/pigeon/1.gif"
+    } else if (counter > 19 && counter <= 28) {
+      this.image.src = "img/pigeon/2.gif"
+    } else if (counter > 28 && counter <= 36) {
+      this.image.src = "img/pigeon/3.gif"
+    } else if (counter > 36 && counter <= 43) {
+      this.image.src = "img/pigeon/4.gif"
+    } else if (counter > 43 && counter <= 52) {
+      this.image.src = "img/pigeon/5.gif"
+    } else if (counter > 52 && counter <= 61) {
+      this.image.src = "img/pigeon/6.gif"
+    } else if (counter > 61 && counter <= 70) {
+      this.image.src = "img/pigeon/7.gif"
+    } else if (counter > 70 && counter <= 80) {
+      this.image.src = "img/pigeon/8.gif"
+    }
+
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
+
   }
 
   move() {
@@ -25,13 +47,13 @@ class CoffeeCup {
 
       this.x += this.dx
 
-      // flying coffee cups
+      // flying pigeon
       if (this.y < 50) {
-        this.y += 3
+        this.y += 2.5
         this.flight = false
       }
       else if (this.flight == false) {
-        this.y += 3
+        this.y += 2.5
         if (this.y > floorPos - 40) {
           this.flight = true
         }
@@ -47,16 +69,16 @@ class CoffeeCup {
 
       this.draw();
 
-      //if player hits a coffee
-      if (this.x > player.x && this.x < (player.x + player.width)
-        && this.y < (player.y + player.height) && this.y > player.y ) {
+      //if player hits a pigeon
+      if ( this.x > (player.x - 10)  && this.x < (player.x + player.width - 10)
+        && this.y < (player.y + player.height - 10) && this.y > (player.y - 10) ) {
           lives -= 1  // lives decrease
           paused = true // the game is paused
         }
     }
   }
 
-} // end of CoffeeCup class
+} // end of Pigeon class
 
 class Rat {
   constructor(x) {
@@ -106,8 +128,8 @@ class Rat {
       this.draw();
 
       //if player hits an rat
-      if (this.x > player.x && this.x < (player.x + player.width)
-        && this.y < (player.y + player.height) && this.y > player.y ) {
+      if (this.x > (player.x - 10) && this.x < (player.x + player.width - 10)
+        && this.y < (player.y + player.height - 10) && this.y > ( player.y - 10) ) {
           lives -= 1  // lives decrease
           paused = true // the game is paused
         }
@@ -528,11 +550,11 @@ class GameSign {
 } // end of GameSign class
 
 class Column {
-  constructor(x, src) {
+  constructor(x, src, w) {
     this.x = x
     this.y = 23
     this.dx = bgSpeed
-    this.width = 90
+    this.width = w
     this.height = floorPos - this.y - 5
     this.image = new Image(50,50)
     this.image.src = src
