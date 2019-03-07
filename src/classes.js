@@ -215,7 +215,7 @@ class Player {
     this.height = 100
     this.image = new Image(50, 50)
     // this.image.src = "img/mario-pose2.png"
-    this.image.src = "img/test/0.gif"
+    this.image.src = "img/test/1.gif"
     // this.gif = GIF()
     // this.gif.load("img/mario-run.gif")
     this.gravity = 0
