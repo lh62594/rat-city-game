@@ -20,6 +20,12 @@
   background-repeat: repeat-x;
 }
 
+#boss-1 {
+  background-image: url("img/bklyn-br-bg.png");
+  background-size: 1200px 450px;
+  background-position: 0px 0px
+}
+
 .scrolling-bg {
   animation: backgroundScroll 8s linear infinite;
 }

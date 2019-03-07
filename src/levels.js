@@ -1,15 +1,22 @@
 /**************************************************
                 RENDER LEVELS
 **************************************************/
-function renderLevelOne() {
-  curLevel = 1
-  canvas.style.backgroundImage = "url('img/bowling_green_1.png')";
-  createRats("img/rat.png")
+function allLevelRender() {
+  createRats()
   createPizzas()
+  createCans()
   player.draw()
 }
 
+function renderLevelOne() {
+  curLevel = 1
+  canvas.style.backgroundImage = "url('img/bowling_green_1.png')";
+  allLevelRender()
+  // console.log("Is render level on");
+}
+
 function renderLevelTwo() {
+  player.x = 100
   pizzaSpeed = -4
   ratSpeed = -6
   curLevel = 2
@@ -17,12 +24,11 @@ function renderLevelTwo() {
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/wall_st.png')";
   canvas.classList.add("scrolling-bg")
-  createRats()
-  createPizzas()
-  player.draw()
+  allLevelRender()
 }
 
 function renderLevelThree() {
+  player.x = 100
   pizzaSpeed = -5.5
   ratSpeed = -8
   curLevel = 3
@@ -30,32 +36,52 @@ function renderLevelThree() {
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/fulton-st-bg.png')";
   canvas.classList.add("scrolling-bg")
+  allLevelRender()
+  // console.log("is render level three going again?");
+}
+
+function renderLevelFour() {
+  player.x = 100
+  ratSpeed = -2
+  curLevel = 4
+
+  canvas.style.backgroundImage = "url('img/bklyn-br-bg.png')";
+  canvas.style.backgroundSize = "1200px 450px"
+  canvas.classList.remove("scrolling-bg")
+
+  levelComplete = false
+  subway.x = fullWidth + 100
   createRats()
-  createPizzas()
   player.draw()
 }
 
 function renderLevelFive() {
+  player.x = 100
   pizzaSpeed = -7
   ratSpeed = -10
   curLevel = 5
   levelComplete = false
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/union-sq-bg.png')";
+  canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
-  createRats()
-  createPizzas()
-  player.draw()
+  allLevelRender()
 }
 
 function renderTest() {
+  player.x = 100
   ratSpeed = -2
-  curLevel = 6
+  curLevel = 4
+  collectedCans = 5
+  cansCollected.innerText = `🍺 ${collectedCans}`
   levelComplete = false
   subway.x = fullWidth + 100
-  canvas.style.backgroundImage = "url('img/union-sq-bg.png')";
+  canvas.removeAttribute("id")
+  canvas.setAttribute("id", "boss")
+  canvas.classList.remove("scrolling-bg")
   createRats()
   // createPizzas()
+  // createThrows()
   player.draw()
 }
 
@@ -64,7 +90,13 @@ function renderTest() {
           COMPLETE / CONTINUE / GAME OVER
 **************************************************/
 function continueLevel() {
-  livesLeft.innerText = `LIVES: ${lives}`
+  if (lives == 3) {
+    livesLeft.innerText = `❤️ ❤️ ❤️`
+  } else if (lives == 2) {
+    livesLeft.innerText = `❤️ ❤️`
+  } else if (lives == 1) {
+    livesLeft.innerText = `❤️ `
+  }
   continueSign.draw()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueAfterClick)
@@ -76,10 +108,11 @@ function completedLevel() {
   bringSubway()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueToNextLevel)
+
 }
 
 function gameOver() {
-  livesLeft.innerText = `LIVES: ${lives}`
+  livesLeft.innerText = `😭 `
   canvas.classList.remove("scrolling-bg")
   gameOverSign.draw()
   canvas.addEventListener("click", clearCanvas)
@@ -91,10 +124,10 @@ function gameOver() {
 function continueAfterClick() {
   // makes all the rats and pizza disappear
   rats = []
-  pizzas = []
+  // pizzas = []
   // recreates all the pizzas and rats
   // canvas.style.animation = "backgroundScroll 8s linear infinite;"
-  createPizzas()
+  // createPizzas()
   createRats()
   // changes the pause to false
   paused = false
@@ -115,9 +148,10 @@ function continueToNextLevel() {
   } else if (curLevel == 3) {
     curLevel += 1
     startLevelFour()
+
   } else if (curLevel == 4) {
     curLevel += 1
-    startLevelFive
+    startLevelFive()
   }
 
   canvas.removeEventListener("click", continueToNextLevel)
@@ -146,8 +180,8 @@ function startLevelThree() {
 }
 
 function startLevelFour() {
-
-  // animate()
+  renderLevelFour()
+  animate()
 }
 
 function startLevelFive() {
@@ -157,14 +191,15 @@ function startLevelFive() {
 
 function startTest() {
   renderTest()
-
+  animate()
 }
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-// startLevelOne()
+startLevelOne()
 // startLevelTwo()
-// startLevelFive()
+// startLevelThree()
+// startLevelFour()
 // startTest()
 
 /**************************************************
@@ -174,4 +209,4 @@ function startTest() {
 // firstRun()
 // subway.draw()
 // column.draw()
-// renderLevelTwo()
+// renderLevelFour()

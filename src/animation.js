@@ -1,8 +1,18 @@
 /**************************************************
             BACKGROUND CREATIONS
 **************************************************/
+// player & subway
 let player = new Player
 let subway = new Subway(fullWidth + 100)
+
+// boss characters
+// takes in the arguments (src, x, y, w, h)
+let bbBoss = new Boss("img/boss-rat-1.png", 800, floorPos - 150, 200, 200)
+let zombieBoss = new Boss("img/zombie.png", 800, floorPos - 150, 200, 200)
+
+const bosses = {
+  4: bbBoss
+}
 
 // game signs
 let continueSign = new GameSign("img/continue.png")
@@ -15,10 +25,10 @@ let fultonStreetSign = new StationSign("img/fulton-st-sign.png")
 let unionSqSign = new StationSign("img/union-sq-sign.png")
 
 // columns
-let bgColumn = new Column(fullWidth, "img/bowling-green-col.png")
-let wsColumn = new Column(fullWidth, "img/wall-st-col.png")
-let fsColumn = new Column(fullWidth, "img/fulton-st-col.png")
-let usColumn = new Column(fullWidth, "img/union-sq-col.png")
+let bgColumn = new Column(fullWidth*2, "img/bowling-green-col.png") // column for level one: Bowling Green
+let wsColumn = new Column(fullWidth*2.25, "img/wall-st-col.png")
+let fsColumn = new Column(fullWidth*2.25, "img/fulton-st-col.png")
+let usColumn = new Column(fullWidth*2.5, "img/union-sq-col.png")
 
 // rats
 function createRats() {
@@ -37,6 +47,25 @@ function createPizzas() {
   }
 }
 
+// cans
+function createCans() {
+  for (var i = 0; i < levelCan[curLevel]; i++) {
+    var x = fullWidth*2.5 + i * (Math.random()*800 + 775)
+    // cans take in arguments (x, num) --> num is like an index
+    cans.push(new Can(x, i+1))
+  }
+}
+
+// throws
+// function createThrows() {
+//   for (var i = 0; i < collectedCans; i++) {
+//       throws.push(new Throw(i+1))
+//   }
+// }
+
+/**************************************************
+              ANIMATION FUNCTIONS
+**************************************************/
 function levelDraws() {
   if (curLevel == 1) {
     bowlingGreenSign.draw()
@@ -56,34 +85,57 @@ function levelDraws() {
   player.draw()
 }
 
+function levelMovesExceptBoss() {
+  cans.forEach( o => o.move())
+  pizzas.forEach( p => p.move())
+}
+
 function levelMoves() {
   if (curLevel == 1) {
     bowlingGreenSign.move() // move also includes this.draw()
     bgColumn.move()
+    levelMovesExceptBoss()
   } else if (curLevel == 2) {
     wallStreetSign.move() // move also includes this.draw()
     wsColumn.move()
+    levelMovesExceptBoss()
   } else if (curLevel == 3) {
+
     fultonStreetSign.move()
     fsColumn.move()
+    levelMovesExceptBoss()
+
   } else if (curLevel == 4) {
 
+    bbBoss.move()
+    throws.forEach( t => t.move())
+
   } else if (curLevel == 5) {
+
     unionSqSign.move()
     usColumn.move()
-  }
+    levelMovesExceptBoss()
 
+  } else if (curLevel == 6) {
+    // animateTest()
+  }
   player.draw()
-  rats.forEach( o => o.move() )
-  pizzas.forEach( p => p.move() )
+  rats.forEach( o => o.move())
+
 }
 
-/**************************************************
-              ANIMATION FUNCTIONS
-**************************************************/
-// to "move right" function
-// add event listeners on the left/right arrows
-// gives illusion that character is moving, without actually moving the character
+function playerMovements() {
+  if(jumpKey == true && player.y == (floorPos - player.height)) {
+    player.y = 150
+  } else if (rightKey == true) {
+    player.x += 5
+  } else if (leftKey == true) {
+    player.x -= 5
+  } else if (jumpKey == false){
+    player.y = floorPos - player.height
+  }
+}
+
 function animate() {
   if (paused == false && lives != 0 && levelComplete == false) {
     requestAnimationFrame(animate) // looping animation
@@ -91,12 +143,37 @@ function animate() {
     c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
 
     levelMoves()
+    playerMovements()
 
-    if(jumpKey == true && player.y == (floorPos - player.height)) {
-      player.y = 150
-    } else if (jumpKey == false){
-      player.y = floorPos - player.height
-    }
+  } else if (paused == true && lives != 0 && levelComplete == false) {
+    continueLevel()
+  } else if (paused == true && lives == 0 && levelComplete == false) {
+    gameOver()
+  } else if (levelComplete == true) {
+    completedLevel()
+  }
+}
+
+function bringSubway() { // subway animation goes, nothing else goes)
+  if (subway.x > 200) {
+    requestAnimationFrame(bringSubway)
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    levelDraws()
+    subway.move()
+
+    console.log("is the subway coming?");
+  }
+}
+
+function animateTest() {
+  if (paused == false && lives != 0 && levelComplete == false) {
+    requestAnimationFrame(animateTest) // looping animation
+    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+
+    levelMoves()
+
+    playerMovements()
+
 
   } else if (paused == true && lives != 0 && levelComplete == false) {
     continueLevel()
@@ -108,29 +185,46 @@ function animate() {
 }
 
 
-function bringSubway() { // subway animation goes, nothing else goes)
-  if (subway.x > 200) {
-    requestAnimationFrame(bringSubway)
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    levelDraws()
-    subway.move()
-  }
-}
-
-
-
 /**************************************************
                 EVENT LISTENERS
 **************************************************/
+// window.addEventListener("keydown", event => {
+//   if (event.code == "ArrowUp" && jumpKey == false) {
+//     jumpKey = true
+//   }
+// })
+//
+// window.addEventListener("keyup", event => {
+//   if (event.code == "ArrowUp") {
+//   jumpKey = false
+//   }
+// })
+
 window.addEventListener("keydown", event => {
   if (event.code == "ArrowUp" && jumpKey == false) {
     jumpKey = true
+  } else if (event.code == "ArrowRight") {
+    rightKey = true
+  } else if (event.code == "ArrowLeft") {
+    leftKey = true
+  } else if (event.code == "Space") {
+    if (collectedCans > 0 && curLevel == 4) {
+      collectedCans -= 1
+      cansCollected.innerText = `🍺 ${collectedCans}`
+      throws.push(new Throw(player.x, player.y, bosses[curLevel]))
+    } else {
+      console.log("what happens here?");
+    }
   }
 })
 
 window.addEventListener("keyup", event => {
   if (event.code == "ArrowUp") {
-  jumpKey = false
+    jumpKey = false
+  } else if (event.code == "ArrowRight") {
+    rightKey = false
+  } else if (event.code == "ArrowLeft") {
+    leftKey = false
   }
 })
 

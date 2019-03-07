@@ -13,6 +13,29 @@ class Rat {
   }
 
   draw() {
+
+    if (counter > 1 && counter <= 8) {
+      this.image.src = "img/rat/1.png"
+    } else if (counter > 8 && counter <= 16) {
+      this.image.src = "img/rat/2.png"
+    } else if (counter > 16 && counter <= 24) {
+      this.image.src = "img/rat/3.png"
+    } else if (counter > 24 && counter <= 32) {
+      this.image.src = "img/rat/4.png"
+    } else if (counter > 32 && counter <= 40) {
+      this.image.src = "img/rat/5.png"
+    } else if (counter > 40 && counter <= 48) {
+      this.image.src = "img/rat/1.png"
+    } else if (counter > 48 && counter <= 56) {
+      this.image.src = "img/rat/2.png"
+    } else if (counter > 56 && counter <= 64) {
+      this.image.src = "img/rat/3.png"
+    } else if (counter > 64 && counter <= 72) {
+      this.image.src = "img/rat/4.png"
+    } else if (counter > 72 && counter <= 80) {
+      this.image.src = "img/rat/5.png"
+    }
+
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 
@@ -37,12 +60,12 @@ class Rat {
 } // end of Rat class
 
 class Boss {
-  constructor(x, src) {
+  constructor(src, x, y, w, h) {
     this.x = x
-    this.y = floorPos - 90
+    this.y = y
     this.dx = bossSpeed
-    this.width = 80
-    this.height = 100
+    this.width = w
+    this.height = h
     this.image = new Image(50,50)
     this.image.src = src
   }
@@ -52,18 +75,25 @@ class Boss {
   }
 
   move() {
-    if ( (this.x + this.width) < fullWidth) {
+
+    this.x += this.dx
+    this.draw()
+
+    if (this.x > 1000) {
+      this.dx = -this.dx
       this.x += this.dx
-      this.draw();
-    } else if ( (this.x + this.width) < 200 ) {
-      this.x += -this.dx
-      this.draw();
+      this.draw()
+    } else if (this.x < 600) {
+      this.dx = -this.dx
+      this.x += this.dx
+      this.draw()
     }
+
     if (this.x > player.x && this.x < (player.x + player.width)
       && this.y < (player.y + player.height) && this.y > player.y ) {
-        lives -= 1  // lives decrease
+        lives = 0  // lives decrease
         paused = true // the game is paused
-      }
+    }
   }
 
 } // end of Boss class
@@ -98,28 +128,137 @@ class Pizza {
     if (this.x > player.x && this.x < (player.x + player.width)
       && this.y < (player.y + player.height) && this.y > player.y ) {
         pizzas = pizzas.filter( p => p.num != this.num)
-
         collectedPizzas += 1
-        score.innerText = `PIZZAS: ${collectedPizzas}`
+        score.innerText = `🍕 ${collectedPizzas}`
     }
   }
 } // end of Pizza class
 
+class Can {
+  constructor(x, num) {
+    this.num = num
+    this.x = x
+    this.y = floorPos - 50
+    this.dx = pizzaSpeed
+    this.width = 60
+    this.height = 40
+    this.image = new Image(50,50);
+    this.image.src = "img/stella.png"
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+    // if the can hits the left side of canvas, it gets destroyed
+    if (this.x < 0) {
+      cans.shift()
+    }
+
+    // this is moving the can left
+    this.x += this.dx;
+    this.draw();
+
+    // if the can hits the player, can collection goes up by 1
+    // that can disappears from the screen & can array
+    if (this.x > player.x && this.x < (player.x + player.width)
+      && this.y < (player.y + player.height) && this.y > player.y ) {
+        cans = cans.filter( p => p.num != this.num)
+        collectedCans += 1
+        cansCollected.innerText = `🍺 ${collectedCans}`
+    }
+  }
+}
+
+class Throw {
+  constructor(x, y, obstacle) {
+    this.x = x
+    this.y = y + 50
+    // this.num = num
+    this.dx = throwSpeed
+    this.size = 40
+    this.image = new Image(50,50);
+    this.image.src = "img/stella.png"
+    this.obstacle = obstacle
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.size, this.size)
+  }
+
+  move() {
+    // console.log(this.obstacle.x);
+    this.x += this.dx
+    this.draw()
+
+    if (this.x > fullWidth) {
+      throws.shift()
+    } else if (this.x > this.obstacle.x) {
+      throws.shift()
+      hits += 1
+
+      if (hits == hitsNeeded[curLevel]) {
+        levelComplete = true
+        hits = 0
+      }
+    }
+  }
+}
+
 class Player {
   constructor() {
-    this.x = 200
+    this.x = 100
     this.y = floorPos - 100
-    this.width = 70
+    this.dx = playerSpeed
+    this.width = 90
     this.height = 100
     this.image = new Image(50, 50)
-    this.image.src = "img/mario-pose2.png"
+    // this.image.src = "img/mario-pose2.png"
+    this.image.src = "img/test/0.gif"
+    // this.gif = GIF()
+    // this.gif.load("img/mario-run.gif")
     this.gravity = 0
     this.gravitySpeed = 0
     this.jumping = false
   }
 
   draw() {
+
+    if (counter > 1 && counter <= 8) {
+      this.image.src = gif[0]
+    } else if (counter > 8 && counter <= 16) {
+      this.image.src = gif[1]
+    } else if (counter > 16 && counter <= 24) {
+      this.image.src = gif[2]
+    } else if (counter > 24 && counter <= 32) {
+      this.image.src = gif[3]
+    } else if (counter > 32 && counter <= 40) {
+      this.image.src = gif[4]
+    } else if (counter > 40 && counter <= 48) {
+      this.image.src = gif[5]
+    } else if (counter > 48 && counter <= 56) {
+      this.image.src = gif[6]
+    } else if (counter > 56 && counter <= 64) {
+      this.image.src = gif[7]
+    } else if (counter > 64 && counter <= 72) {
+      this.image.src = gif[8]
+    } else if (counter > 72 && counter <= 80) {
+      this.image.src = gif[9]
+    } else if (counter > 80) {
+      counter = 0
+    }
+    // this.image.src = gif[counter/counter - counter]
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
+    // c.drawImage(this.gif.image, 100, 100)
+    counter += 1
+
+    if (player.x < 1) {
+      player.x = 1
+    } else if ( (player.x + player.width) > fullWidth) {
+      player.x = fullWidth - player.width
+    }
+
     if (player.y > 60) {
       this.gravitySpeed += this.gravity;
       this.y += this.gravitySpeed;
@@ -155,13 +294,13 @@ class Column {
   }
 
   move() {
-    if (this.x > 200) {
       this.x += this.dx;
       this.draw();
-    } else {
-      this.draw();
-      levelComplete = true // when you reach the column, you've completed the level
-    }
+
+    if (this.x < (player.x + player.width / 2)) {
+        this.draw();
+        levelComplete = true
+      }
   }
 } // end of Column class
 
