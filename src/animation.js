@@ -86,15 +86,16 @@ function levelDraws() {
   } else if (curLevel == 3) {
     fultonStreetSign.draw()
     fsColumn.draw()
-  } else if (curLevel == 4) {
-
   } else if (curLevel == 5) {
     unionSqSign.draw()
     usColumn.draw()
   } else if (curLevel == 6) {
-      grandCentralSign.draw()
-      gcColumn.draw()
+    grandCentralSign.draw()
+    gcColumn.draw()
+  } else if (curLevel == 7) {
+
   }
+
   player.draw()
 }
 
@@ -128,6 +129,8 @@ function levelMoves() {
     gcColumn.move()
     coffees.forEach( p => p.move() )
     levelMovesExceptBoss()
+  } else if (curLevel == 7) {
+
   }
 
   player.draw()
