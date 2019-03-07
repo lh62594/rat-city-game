@@ -124,6 +124,12 @@ function levelMovesExceptBoss() {
   pizzas.forEach( p => p.move())
 }
 
+function levelMovesIntro() {
+  requestAnimationFrame(levelMovesIntro) // looping animation
+  c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+  rats.forEach( o => o.introMove())
+}
+
 function levelMoves() {
   if (curLevel == 1) {
     bowlingGreenSign.move() // move also includes this.draw()
@@ -132,6 +138,7 @@ function levelMoves() {
   } else if (curLevel == 2) {
     wallStreetSign.move() // move also includes this.draw()
     wsColumn.move()
+
     levelMovesExceptBoss()
   } else if (curLevel == 3) {
     fultonStreetSign.move()

@@ -8,6 +8,8 @@ const restart = document.querySelector(".restart")
 const score = document.querySelector("#score");
 const cansCollected = document.querySelector("#cans");
 const livesLeft = document.querySelector("#lives");
+const instructions = document.querySelector("#instructions");
+
 
 // canvas screen adjustments
 const fullWidth = 1200 //window.innerWidth
