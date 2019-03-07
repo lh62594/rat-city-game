@@ -91,6 +91,7 @@ function renderLevelSeven() {
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
   canvas.classList.add("scrolling-bg")
+  createTicketWindows()
   allLevelRender()
   // createCoffees()
 }
@@ -114,7 +115,11 @@ function continueLevel() {
 function completedLevel() {
   rats = []
   pizzas = []
-  bringSubway()
+
+  if (curLevel < 6) {
+    bringSubway()
+  }
+
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueToNextLevel)
 }
@@ -223,10 +228,7 @@ function startLevelTen() {
   renderLevelTen()
   animate()
 }
-function startTest() {
-  renderTest()
-  animate()
-}
+
 
 /**************************************************
                 INVOKING FUNCTIONS

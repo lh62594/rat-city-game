@@ -19,10 +19,14 @@ const floorPos = 315
 const levelPizza = {
   1: 10,
   2: 15,
-  3: 20,
+  3: 18,
   4: 0,
   5: 15,
-  6: 15
+  6: 15,
+  7: 18,
+  8: 15,
+  9: 0,
+  10: 0
 }
 
 const levelCan = {
@@ -31,7 +35,11 @@ const levelCan = {
   3: 4,
   4: 0,
   5: 3,
-  6: 1
+  6: 2,
+  7: 3,
+  8: 2,
+  9: 2,
+  10: 0
 }
 
 const levelHeart = {
@@ -39,11 +47,16 @@ const levelHeart = {
   2: 0,
   3: 1,
   4: 0,
-  5: 1
+  5: 1,
+  6: 0,
+  7: 1,
+  8: 0,
+  9: 1
 }
 
 const hitsNeeded = {
-  4: 3
+  4: 3,
+  10: 10
 }
 
 // setting object speeds
@@ -63,7 +76,10 @@ let rats = []
 let pizzas = []
 let cans = []
 let throws = []
-let coffees = []
+let hearts = []
+let coffees = [] // used in Level 6
+let ticketWindows = [] // used in Level 7
+let lamps = [] // used in Level 7
 
 // collected variables
 let collectedPizzas = 0

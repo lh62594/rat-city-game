@@ -155,6 +155,81 @@ class Boss {
 
 } // end of Boss class
 
+class Player {
+  constructor() {
+    this.x = 100
+    this.y = floorPos - 100
+    this.dx = playerSpeed
+    this.width = 90
+    this.height = 100
+    this.image = new Image(50, 50)
+    // this.image.src = "img/mario-pose2.png"
+    this.image.src = "img/mario/1.gif"
+    // this.gif = GIF()
+    // this.gif.load("img/mario-run.gif")
+    this.gravity = 0
+    this.gravitySpeed = 0
+    this.jumping = false
+  }
+
+  draw() {
+
+    if (counter > 1 && counter <= 8) {
+      this.image.src = gif[0]
+    } else if (counter > 8 && counter <= 16) {
+      this.image.src = gif[1]
+    } else if (counter > 16 && counter <= 24) {
+      this.image.src = gif[2]
+    } else if (counter > 24 && counter <= 32) {
+      this.image.src = gif[3]
+    } else if (counter > 32 && counter <= 40) {
+      this.image.src = gif[4]
+    } else if (counter > 40 && counter <= 48) {
+      this.image.src = gif[5]
+    } else if (counter > 48 && counter <= 56) {
+      this.image.src = gif[6]
+    } else if (counter > 56 && counter <= 64) {
+      this.image.src = gif[7]
+    } else if (counter > 64 && counter <= 72) {
+      this.image.src = gif[8]
+    } else if (counter > 72 && counter <= 80) {
+      this.image.src = gif[9]
+    } else if (counter > 80) {
+      counter = 1
+    }
+    // this.image.src = gif[counter/counter - counter]
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+    // c.drawImage(this.gif.image, 100, 100)
+    counter += 1
+
+    if (player.x < 1) {
+      player.x = 1
+    } else if ( (player.x + player.width) > fullWidth) {
+      player.x = fullWidth - player.width
+    }
+
+    if (player.y > 60) {
+      this.gravitySpeed += this.gravity;
+      this.y += this.gravitySpeed;
+    }
+    else {
+      this.gravitySpeed = 0
+      player.y = 60.0001
+    }
+    this.hitBottom()
+  }
+
+  hitBottom() {
+    let rockbottom = floorPos - 100
+    if (this.y > rockbottom) {
+      this.y = rockbottom;
+    }
+  }
+}
+
+/**************************************************
+                THINGS TO COLLECT
+**************************************************/
 class Pizza {
   constructor(x, num) {
     this.num = num
@@ -263,115 +338,49 @@ class Throw {
   }
 }
 
-class Player {
-  constructor() {
-    this.x = 100
-    this.y = floorPos - 100
-    this.dx = playerSpeed
-    this.width = 90
-    this.height = 100
-    this.image = new Image(50, 50)
-    // this.image.src = "img/mario-pose2.png"
-    this.image.src = "img/mario/1.gif"
-    // this.gif = GIF()
-    // this.gif.load("img/mario-run.gif")
-    this.gravity = 0
-    this.gravitySpeed = 0
-    this.jumping = false
-  }
-
-  draw() {
-
-    if (counter > 1 && counter <= 8) {
-      this.image.src = gif[0]
-    } else if (counter > 8 && counter <= 16) {
-      this.image.src = gif[1]
-    } else if (counter > 16 && counter <= 24) {
-      this.image.src = gif[2]
-    } else if (counter > 24 && counter <= 32) {
-      this.image.src = gif[3]
-    } else if (counter > 32 && counter <= 40) {
-      this.image.src = gif[4]
-    } else if (counter > 40 && counter <= 48) {
-      this.image.src = gif[5]
-    } else if (counter > 48 && counter <= 56) {
-      this.image.src = gif[6]
-    } else if (counter > 56 && counter <= 64) {
-      this.image.src = gif[7]
-    } else if (counter > 64 && counter <= 72) {
-      this.image.src = gif[8]
-    } else if (counter > 72 && counter <= 80) {
-      this.image.src = gif[9]
-    } else if (counter > 80) {
-      counter = 1
-    }
-    // this.image.src = gif[counter/counter - counter]
-    c.drawImage(this.image, this.x, this.y, this.width, this.height)
-    // c.drawImage(this.gif.image, 100, 100)
-    counter += 1
-
-    if (player.x < 1) {
-      player.x = 1
-    } else if ( (player.x + player.width) > fullWidth) {
-      player.x = fullWidth - player.width
-    }
-
-    if (player.y > 60) {
-      this.gravitySpeed += this.gravity;
-      this.y += this.gravitySpeed;
-    }
-    else {
-      this.gravitySpeed = 0
-      player.y = 60.0001
-    }
-    this.hitBottom()
-  }
-
-  hitBottom() {
-    let rockbottom = floorPos - 100
-    if (this.y > rockbottom) {
-      this.y = rockbottom;
-    }
-  }
-}
-
-class Column {
-  constructor(x, src) {
+class Heart {
+  constructor(x, num, src) {
+    this.num = num
     this.x = x
-    this.y = 23
-    this.dx = bgSpeed
-    this.width = 90
-    this.height = floorPos - this.y - 5
-    this.image = new Image(50,50)
-    this.image.src = src
+    this.y = floorPos - 150
+    this.dx = pizzaSpeed
+    this.size = 40
+    this.image = new Image(50,50);
+    this.image.src = stc
   }
 
   draw() {
-    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+    c.drawImage(this.image, this.x, this.y, this.size, this.size)
   }
 
   move() {
-      this.x += this.dx;
-      this.draw();
+    if (this.x < 0) {
+      hearts.shift()
+    }
 
-    if (this.x < (player.x + player.width / 2)) {
-        this.draw();
-        levelComplete = true
-      }
+    this.x += this.dx;
+    this.draw();
+
+    if (this.x > player.x && this.x < (player.x + player.width)
+      && this.y < (player.y + player.height) && this.y > player.y ) {
+        hearts = hearts.filter( h => h.num != this.num)
+        lives += 1
+        livesLeft.innerText += `❤️`
+    }
   }
-} // end of Column class
+}
 
 
 /**************************************************
                   BACKGROUND CLASSES
 **************************************************/
 class StationSign {
-  constructor(src) {
-    this.x = 400
-    this.y = 100
+  constructor(src, x, y, w, h) {
+    this.x = x
+    this.y = y
     this.dx = bgSpeed
-    this.width = 270
-    this.height = 60
+    this.width = w
+    this.height = h
     this.image = new Image(50,50)
     this.image.src = src
   }
@@ -382,7 +391,7 @@ class StationSign {
 
   move() {
     if (this.x + this.width < 0) {
-      this.x = fullWidth + 100
+      this.x = fullWidth + 250 + this.x
     }
     this.x += this.dx;
     this.draw();
@@ -517,3 +526,29 @@ class GameSign {
     c.drawImage(this.image, 300, 60, 600, 300)
   }
 } // end of GameSign class
+
+class Column {
+  constructor(x, src) {
+    this.x = x
+    this.y = 23
+    this.dx = bgSpeed
+    this.width = 90
+    this.height = floorPos - this.y - 5
+    this.image = new Image(50,50)
+    this.image.src = src
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+    this.x += this.dx;
+    this.draw();
+
+    if (this.x < (player.x + player.width / 2)) {
+      this.draw();
+      levelComplete = true
+    }
+  }
+} // end of Column class
