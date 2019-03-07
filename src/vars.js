@@ -4,6 +4,7 @@
 // document elements
 const canvas = document.querySelector("#canvas");
 const container = document.querySelector("#container")
+const instructions = document.querySelector("#instructions")
 const restart = document.querySelector(".restart")
 const score = document.querySelector("#score");
 const cansCollected = document.querySelector("#cans");

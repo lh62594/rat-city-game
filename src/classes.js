@@ -343,7 +343,7 @@ class Heart {
     this.num = num
     this.x = x
     this.y = floorPos - 150
-    this.dx = bgSpeed
+    this.dx = bgSpeed - 1
     this.size = 40
     this.image = new Image(50,50);
     this.image.src = src
@@ -365,7 +365,7 @@ class Heart {
       && this.y < (player.y + player.height) && this.y > player.y ) {
         hearts = hearts.filter( h => h.num != this.num)
         lives += 1
-        livesLeft.innerText += `❤️`
+        livesLeft.innerText += ` ❤️`
     }
   }
 }

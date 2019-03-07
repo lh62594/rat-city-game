@@ -236,7 +236,7 @@ function startLevelTen() {
 **************************************************/
 // startLevelOne()
 // startLevelTwo()
-// startLevelThree()
+startLevelThree()
 // startLevelSix()
 // startTest()
 
@@ -247,4 +247,4 @@ function startLevelTen() {
 // firstRun()
 // subway.draw()
 // column.draw()
-startLevelSeven()
+// startLevelSeven()
