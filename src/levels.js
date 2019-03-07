@@ -81,6 +81,19 @@ function renderLevelSix() {
   createCoffees()
 }
 
+function renderLevelSeven() {
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -5
+  curLevel = 7
+  coffeeSpeed = -6
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  allLevelRender()
+  // createCoffees()
+}
 
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
@@ -104,7 +117,6 @@ function completedLevel() {
   bringSubway()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueToNextLevel)
-
 }
 
 function gameOver() {
@@ -132,23 +144,26 @@ function continueAfterClick() {
 
 function continueToNextLevel() {
   if (curLevel == 1) {
-    curLevel += 1
     startLevelTwo()
   } else if (curLevel == 2) {
-    curLevel += 1
     startLevelThree()
   } else if (curLevel == 3) {
-    curLevel += 1
     startLevelFour()
-
   } else if (curLevel == 4) {
-    curLevel += 1
     startLevelFive()
   } else if (curLevel == 5) {
-    curLevel += 1
     startLevelSix()
+  } else if (curLevel == 6) {
+    startLevelSeven()
+  } else if (curLevel == 7) {
+    startLevelEight()
+  } else if (curLevel == 8) {
+    startLevelNine()
+  } else if (curLevel == 9) {
+    startLevelTen()
+  } else if (curLevel == 10) {
+    winGame()
   }
-
   canvas.removeEventListener("click", continueToNextLevel)
 }
 
@@ -189,6 +204,25 @@ function startLevelSix() {
   animate()
 }
 
+function startLevelSeven() {
+  renderLevelSeven()
+  animate()
+}
+
+function startLevelEight() {
+  renderLevelEight()
+  animate()
+}
+
+function startLevelNine() {
+  renderLevelNine()
+  animate()
+}
+
+function startLevelTen() {
+  renderLevelTen()
+  animate()
+}
 function startTest() {
   renderTest()
   animate()
@@ -197,7 +231,7 @@ function startTest() {
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-startLevelOne()
+// startLevelOne()
 // startLevelTwo()
 // startLevelThree()
 // startLevelSix()
@@ -210,4 +244,4 @@ startLevelOne()
 // firstRun()
 // subway.draw()
 // column.draw()
-// renderLevelFour()
+startLevelSeven()
