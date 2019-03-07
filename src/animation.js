@@ -11,16 +11,25 @@ let gameOverSign = new GameSign("img/game-over.png")
 // station signs
 let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
 let wallStreetSign = new StationSign("img/wall-st-sign.png")
+let grandCentralSign = new StationSign("img/grand-central-sign.png")
 
 // columns
 let bgColumn = new Column(fullWidth, "img/bowling-green-col.png")
 let wsColumn = new Column(fullWidth, "img/wall-st-col.png")
+let gcColumn = new Column(fullWidth, "img/grand-central-col.png")
 
 // rats
 function createRats() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
     rats.push(new Rat(x))
+  }
+}
+
+function createCoffees() {
+  for (var i = 0; i < 2; i++) {
+    var x = fullWidth + i * (Math.random()*525 + 475)
+    coffees.push(new CoffeeCup(x))
   }
 }
 
@@ -51,6 +60,11 @@ function animate() {
     } else if (curLevel == 2) {
       wallStreetSign.move() // move also includes this.draw()
       wsColumn.move()
+    }
+    else if (curLevel == 6) {
+      grandCentralSign.move()
+      gcColumn.move()
+      coffees.forEach( p => p.move() )
     }
 
     player.draw()
@@ -87,6 +101,10 @@ function bringSubway() { // subway animation goes, nothing else goes)
     } else if (curLevel == 2) {
       wallStreetSign.draw()
       wsColumn.draw()
+    }
+    else if (curLevel == 6) {
+      grandCentralSign.draw()
+      gcColumn.draw()
     }
 
     player.draw()
