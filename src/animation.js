@@ -19,11 +19,25 @@ let continueSign = new GameSign("img/sign/continue.png")
 let gameOverSign = new GameSign("img/sign/game-over.png")
 
 // station signs
-let bowlingGreenSign = new StationSign("img/1/bowling-green-sign.png")
-let wallStreetSign = new StationSign("img/2/wall-st-sign.png")
-let fultonStreetSign = new StationSign("img/3/fulton-st-sign.png")
-let unionSqSign = new StationSign("img/5/union-sq-sign.png")
-let grandCentralSign = new StationSign("img/6/grand-central-sign.png")
+// constructor (src, x, y, w, h)
+let bowlingGreenSign = new StationSign("img/1/bowling-green-sign.png", 400, 100, 270, 60)
+let wallStreetSign = new StationSign("img/2/wall-st-sign.png", 400, 100, 270, 60)
+let fultonStreetSign = new StationSign("img/3/fulton-st-sign.png", 400, 100, 270, 60)
+let unionSqSign = new StationSign("img/5/union-sq-sign.png", 400, 100, 270, 60)
+let grandCentralSign = new StationSign("img/6/grand-central-sign.png", 400, 100, 270, 60)
+
+function createTicketWindows() {
+  for (var i = 1; i < 4; i++) {
+    var x = i*200 + (i-1)*100
+    ticketWindows.push(new StationSign("img/7/ticket-window.png", x, 50, 150, 200))
+  }
+
+  for (var i = 1; i < 5; i++) {
+    var x = i*200 + (i-1)*100 - 125
+    lamps.push(new StationSign("img/7/lamp.png", x, 100, 80, 80))
+  }
+}
+
 
 // columns
 let bgColumn = new Column(fullWidth, "img/1/bowling-green-col.png") // column for level one: Bowling Green
@@ -31,6 +45,7 @@ let wsColumn = new Column(fullWidth, "img/2/wall-st-col.png")
 let fsColumn = new Column(fullWidth, "img/3/fulton-st-col.png")
 let usColumn = new Column(fullWidth, "img/5/union-sq-col.png")
 let gcColumn = new Column(fullWidth, "img/6/grand-central-col.png")
+let gcClock = new Column(fullWidth*2.5 - 200, "img/7/gc-clock.png")
 
 
 // rats
@@ -41,6 +56,7 @@ function createRats() {
   }
 }
 
+// coffee cups
 function createCoffees() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
@@ -54,6 +70,15 @@ function createPizzas() {
     var x = fullWidth + i * (Math.random()*400 + 375) + 350
     // pizzas take in arguments (x, num) --> num is like an index
     pizzas.push(new Pizza(x, i+1))
+  }
+}
+
+// hearts/lives
+function createHearts() {
+  for (var i = 0; i < levelHeart[curLevel]; i++) {
+    var x = fullWidth*1.5 + i * (Math.random()*400 + 375) + 350
+    // hearts take in arguments (x, num, src) --> num is like an index
+    hearts.push(new Heart(x, i+1, "img/collect/heart.png"))
   }
 }
 
@@ -93,7 +118,8 @@ function levelDraws() {
     grandCentralSign.draw()
     gcColumn.draw()
   } else if (curLevel == 7) {
-
+    gcClock.draw()
+    ticketWindows.forEach( t => t.draw())
   }
 
   player.draw()
@@ -130,11 +156,15 @@ function levelMoves() {
     coffees.forEach( p => p.move() )
     levelMovesExceptBoss()
   } else if (curLevel == 7) {
-
+    gcClock.move()
+    ticketWindows.forEach( t => t.move())
+    lamps.forEach(l => l.move())
+    levelMovesExceptBoss()
   }
 
   player.draw()
   rats.forEach( o => o.move())
+  hearts.forEach( h => h.move())
 }
 
 function playerMovements() {
