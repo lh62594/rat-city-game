@@ -21,17 +21,17 @@ const levelPizza = {
   2: 15,
   3: 20,
   4: 0,
-  5: 15
-  6: 20
+  5: 15,
+  6: 15
 }
 
 const levelCan = {
-  1: 1,
-  2: 2,
+  1: 0,
+  2: 1,
   3: 4,
   4: 0,
-  5: 5,
-  6: 4
+  5: 3,
+  6: 1
 }
 
 const levelHeart = {
@@ -63,8 +63,16 @@ let rats = []
 let pizzas = []
 let cans = []
 let throws = []
+let coffees = []
 
-// gif animations
+// collected variables
+let collectedPizzas = 0
+let collectedCans = 0
+let lives = 3
+
+
+// for animation
+let counter = 1
 let gif = {
   0: "img/mario/0.gif",
   1: "img/mario/1.gif",
@@ -77,29 +85,16 @@ let gif = {
   8: "img/mario/8.gif",
   9: "img/mario/9.gif",
   10: "img/mario/10.gif"
-let coffees = []
-let collectedPizzas = 0
-let lives = 3
-let jumpKey = false
-let paused = false
-let curLevel = 1 // will change this
-let levelComplete = false
+}
 
 
-let counter = 1
-// collected variables
-let lives = 3
-let collectedPizzas = 0
-let collectedCans = 0
 
 // game play logic
 let jumpKey = false
 let rightKey = false
 let leftKey = false
-
-let spaceKey = 0
 let paused = false
-let throwing = false
 let curLevel = 1 // will change this
-let hits = 0
 let levelComplete = false
+let throwing = false
+let hits = 0

@@ -66,7 +66,7 @@ class Rat {
     this.width = 100
     this.height = 50
     this.image = new Image(50,50)
-    this.image.src = "img/rat.png"
+    this.image.src = "img/rat/1.png"
   }
 
   draw() {
@@ -163,7 +163,7 @@ class Pizza {
     this.dx = pizzaSpeed
     this.size = 40
     this.image = new Image(50,50);
-    this.image.src = "img/pizza.png"
+    this.image.src = "img/collect/pizza.png"
   }
 
   draw() {
@@ -200,7 +200,7 @@ class Can {
     this.width = 60
     this.height = 40
     this.image = new Image(50,50);
-    this.image.src = "img/stella.png"
+    this.image.src = "img/collect/stella.png"
   }
 
   draw() {
@@ -236,7 +236,7 @@ class Throw {
     this.dx = throwSpeed
     this.size = 40
     this.image = new Image(50,50);
-    this.image.src = "img/stella.png"
+    this.image.src = "img/collect/stella.png"
     this.obstacle = obstacle
   }
 
@@ -272,7 +272,7 @@ class Player {
     this.height = 100
     this.image = new Image(50, 50)
     // this.image.src = "img/mario-pose2.png"
-    this.image.src = "img/test/1.gif"
+    this.image.src = "img/mario/1.gif"
     // this.gif = GIF()
     // this.gif.load("img/mario-run.gif")
     this.gravity = 0

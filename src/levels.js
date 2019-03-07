@@ -10,9 +10,8 @@ function allLevelRender() {
 
 function renderLevelOne() {
   curLevel = 1
-  canvas.style.backgroundImage = "url('img/bowling_green_1.png')";
+  canvas.style.backgroundImage = "url('img/1/bowling_green_1.png')";
   allLevelRender()
-  // console.log("Is render level on");
 }
 
 function renderLevelTwo() {
@@ -22,7 +21,7 @@ function renderLevelTwo() {
   curLevel = 2
   levelComplete = false
   subway.x = fullWidth + 100
-  canvas.style.backgroundImage = "url('img/wall_st.png')";
+  canvas.style.backgroundImage = "url('img/2/wall_st.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
 }
@@ -34,7 +33,7 @@ function renderLevelThree() {
   curLevel = 3
   levelComplete = false
   subway.x = fullWidth + 100
-  canvas.style.backgroundImage = "url('img/fulton-st-bg.png')";
+  canvas.style.backgroundImage = "url('img/3/fulton-st-bg.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
   // console.log("is render level three going again?");
@@ -45,7 +44,7 @@ function renderLevelFour() {
   ratSpeed = -2
   curLevel = 4
 
-  canvas.style.backgroundImage = "url('img/bklyn-br-bg.png')";
+  canvas.style.backgroundImage = "url('img/4/bklyn-br-bg.png')";
   canvas.style.backgroundSize = "1200px 450px"
   canvas.classList.remove("scrolling-bg")
 
@@ -62,42 +61,24 @@ function renderLevelFive() {
   curLevel = 5
   levelComplete = false
   subway.x = fullWidth + 100
-  canvas.style.backgroundImage = "url('img/union-sq-bg.png')";
+  canvas.style.backgroundImage = "url('img/5/union-sq-bg.png')";
   canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
   allLevelRender()
 }
 
-function renderTest() {
-  player.x = 100
-  ratSpeed = -2
-  curLevel = 4
-  collectedCans = 5
-  cansCollected.innerText = `🍺 ${collectedCans}`
-  levelComplete = false
-  subway.x = fullWidth + 100
-  canvas.removeAttribute("id")
-  canvas.setAttribute("id", "boss")
-  canvas.classList.remove("scrolling-bg")
-  createRats()
-  // createPizzas()
-  // createThrows()
-  player.draw()
-}
-
 function renderLevelSix() {
+  player.x = 100
   pizzaSpeed = -5.5
   ratSpeed = -5
   curLevel = 6
   coffeeSpeed = -6
   levelComplete = false
   subway.x = fullWidth + 100
-  canvas.style.backgroundImage = "url('img/grand-central-bg.png')";
+  canvas.style.backgroundImage = "url('img/6/grand-central-bg.png')";
   canvas.classList.add("scrolling-bg")
+  allLevelRender()
   createCoffees()
-  createRats()
-  createPizzas()
-  player.draw()
 }
 
 
@@ -139,10 +120,6 @@ function gameOver() {
 function continueAfterClick() {
   // makes all the rats and pizza disappear
   rats = []
-  // pizzas = []
-  // recreates all the pizzas and rats
-  // canvas.style.animation = "backgroundScroll 8s linear infinite;"
-  // createPizzas()
   createRats()
   // changes the pause to false
   paused = false
@@ -167,6 +144,9 @@ function continueToNextLevel() {
   } else if (curLevel == 4) {
     curLevel += 1
     startLevelFive()
+  } else if (curLevel == 5) {
+    curLevel += 1
+    startLevelSix()
   }
 
   canvas.removeEventListener("click", continueToNextLevel)
@@ -194,7 +174,6 @@ function startLevelThree() {
   animate()
 }
 
-<<<<<<< HEAD
 function startLevelFour() {
   renderLevelFour()
   animate()
@@ -205,29 +184,24 @@ function startLevelFive() {
   animate()
 }
 
-function startTest() {
-  renderTest()
-  animate()
-}
-=======
 function startLevelSix() {
   renderLevelSix()
   animate()
 }
 
->>>>>>> 3cd5c04293e817919428e17ec90a50301238f274
+function startTest() {
+  renderTest()
+  animate()
+}
+
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-// startLevelOne()
+startLevelOne()
 // startLevelTwo()
-<<<<<<< HEAD
 // startLevelThree()
-// startLevelFour()
+// startLevelSix()
 // startTest()
-=======
-startLevelSix()
->>>>>>> 3cd5c04293e817919428e17ec90a50301238f274
 
 /**************************************************
                       TESTS

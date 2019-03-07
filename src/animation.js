@@ -7,30 +7,30 @@ let subway = new Subway(fullWidth + 100)
 
 // boss characters
 // takes in the arguments (src, x, y, w, h)
-let bbBoss = new Boss("img/boss-rat-1.png", 800, floorPos - 150, 200, 200)
-let zombieBoss = new Boss("img/zombie.png", 800, floorPos - 150, 200, 200)
+let bbBoss = new Boss("img/boss/boss-rat-1.png", 800, floorPos - 150, 200, 200)
+let zombieBoss = new Boss("img/boss/zombie.png", 800, floorPos - 150, 200, 200)
 
 const bosses = {
   4: bbBoss
 }
 
 // game signs
-let continueSign = new GameSign("img/continue.png")
-let gameOverSign = new GameSign("img/game-over.png")
+let continueSign = new GameSign("img/sign/continue.png")
+let gameOverSign = new GameSign("img/sign/game-over.png")
 
 // station signs
-let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
-let wallStreetSign = new StationSign("img/wall-st-sign.png")
-let fultonStreetSign = new StationSign("img/fulton-st-sign.png")
-let unionSqSign = new StationSign("img/union-sq-sign.png")
-let grandCentralSign = new StationSign("img/grand-central-sign.png")
+let bowlingGreenSign = new StationSign("img/1/bowling-green-sign.png")
+let wallStreetSign = new StationSign("img/2/wall-st-sign.png")
+let fultonStreetSign = new StationSign("img/3/fulton-st-sign.png")
+let unionSqSign = new StationSign("img/5/union-sq-sign.png")
+let grandCentralSign = new StationSign("img/6/grand-central-sign.png")
 
 // columns
-let bgColumn = new Column(fullWidth*2, "img/bowling-green-col.png") // column for level one: Bowling Green
-let wsColumn = new Column(fullWidth*2.25, "img/wall-st-col.png")
-let fsColumn = new Column(fullWidth*2.25, "img/fulton-st-col.png")
-let usColumn = new Column(fullWidth*2.5, "img/union-sq-col.png")
-let gcColumn = new Column(fullWidth, "img/grand-central-col.png")
+let bgColumn = new Column(fullWidth, "img/1/bowling-green-col.png") // column for level one: Bowling Green
+let wsColumn = new Column(fullWidth, "img/2/wall-st-col.png")
+let fsColumn = new Column(fullWidth, "img/3/fulton-st-col.png")
+let usColumn = new Column(fullWidth, "img/5/union-sq-col.png")
+let gcColumn = new Column(fullWidth, "img/6/grand-central-col.png")
 
 
 // rats
@@ -113,31 +113,25 @@ function levelMoves() {
     wsColumn.move()
     levelMovesExceptBoss()
   } else if (curLevel == 3) {
-
     fultonStreetSign.move()
     fsColumn.move()
     levelMovesExceptBoss()
-
   } else if (curLevel == 4) {
-
     bbBoss.move()
     throws.forEach( t => t.move())
-
   } else if (curLevel == 5) {
-
     unionSqSign.move()
     usColumn.move()
     levelMovesExceptBoss()
-
   } else if (curLevel == 6) {
     grandCentralSign.move()
     gcColumn.move()
     coffees.forEach( p => p.move() )
+    levelMovesExceptBoss()
   }
 
   player.draw()
   rats.forEach( o => o.move())
-
 }
 
 function playerMovements() {

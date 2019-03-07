@@ -7,6 +7,13 @@
   color: red;
 }
 
+#instructions {
+  color: white;
+  margin-left: 100px;
+  font: "Courier New";
+  font-size: 20px;
+}
+
 
 @keyframes backgroundScroll {
     from {background-position: 0 0;}
