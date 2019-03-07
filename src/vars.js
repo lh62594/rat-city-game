@@ -21,8 +21,8 @@ const levelPizza = {
   2: 15,
   3: 20,
   4: 0,
-  5: 20,
-  6: 0
+  5: 15
+  6: 20
 }
 
 const levelCan = {
@@ -53,6 +53,7 @@ let ratSpeed = -4 // rat speed
 let bossSpeed = -1.5 // rat speed
 let throwSpeed = 6
 let playerSpeed = 5
+let coffeeSpeed = -6 // coffee speed
 
 // setting the draw area of canvas
 let c = canvas.getContext("2d");
@@ -76,7 +77,13 @@ let gif = {
   8: "img/mario/8.gif",
   9: "img/mario/9.gif",
   10: "img/mario/10.gif"
-}
+let coffees = []
+let collectedPizzas = 0
+let lives = 3
+let jumpKey = false
+let paused = false
+let curLevel = 1 // will change this
+let levelComplete = false
 
 
 let counter = 1

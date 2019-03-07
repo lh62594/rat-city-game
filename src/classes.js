@@ -1,6 +1,63 @@
 /**************************************************
                   GAME PIECE CLASSES
 **************************************************/
+class CoffeeCup {
+  constructor(x) {
+    this.x = x
+    this.y = floorPos - 40
+    this.dx = coffeeSpeed
+    this.width = 40
+    this.height = 45
+    this.image = new Image(50,50)
+    this.image.src = "img/coffee-cup.webp"
+    this.flight = true
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+    if (lives > -1) {
+      if (this.x + this.width < 0) {
+        this.x = fullWidth + (Math.random()*525 + 475)
+      }
+
+      this.x += this.dx
+
+      // flying coffee cups
+      if (this.y < 50) {
+        this.y += 3
+        this.flight = false
+      }
+      else if (this.flight == false) {
+        this.y += 3
+        if (this.y > floorPos - 40) {
+          this.flight = true
+        }
+      }
+      else if (Math.random() > 0 && Math.random() < 0.3 && this.flight == true) {
+        this.y -= 3
+      }
+      else if (Math.random() > 0.3 && Math.random() < 0.4 && this.flight == true) {
+        if (this.y != floorPos - 40) {
+          this.y += 0.5
+        }
+      }
+
+      this.draw();
+
+      //if player hits a coffee
+      if (this.x > player.x && this.x < (player.x + player.width)
+        && this.y < (player.y + player.height) && this.y > player.y ) {
+          lives -= 1  // lives decrease
+          paused = true // the game is paused
+        }
+    }
+  }
+
+} // end of CoffeeCup class
+
 class Rat {
   constructor(x) {
     this.x = x
@@ -246,7 +303,7 @@ class Player {
     } else if (counter > 72 && counter <= 80) {
       this.image.src = gif[9]
     } else if (counter > 80) {
-      counter = 0
+      counter = 1
     }
     // this.image.src = gif[counter/counter - counter]
     c.drawImage(this.image, this.x, this.y, this.width, this.height)

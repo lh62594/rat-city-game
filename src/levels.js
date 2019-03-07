@@ -85,6 +85,21 @@ function renderTest() {
   player.draw()
 }
 
+function renderLevelSix() {
+  pizzaSpeed = -5.5
+  ratSpeed = -5
+  curLevel = 6
+  coffeeSpeed = -6
+  levelComplete = false
+  subway.x = fullWidth + 100
+  canvas.style.backgroundImage = "url('img/grand-central-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  createCoffees()
+  createRats()
+  createPizzas()
+  player.draw()
+}
+
 
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
@@ -179,6 +194,7 @@ function startLevelThree() {
   animate()
 }
 
+<<<<<<< HEAD
 function startLevelFour() {
   renderLevelFour()
   animate()
@@ -193,14 +209,25 @@ function startTest() {
   renderTest()
   animate()
 }
+=======
+function startLevelSix() {
+  renderLevelSix()
+  animate()
+}
+
+>>>>>>> 3cd5c04293e817919428e17ec90a50301238f274
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
 // startLevelOne()
 // startLevelTwo()
+<<<<<<< HEAD
 // startLevelThree()
 // startLevelFour()
 // startTest()
+=======
+startLevelSix()
+>>>>>>> 3cd5c04293e817919428e17ec90a50301238f274
 
 /**************************************************
                       TESTS

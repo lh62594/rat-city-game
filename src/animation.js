@@ -23,18 +23,28 @@ let bowlingGreenSign = new StationSign("img/bowling-green-sign.png")
 let wallStreetSign = new StationSign("img/wall-st-sign.png")
 let fultonStreetSign = new StationSign("img/fulton-st-sign.png")
 let unionSqSign = new StationSign("img/union-sq-sign.png")
+let grandCentralSign = new StationSign("img/grand-central-sign.png")
 
 // columns
 let bgColumn = new Column(fullWidth*2, "img/bowling-green-col.png") // column for level one: Bowling Green
 let wsColumn = new Column(fullWidth*2.25, "img/wall-st-col.png")
 let fsColumn = new Column(fullWidth*2.25, "img/fulton-st-col.png")
 let usColumn = new Column(fullWidth*2.5, "img/union-sq-col.png")
+let gcColumn = new Column(fullWidth, "img/grand-central-col.png")
+
 
 // rats
 function createRats() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
     rats.push(new Rat(x))
+  }
+}
+
+function createCoffees() {
+  for (var i = 0; i < 2; i++) {
+    var x = fullWidth + i * (Math.random()*525 + 475)
+    coffees.push(new CoffeeCup(x))
   }
 }
 
@@ -81,6 +91,9 @@ function levelDraws() {
   } else if (curLevel == 5) {
     unionSqSign.draw()
     usColumn.draw()
+  } else if (curLevel == 6) {
+      grandCentralSign.draw()
+      gcColumn.draw()
   }
   player.draw()
 }
@@ -117,8 +130,11 @@ function levelMoves() {
     levelMovesExceptBoss()
 
   } else if (curLevel == 6) {
-    // animateTest()
+    grandCentralSign.move()
+    gcColumn.move()
+    coffees.forEach( p => p.move() )
   }
+
   player.draw()
   rats.forEach( o => o.move())
 
@@ -161,7 +177,7 @@ function bringSubway() { // subway animation goes, nothing else goes)
     levelDraws()
     subway.move()
 
-    console.log("is the subway coming?");
+    // console.log("is the subway coming?");
   }
 }
 
