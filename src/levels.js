@@ -15,7 +15,7 @@ function renderIntro() {
   canvas.style.backgroundImage = "url('img/menu.png')"
   canvas.style.backgroundSize = "1200px 450px"
   canvas.classList.remove("scrolling-bg")
-  instructions.innerHTML = "click to get on the subway!"
+  instructions.innerText = "click to get on the subway!"
   createRats()
 }
 
@@ -26,7 +26,7 @@ function renderLevelOne() {
   score.innerHTML = "🍕 0"
   cansCollected.innerHTML = "🍺 0"
   livesLeft.innerHTML = "❤️ ❤️ ❤️ "
-  instructions.innerHTML = "these are test instructions"
+  instructions.innerHTML = "use the left, right, and up arrow to avoid rats and collect pizza"
   canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
   allLevelRender()
@@ -39,6 +39,7 @@ function renderLevelTwo() {
   ratSpeed = -6
   curLevel = 2
   levelComplete = false
+  instructions.innerHTML = "collect crumpled beer cans to throw at boss rats!"
   subway.x = fullWidth + 100
   canvas.style.backgroundImage = "url('img/2/wall_st.png')";
   canvas.classList.add("scrolling-bg")
@@ -53,6 +54,7 @@ function renderLevelThree() {
   curLevel = 3
   levelComplete = false
   subway.x = fullWidth + 100
+  instructions.innerHTML = "jump to collect hearts for extra lives!"
   canvas.style.backgroundImage = "url('img/3/fulton-st-bg.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
@@ -65,6 +67,7 @@ function renderLevelFour() {
   ratSpeed = -4
   curLevel = 4
 
+  instructions.innerHTML = "use the [space key] to throw your collected beer cans"
   canvas.style.backgroundImage = "url('img/4/bklyn-br-bg.png')";
   canvas.style.backgroundSize = "1200px 450px"
   canvas.classList.remove("scrolling-bg")
@@ -84,6 +87,7 @@ function renderLevelFive() {
   pigeonSpeed = -4
   levelComplete = false
   subway.x = fullWidth + 100
+  instructions.innerHTML = "watch out for the pigeons!"
   canvas.style.backgroundImage = "url('img/5/union-sq-bg.png')";
   canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
@@ -96,16 +100,18 @@ function renderLevelSix() {
   curLevel = 6
   player.x = 100
   pizzaSpeed = -5.5
-  ratSpeed = -7
+  ratSpeed = -6.5
   pigeonSpeed = -5
   levelComplete = false
   subway.x = fullWidth + 100
+  instructions.innerHTML = "the speed of rats and pigeons increase every level"
   canvas.style.backgroundImage = "url('img/6/grand-central-bg.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
 }
 
+// grand central concourse
 function renderLevelSeven() {
   player.x = 100
   pizzaSpeed = -5.5
@@ -298,6 +304,6 @@ function startLevelTen() {
 /**************************************************
                       TESTS
 **************************************************/
-startLevelEight()
-// startIntro()
+// startLevelEight()
+startIntro()
 // startLevelFive()

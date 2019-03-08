@@ -8,10 +8,12 @@
 }
 
 #instructions {
+  font-family: "Courier New", Times, serif;
   color: white;
   margin-left: 100px;
-  font: "Courier New";
   font-size: 20px;
+  position: absolute;
+  top: 20px;
 }
 
 
