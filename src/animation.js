@@ -7,16 +7,16 @@ let subway = new Subway(fullWidth + 100)
 
 // boss characters
 // takes in the arguments (src, x, y, w, h)
-let bbBoss = new Boss("img/boss/boss-rat-1.png", 800, floorPos - 150, 200, 200)
-let zombieBoss = new Boss("img/boss/zombie.png", 800, floorPos - 150, 200, 200)
+let daBoss = new Boss(900, floorPos - 200, 200, 200)
 
 const bosses = {
-  4: bbBoss
+  4: daBoss
 }
 
 // game signs
-let continueSign = new GameSign("img/sign/continue.png")
-let gameOverSign = new GameSign("img/sign/game-over.png")
+let continueSign = new GameSign("you lost a life", "click to continue")
+let gameOverSign = new GameSign("   GAME OVER", "   play again")
+let continueTo9 = new GameSign(" ride the taxi", "click to continue")
 
 // station signs
 // constructor (src, x, y, w, h)
@@ -43,14 +43,15 @@ let streetSign = new StationSign("img/8/st-sign.png", 400, 23, 150, 287)
 
 // columns
 // constructor (x, src, w, h)
-let bgColumn = new Column(fullWidth*1.5, "img/1/bowling-green-col.png", 23, 90, 287) // column for level one: Bowling Green
-let wsColumn = new Column(fullWidth*1.75, "img/2/wall-st-col.png", 23, 90, 287)
-let fsColumn = new Column(fullWidth*2, "img/3/fulton-st-col.png", 23, 90, 287)
+let bgColumn = new Column(fullWidth + 500, "img/1/bowling-green-col.png", 23, 90, 287) // column for level one: Bowling Green
+let wsColumn = new Column(fullWidth*1.5, "img/2/wall-st-col.png", 23, 90, 287)
+let fsColumn = new Column(fullWidth*1.8, "img/3/fulton-st-col.png", 23, 90, 287)
 let usColumn = new Column(fullWidth*2, "img/5/union-sq-col.png", 23, 90, 287)
-let gcColumn = new Column(fullWidth*2, "img/6/grand-central-col.png", 90, 287)
+let gcColumn = new Column(fullWidth*2.25, "img/6/grand-central-col.png", 23, 90, 287)
 let gcDoor = new Column(fullWidth*2.5-350, "img/7/door.jpg", 23, 250, 287)
-// let taxi42 = new Column(fullWidth*2, "img/8/door.png", 450)
-let taxi42 = new Column(fullWidth, "img/taxi.png", 170, 400, 175)
+let taxi42 = new Column(fullWidth*2.5, "img/taxi.png", 170, 400, 175)
+let startTaxi = new Taxi(-200)
+
 
 
 // rats --> 2 rats per each level
@@ -157,7 +158,7 @@ function levelMoves() {
     fsColumn.move()
     levelMovesExceptBoss()
   } else if (curLevel == 4) {
-    bbBoss.move()
+    daBoss.move()
     rats.forEach( o => o.move())
     throws.forEach( t => t.move())
   } else if (curLevel == 5) {
@@ -181,6 +182,8 @@ function levelMoves() {
     levelMovesExceptBoss()
     pigeons.forEach( p => p.move() )
     taxi42.move()
+  } else if (curLevel == 9) {
+
   }
 
   player.draw()
@@ -222,29 +225,35 @@ function bringSubway() { // subway animation goes, nothing else goes)
     c.clearRect(0, 0, innerWidth, innerHeight);
     levelDraws()
     subway.move()
-
     // console.log("is the subway coming?");
+  } else {
+    subway.x = fullWidth + 100
   }
 }
 
-function animateTest() {
-  if (paused == false && lives != 0 && levelComplete == false) {
-    requestAnimationFrame(animateTest) // looping animation
-    c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
-
-    levelMoves()
-
-    playerMovements()
-
-
-  } else if (paused == true && lives != 0 && levelComplete == false) {
-    continueLevel()
-  } else if (paused == true && lives == 0 && levelComplete == false) {
-    gameOver()
-  } else if (levelComplete == true) {
-    completedLevel()
+function driveTaxi() {
+  // taxi42.x = player.x
+  if (taxi42.x >= player.x && taxi42.x < fullWidth + taxi42.width + 100 ) {
+    requestAnimationFrame(driveTaxi)
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    taxi42.x += 5
+    taxi42.draw()
   }
 }
+
+function showTaxi() {
+  if (curLevel == "intro") {
+    requestAnimationFrame(showTaxi)
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    rats.forEach( r => r.introMove())
+    if (startTaxi.x >= -400 && startTaxi.x < fullWidth + startTaxi.width) {
+      startTaxi.move()
+    } else {
+      startTaxi.x = -400
+    }
+  }
+}
+
 
 
 /**************************************************
@@ -265,6 +274,7 @@ function animateTest() {
 window.addEventListener("keydown", event => {
   if (event.code == "ArrowUp" && jumpKey == false) {
     jumpKey = true
+    jump.play()
   } else if (event.code == "ArrowRight") {
     rightKey = true
   } else if (event.code == "ArrowLeft") {
@@ -274,6 +284,7 @@ window.addEventListener("keydown", event => {
       collectedCans -= 1
       cansCollected.innerText = `🍺 ${collectedCans}`
       throws.push(new Throw(player.x, player.y, bosses[curLevel]))
+      throwCan.play()
     } else {
       console.log("what happens here?");
     }

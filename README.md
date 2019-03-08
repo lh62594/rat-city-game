@@ -22,6 +22,8 @@
     [ ] --> power ups (got lives [x])
     [ ] --> Figure out how to put a .wav file for music
 
+[ ] get taxi animation for after the 8th level 
+
 
 ===================================================
                   LEVEL PLANNING

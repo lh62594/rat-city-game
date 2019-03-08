@@ -10,6 +10,10 @@ const score = document.querySelector("#score");
 const cansCollected = document.querySelector("#cans");
 const livesLeft = document.querySelector("#lives");
 
+// music
+// const levelMusic = document.querySelector("#level");
+let music = []
+
 
 // canvas screen adjustments
 const fullWidth = 1200 //window.innerWidth
@@ -91,6 +95,7 @@ let lives = 3
 
 // for animation
 let counter = 1
+let a = 1
 let gif = {
   0: "img/mario/0.gif",
   1: "img/mario/1.gif",
