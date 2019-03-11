@@ -28,7 +28,7 @@ let hitPigeon = new GameSound("mp3/pigeon.wav")
 let hitBossWithCan = new GameSound("mp3/hit_boss_with_can.wav")
 let beer = new GameSound("mp3/beer.wav")
 let getNewHeart = new GameSound("mp3/life.wav")
-let subwayMoving = new GameSound("mp3/subway.wav")
+let subwayMoving = new GameSound("mp3/standclear.m4a")
 let throwCan = new GameSound("mp3/throw_can_1.wav")
 let taxiDriving = new GameSound("mp3/taxi_drive.wav")
 
@@ -49,6 +49,7 @@ function addAllLevelSounds() {
   // music.push(level7)
   music.push(boss1)
   music.push(boss2)
+  // music.push(subwayMoving)
 }
 
 

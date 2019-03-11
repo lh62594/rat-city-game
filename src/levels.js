@@ -157,16 +157,19 @@ function continueLevel() {
 
   music.forEach( s => s.pause())
 
-  if (lives == 3) {
-    livesLeft.innerText = `❤️ ❤️ ❤️`
-  } else if (lives == 2) {
-    livesLeft.innerText = `❤️ ❤️`
-  } else if (lives == 1) {
-    livesLeft.innerText = `❤️ `
+  livesLeft.innerText = ""
+  for (var i = 0; i < lives; i++) {
+    livesLeft.innerText += "❤️"
   }
+
   continueSign.draw()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueAfterClick)
+  // document.addEventListener("keydown", event => {
+  //   if (event.code == "Enter") {
+  //     continueAfterClick()
+  //   }
+  // })
 }
 
 function completedLevel() {
@@ -187,6 +190,9 @@ function completedLevel() {
 
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueToNextLevel)
+  // document.addEventListener("keydown", event => {
+  //     continueToNextLevel(event)
+  // })
 }
 
 function gameOver() {
@@ -220,51 +226,51 @@ function continueAfterClick() {
 
   animate()
   // removes the event listener
-  canvas.removeEventListener("click", continueAfterClick, false)
+  canvas.removeEventListener("click", continueAfterClick)
 }
 
 function continueToNextLevel() {
-  if (curLevel == "intro") {
-    startLevelOne()
-  } else if (curLevel == 1) {
-    level1.play()
-    startLevelTwo()
-  } else if (curLevel == 2) {
-    level1.play()
-    startLevelThree()
-  } else if (curLevel == 3) {
-    boss1.play()
-    startLevelFour()
-  } else if (curLevel == 4) {
-    level5.play()
-    startLevelFive()
-  } else if (curLevel == 5) {
-    level5.play()
-    startLevelSix()
-  } else if (curLevel == 6) {
-    level5.play()
-    startLevelSeven()
-  } else if (curLevel == 7) {
-    level5.play()
-    startLevelEight()
-  } else if (curLevel == 8) {
-    taxiDriving.play()
-    driveTaxi()
-    level5.play()
-    startLevelNine()
-  } else if (curLevel == 9) {
-    boss2.play()
-    startLevelTen()
-  } else if (curLevel == 10) {
-    winGame()
-  }
+    if (curLevel == "intro") {
+      startLevelOne()
+    } else if (curLevel == 1) {
+      level1.play()
+      startLevelTwo()
+    } else if (curLevel == 2) {
+      level1.play()
+      startLevelThree()
+    } else if (curLevel == 3) {
+      boss1.play()
+      startLevelFour()
+    } else if (curLevel == 4) {
+      level5.play()
+      startLevelFive()
+    } else if (curLevel == 5) {
+      level5.play()
+      startLevelSix()
+    } else if (curLevel == 6) {
+      level5.play()
+      startLevelSeven()
+    } else if (curLevel == 7) {
+      level5.play()
+      startLevelEight()
+    } else if (curLevel == 8) {
+      taxiDriving.play()
+      driveTaxi()
+      level5.play()
+      startLevelNine()
+    } else if (curLevel == 9) {
+      boss2.play()
+      startLevelTen()
+    } else if (curLevel == 10) {
+      winGame()
+    }
+  canvas.removeEventListener("click", continueToNextLevel, false)
   // levelMusic.play()
-  canvas.removeEventListener("click", continueToNextLevel)
 }
 
-// function clearCanvas() {
-//   location.reload()
-// }
+function clearCanvas() {
+  location.reload()
+}
 
 /**************************************************
                 START LEVEL FUNCTIONS
@@ -341,22 +347,5 @@ function startLevelTen() {
 // startTest()
 
 // startLevelEight()
-
-
-// var snd = new Audio("mp3/level-run-1.mp3"); // buffers automatically when created
-//
-// const playPromise = snd.play();
-// if (playPromise !== null){
-//     playPromise.catch(() => { snd.play(); })
-// }
-//
-
-// document.addEventListener("DOMContentLoaded", function(event) {
-//   console.log("DOM fully loaded and parsed");
-//   console.log(bgMusic);
-  // console.log(bgMusic.play());
-//   bgMusic.play()
-// });
-
 
 startIntro()
