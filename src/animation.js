@@ -1,4 +1,23 @@
 /**************************************************
+            GAME OVER BOARD
+**************************************************/
+function fetchScores() {
+  fetch("http://localhost:3000/api/v1/users")
+  .then(res => res.json())
+  .then(json => {
+    let gameOverSign = new GameOverBanner("   GAME OVER")
+    gameOverSign.draw()
+
+    for (var i = 0; i < json.length; i++) {
+      let scoreline = new GameOverScoreboard(`${json[i].username} - ${json[i].score}`, 180 + i*23)
+      scoreline.draw()
+    }
+
+  })
+}
+
+
+/**************************************************
             BACKGROUND CREATIONS
 **************************************************/
 // player & subway
@@ -15,7 +34,6 @@ const bosses = {
 
 // game signs
 let continueSign = new GameSign("you lost a life", "click to continue")
-let gameOverSign = new GameSign("   GAME OVER", "   play again")
 let continueTo9 = new GameSign(" ride the taxi", "click to continue")
 
 // station signs

@@ -18,8 +18,8 @@ let music = []
 // canvas screen adjustments
 const fullWidth = 1200 //window.innerWidth
 const fullHeight = 450
-canvas.width = fullWidth
-canvas.height = fullHeight
+  canvas.width = fullWidth
+  canvas.height = fullHeight
 const floorPos = 315
 
 const levelPizza = {
@@ -88,9 +88,9 @@ let ticketWindows = [] // used in Level 7
 let lamps = [] // used in Level 7
 
 // collected variables
-let collectedPizzas = 0
+let collectedPizzas = 0 // this is also your SCORE
 let collectedCans = 0
-let lives = 3
+let lives = 1
 
 
 // for animation

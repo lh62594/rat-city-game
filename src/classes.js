@@ -727,9 +727,40 @@ class GameSign {
     c.font = "30px Courier New";
     c.fillStyle = ("#afff14")
     c.fillText(this.line2, 430, 270)
-
   }
 } // end of GameSign class
+
+class GameOverBanner {
+  constructor(line1) {
+    this.line1 = line1
+  }
+
+  draw() {
+    // draw the first black box
+    c.fillStyle = "rgba(0,0,0)"
+    c.fillRect(300, 100, 550, 50)
+    c.font = "60px Courier New";
+    c.fillStyle = ("#afff14")
+    // putting the text from "line1" into first box
+    c.fillText(this.line1, 310, 140);
+  }
+} // end of GameOverBanner class
+
+class GameOverScoreboard {
+  constructor(data, y) {
+    this.data = data
+    this.y = y
+  }
+
+  draw() {
+    c.fillStyle = "rgba(0,0,0)"
+    c.fillRect(420, this.y, 320, 25)
+    c.font = "16px Courier New";
+    c.fillStyle = ("#afff14")
+    c.textAlign = "center";
+    c.fillText(this.data, 580, this.y + 20)
+  }
+} // end of GameOverScoreboard class
 
 class Column {
   constructor(x, src, y, w, h) {

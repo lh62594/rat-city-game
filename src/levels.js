@@ -195,13 +195,43 @@ function completedLevel() {
   // })
 }
 
+/******************* GAME OVER SECTION **********************/
 function gameOver() {
+  fetchScores()
+
   gameOverSnd.play()
   livesLeft.innerText = `😭 `
+
+  instructions.innerHTML = renderUsernameForm()
+
   canvas.classList.remove("scrolling-bg")
-  gameOverSign.draw()
-  canvas.addEventListener("click", clearCanvas)
+  // gameOverSign.draw()
+  // canvas.addEventListener("click", clearCanvas)
+
+  const userInput = document.querySelector('#user-input')
+  const saveButton = document.querySelector('#save-button')
+  const playButton = document.querySelector('#play-button')
+
+  saveButton.addEventListener('click', event => {
+      console.log(event, userInput.value);
+  })
 }
+
+function renderUsernameForm() {
+  return (`
+    your final score is ${collectedPizzas}, enter your username to save your score!
+    <br />
+    <input id="user-input" type="text" placeholder="enter username" />
+    <button id="save-button"> save </button>
+    <button id="play-button"> play again </button>
+  `)
+}
+
+
+
+/******************* GAME OVER SECTION **********************/
+
+
 
 /**************************************************
               EVENT LISTENER HELPERS
