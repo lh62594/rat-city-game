@@ -197,6 +197,7 @@ function completedLevel() {
 
 /******************* GAME OVER SECTION **********************/
 function gameOver() {
+  gameOverSign.draw()
   fetchScores()
 
   gameOverSnd.play()
@@ -212,9 +213,41 @@ function gameOver() {
   const saveButton = document.querySelector('#save-button')
   const playButton = document.querySelector('#play-button')
 
-  saveButton.addEventListener('click', event => {
-      console.log(event, userInput.value);
+  playButton.addEventListener('click', event => {
+    clearCanvas()
   })
+
+  saveButton.addEventListener('click', event => {
+    let data = {
+      username: userInput.value,
+      score: collectedPizzas
+    }
+    fetch(`http://localhost:3000/api/v1/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(json => {
+      fetchScores()
+
+      instructions.innerHTML = `
+        thanks for playing!
+        <br />
+        <button id="play-again"> play again </button>
+      `
+      const playAgain = document.querySelector('#play-again')
+      playAgain.addEventListener('click', event => {
+        clearCanvas()
+      })
+
+    })
+  })
+
+
 }
 
 function renderUsernameForm() {
