@@ -1,37 +1,28 @@
-===================================================
-            TO DO LIST / CHALLENGES
-===================================================
-[X] render the images (pizza, rats, etc)
-[X] collision check (KP)
-[X] render score (LH)
-[X] add boss levels
-[X] end level
-    [X]--> stops everything
+By Katie Pennachio and Linya Hu
 
-3/7/19 to do:
-[X] Intro screen up / [enter to play game]
-[ ] Build 4 more levels (one more boss - zombie!)
-    [X] grand central concourse
-    [X.5] 42nd street --> walk to rock center (avoid pigeon poop!)
-    [ ] elevator up --> bonus round to collect stuff!!!
-    [ ] TOP OF THE ROCK --> last boss!!!!!
+##About Rat City
 
-[ ] BONUS STUFF
-    [X] --> lives
-    [ ] --> gravity
-    [ ] --> power ups (got lives [x])
-    [ ] --> Figure out how to put a .wav file for music
+Rats have taken over New York City!
 
-[ ] get taxi animation for after the 8th level 
+You are currently a student at Flatiron School taking the uptown 4 train to get home from Bowling Green station, but the Rat King has stopped the trains. Once you have gotten past the rats in each station, the subway will take you to your next stop. Collect pizza slices for points, hearts for extra lives, and crumpled beer cans to defeat the rat bosses.
 
+Be careful, the rats get faster at each level and there are surprise obstacles along the way!
 
-===================================================
-                  LEVEL PLANNING
-===================================================
+Intended for ages 4+
 
-Level 1: Bowling Green - intro level, easy to get; column at fullWidth + 500
-Level 2: Wall St - harder, rat speed increases; column at 2 * fullWidth
-Level 3: Fulton St (boss level?) --> have a boss rat?
+##Gameplay
+Use the left, right, and up arrows on your keyboard to move your player. When you get to the boss levels, press the spacebar to shoot crumpled beer cans at the boss. Avoid the rats and other obstacles that come your way, and try to collect as many boosters as possible. When you reach the subway station columns, you have completed the level!
 
-BONUS STUFF
-Level 4: collect bottles (to be able to throw at rats later)
+##Video Demo
+(add video link here)
+
+##Play Rat City!
+(add heroku link here)
+
+##Technologies
+JavaScript
+HTML5 Canvas
+Rails API
+
+##Roadmap
+Check back for future levels! There will be powerups and more obstacles to get by!
