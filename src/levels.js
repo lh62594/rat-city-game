@@ -236,14 +236,13 @@ function gameOver() {
 
       instructions.innerHTML = `
         thanks for playing!
-        <br />
+        
         <button id="play-again"> play again </button>
       `
       const playAgain = document.querySelector('#play-again')
       playAgain.addEventListener('click', event => {
         clearCanvas()
       })
-
     })
   })
 

@@ -1,4 +1,6 @@
-By Katie Pennachio and Linya Hu
+# Rat City Game
+Created by Katie Pennachio and Linya Hu
+
 
 ## About Rat City
 
@@ -20,9 +22,12 @@ Use the left, right, and up arrows on your keyboard to move your player. When yo
 (add heroku link here)
 
 ## Technologies
-JavaScript
-HTML5 Canvas
-Rails API
+* JavaScript
+* HTML5 Canvas
+* Rails API
 
 ## Roadmap
 Check back for future levels! There will be powerups and more obstacles to get by!
+
+## Rails API
+To view the backend portion of this game, go to https://github.com/lh62594/rat-city-backend

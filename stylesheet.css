@@ -14,6 +14,7 @@
   font-size: 20px;
   position: absolute;
   top: 20px;
+  height: 100px;
 }
 
 
@@ -56,6 +57,42 @@
   margin-right: 50px;
 }
 
+button {
+  width: 100px;
+  height: 20px;
+  background-color: rgba(0,0,0,0);
+  border-color: #afff14;
+  color: #afff14;
+  border-radius: 5px;
+  margin: 10px 5px 5px 5px;
+}
+
+button:hover {
+  background-color: #afff14;
+  color: black;
+}
+
+button:focus {
+  outline-color: rgba(175, 255, 20, 0.2);
+}
+
+input {
+  width: 180px;
+  height: 20px;
+  background-color: rgba(0,0,0,0);
+  border-color: #afff14;
+  border-style: groove;
+  color: #afff14;
+  margin: 10px 5px 5px 120px;
+}
+
+input:focus {
+  outline-color: rgba(175, 255, 20, 0.2);
+}
+
+::placeholder {
+  color: rgba(175, 255, 20, 0.5)
+}
 
 /* .wrapper {
 overflow: hidden;
