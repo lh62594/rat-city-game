@@ -1,6 +1,6 @@
 By Katie Pennachio and Linya Hu
 
-##About Rat City
+## About Rat City
 
 Rats have taken over New York City!
 
@@ -10,19 +10,19 @@ Be careful, the rats get faster at each level and there are surprise obstacles a
 
 Intended for ages 4+
 
-##Gameplay
+## Gameplay
 Use the left, right, and up arrows on your keyboard to move your player. When you get to the boss levels, press the spacebar to shoot crumpled beer cans at the boss. Avoid the rats and other obstacles that come your way, and try to collect as many boosters as possible. When you reach the subway station columns, you have completed the level!
 
-##Video Demo
+## Video Demo
 (add video link here)
 
-##Play Rat City!
+## Play Rat City!
 (add heroku link here)
 
-##Technologies
+## Technologies
 JavaScript
 HTML5 Canvas
 Rails API
 
-##Roadmap
+## Roadmap
 Check back for future levels! There will be powerups and more obstacles to get by!
