@@ -222,7 +222,7 @@ function gameOver() {
       username: userInput.value,
       score: collectedPizzas
     }
-    fetch(`http://localhost:3000/api/v1/users`, {
+    fetch(`https://rat-city-api.herokuapp.com/api/v1/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -236,7 +236,7 @@ function gameOver() {
 
       instructions.innerHTML = `
         thanks for playing!
-        
+
         <button id="play-again"> play again </button>
       `
       const playAgain = document.querySelector('#play-again')

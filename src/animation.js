@@ -2,7 +2,7 @@
             GAME OVER BOARD
 **************************************************/
 function fetchScores() {
-  fetch("http://localhost:3000/api/v1/users")
+  fetch("https://rat-city-api.herokuapp.com/api/v1/users")
   .then(res => res.json())
   .then(json => {
     for (var i = 0; i < json.length; i++) {
