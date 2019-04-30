@@ -301,7 +301,7 @@ window.addEventListener("keydown", event => {
       throws.push(new Throw(player.x, player.y, bosses[curLevel]))
       throwCan.play()
     } else {
-      console.log("what happens here?");
+      // console.log("what happens here?");
     }
   }
 })

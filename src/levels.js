@@ -10,7 +10,6 @@ function allLevelRender() {
   player.draw()
   levelComplete = false
   player.x = 100
-  console.log(subway.x);
 }
 
 function renderIntro() {
