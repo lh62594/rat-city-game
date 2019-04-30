@@ -16,7 +16,8 @@ Intended for ages 4+
 Use the left, right, and up arrows on your keyboard to move your player. When you get to the boss levels, press the spacebar to shoot crumpled beer cans at the boss. Avoid the rats and other obstacles that come your way, and try to collect as many boosters as possible. When you reach the subway station columns, you have completed the level!
 
 ## Video Demo
-(add video link here)
+
+<img src="img/video.gif" />
 
 ## Play Rat City!
 (add heroku link here)
