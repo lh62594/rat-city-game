@@ -1,0 +1,23 @@
+{
+  "name": "rat-city-game",
+  "version": "1.0.0",
+  "description": "rat city game frontend ",
+  "main": "gravity.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lh62594/rat-city-game.git"
+  },
+  "keywords": [
+    "rat",
+    "city"
+  ],
+  "author": "linya hu && katie pennachio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lh62594/rat-city-game/issues"
+  },
+  "homepage": "https://github.com/lh62594/rat-city-game#readme"
+}
