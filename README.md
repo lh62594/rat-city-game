@@ -29,6 +29,10 @@ You can play Rat City at https://ratcity.herokuapp.com/
 * HTML5 Canvas
 * Rails API
 
+## Animation & Graphics
+
+All animations were created using HTML5 canvas. Game graphics were created using Google Slides, with the exception of the game characters.
+
 ## Roadmap
 Check back for future levels! There will be powerups and more obstacles to get by!
 
