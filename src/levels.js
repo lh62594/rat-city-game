@@ -253,7 +253,7 @@ function renderUsernameForm() {
   return (`
     your final score is ${collectedPizzas}, enter your username to save your score!
     <br />
-    <input id="user-input" type="text" placeholder="enter username" />
+    <input id="user-input" maxlength="30" type="text" placeholder="enter username" />
     <button id="save-button"> save </button>
     <button id="play-button"> play again </button>
   `)
