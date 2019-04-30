@@ -11,7 +11,6 @@ const cansCollected = document.querySelector("#cans");
 const livesLeft = document.querySelector("#lives");
 
 // music
-// const levelMusic = document.querySelector("#level");
 let music = []
 
 
@@ -109,7 +108,6 @@ let gif = {
   9: "img/mario/9.gif",
   10: "img/mario/10.gif"
 }
-
 
 
 // game play logic
