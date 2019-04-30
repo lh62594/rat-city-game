@@ -19,8 +19,10 @@ Use the left, right, and up arrows on your keyboard to move your player. When yo
 
 <img src="img/video.gif" />
 
+The above gif shows the gameplay of the first two levels. Click on the link below to play!
+
 ## Play Rat City!
-(add heroku link here)
+You can play Rat City at https://ratcity.herokuapp.com/
 
 ## Technologies
 * JavaScript
