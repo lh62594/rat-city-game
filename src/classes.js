@@ -754,7 +754,7 @@ class GameOverScoreboard {
 
   draw() {
     c.fillStyle = "rgba(0,0,0)"
-    c.fillRect(420, this.y, 320, 25)
+    c.fillRect(380, this.y, 400, 25)
     c.font = "16px Courier New";
     c.fillStyle = ("#afff14")
     c.textAlign = "center";
