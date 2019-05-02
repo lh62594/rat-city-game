@@ -7,6 +7,7 @@ function allLevelRender() {
   createPizzas()
   createCans()
   createHearts()
+  createDonuts()
   player.draw()
   levelComplete = false
   player.x = 100
@@ -30,7 +31,9 @@ function renderLevelOne() {
   score.innerHTML = "🍕 0"
   cansCollected.innerHTML = "🍺 0"
   livesLeft.innerHTML = "❤️ ❤️ ❤️ "
-  instructions.innerHTML = "use the left, right, and up arrow to avoid rats and collect pizza"
+  instructions.innerHTML = `use the left, right, and up arrow to avoid rats and collect pizza
+    <br />
+    reach the subway station column to move on to the next level!`
   canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
   allLevelRender()
@@ -48,6 +51,7 @@ function renderLevelTwo() {
   canvas.style.backgroundImage = "url('img/2/wall_st.png')";
   canvas.classList.add("scrolling-bg")
   allLevelRender()
+
 }
 
 // fulton street
@@ -123,7 +127,7 @@ function renderLevelSeven() {
   curLevel = 7
   pigeonSpeed = -6
   levelComplete = false
-  subway.x = fullWidth + 100
+  instructions.innerHTML = "make it through the grand central concourse to get outside!"
   canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
   canvas.classList.add("scrolling-bg")
   createTicketWindows()
@@ -131,16 +135,41 @@ function renderLevelSeven() {
   createPigeons()
 }
 
+// run down 42nd street!
 function renderLevelEight() {
   player.x = 100
-  pizzaSpeed = -5.5
-  ratSpeed = -5
+  pizzaSpeed = -5
+  ratSpeed = -7
   curLevel = 8
-  pigeonSpeed = -6
+  pigeonSpeed = -6.5
   levelComplete = false
-  subway.x = fullWidth + 100
   instructions.innerHTML = "head down 42nd street and get in a cab!"
   canvas.style.backgroundImage = "url('img/8/42-st-bg.png')";
+  canvas.classList.add("scrolling-bg")
+  allLevelRender()
+  createPigeons()
+}
+
+// animation between level 8 and 9
+function renderLevelNineIntro() {
+  instructions.innerHTML = ""
+  canvas.style.backgroundImage = "url('img/9/transition-bg.png')";
+  canvas.style.backgroundSize = "1200px 450px"
+  canvas.classList.remove("scrolling-bg")
+  driveTaxiToHudsonPiers()
+
+}
+
+function renderLevelNine() {
+  curLevel = 9
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -7.5
+  pigeonSpeed = -6.5
+  levelComplete = false
+  instructions.innerHTML = "collect donuts to make obstacles temporarily disappear!"
+  canvas.style.backgroundImage = "url('img/9/hudson-piers-bg.png')";
+  canvas.style.backgroundSize = "750px 450px"
   canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
@@ -164,11 +193,6 @@ function continueLevel() {
   continueSign.draw()
   canvas.classList.remove("scrolling-bg")
   canvas.addEventListener("click", continueAfterClick)
-  // document.addEventListener("keydown", event => {
-  //   if (event.code == "Enter") {
-  //     continueAfterClick()
-  //   }
-  // })
 }
 
 function completedLevel() {
@@ -182,7 +206,8 @@ function completedLevel() {
   if (curLevel < 7 && curLevel != "intro") {
     subwayMoving.play()
     bringSubway()
-
+  } else if (curLevel == 7) {
+    continueTo8.draw()
   } else if (curLevel == 8) {
     continueTo9.draw()
   }
@@ -258,8 +283,6 @@ function renderUsernameForm() {
   `)
 }
 
-
-
 /******************* GAME OVER SECTION **********************/
 
 
@@ -281,8 +304,12 @@ function continueAfterClick() {
     level1.play()
   } else if (curLevel == 4) {
     boss1.play()
-  } else if (curLevel < 10) {
+  } else if (curLevel < 7) {
     level5.play()
+  } else if (curLevel < 9) {
+    level7.play()
+  } else if (curLevel < 11) {
+    level9.play()
   }
 
   animate()
@@ -309,16 +336,15 @@ function continueToNextLevel() {
       level5.play()
       startLevelSix()
     } else if (curLevel == 6) {
-      level5.play()
+      level7.play()
       startLevelSeven()
     } else if (curLevel == 7) {
-      level5.play()
+      level7.play()
       startLevelEight()
     } else if (curLevel == 8) {
+      // level9.play()
       taxiDriving.play()
       driveTaxi()
-      level5.play()
-      startLevelNine()
     } else if (curLevel == 9) {
       boss2.play()
       startLevelTen()
@@ -326,7 +352,7 @@ function continueToNextLevel() {
       winGame()
     }
   canvas.removeEventListener("click", continueToNextLevel, false)
-  // levelMusic.play()
+
 }
 
 function clearCanvas() {
@@ -382,12 +408,17 @@ function startLevelSeven() {
 }
 
 function startLevelEight() {
+  // REMOVE THIS LATER
+  addAllLevelSounds()
+
   renderLevelEight()
   animate()
 }
 
 function startLevelNine() {
+  // debugger
   renderLevelNine()
+  level9.play()
   animate()
 }
 
@@ -407,6 +438,8 @@ function startLevelTen() {
 // startLevelFour()
 // startTest()
 
-// startLevelEight()
+// startLevelSeven()
+// startLevelNine()
+// renderLevelNineIntro()
 
 startIntro()

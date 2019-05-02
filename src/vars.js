@@ -30,7 +30,7 @@ const levelPizza = {
   6: 15,
   7: 18,
   8: 15,
-  9: 0,
+  9: 18,
   10: 0
 }
 
@@ -56,7 +56,20 @@ const levelHeart = {
   6: 0,
   7: 1,
   8: 0,
-  9: 1
+  9: 2,
+  10: 0,
+}
+
+const levelDonut = {
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 2,
 }
 
 const hitsNeeded = {
@@ -85,11 +98,12 @@ let hearts = []
 let pigeons = [] // used in Level 6
 let ticketWindows = [] // used in Level 7
 let lamps = [] // used in Level 7
+let donuts = [] // used in Level 9
 
 // collected variables
 let collectedPizzas = 0
 let collectedCans = 0
-let lives = 3
+let lives = 10
 
 
 // for animation

@@ -30,7 +30,11 @@ const bosses = {
 
 // game signs
 let continueSign = new GameSign("you lost a life", "click to continue")
+let continueTo8 = new GameSign("  go outside!", "click to continue")
 let continueTo9 = new GameSign(" ride the taxi", "click to continue")
+let begin9 = new GameSign("  get ready...", "")
+
+// game over sign
 let gameOverSign = new GameOverBanner("   GAME OVER")
 
 // station signs
@@ -54,25 +58,42 @@ function createTicketWindows() {
 }
 
 let streetSign = new StationSign("img/8/st-sign.png", 400, 23, 150, 287)
+let warehouse = new StationSign("img/9/warehouse.png", fullWidth * 2 + 745, 23, 700, 287)
+
 
 
 // columns
-// constructor (x, src, w, h)
+// constructor (x, src, y, w, h)
 let bgColumn = new Column(fullWidth + 500, "img/1/bowling-green-col.png", 23, 90, 287) // column for level one: Bowling Green
 let wsColumn = new Column(fullWidth*1.5, "img/2/wall-st-col.png", 23, 90, 287)
 let fsColumn = new Column(fullWidth*1.8, "img/3/fulton-st-col.png", 23, 90, 287)
 let usColumn = new Column(fullWidth*2, "img/5/union-sq-col.png", 23, 90, 287)
 let gcColumn = new Column(fullWidth*2.25, "img/6/grand-central-col.png", 23, 90, 287)
 let gcDoor = new Column(fullWidth*2.5-350, "img/7/door.jpg", 23, 250, 287)
-let taxi42 = new Column(fullWidth*2.5, "img/taxi.png", 170, 400, 175)
+let warehouseDoor = new Column(fullWidth * 2 + 1000, "img/9/warehouse-door.png", 150, 195, 160)
+
+// taxi in level 8
+// let taxi42 = new Column(fullWidth*2.5, "img/taxi.png", 170, 400, 175)
+let taxi42 = new Column(fullWidth+100, "img/taxi.png", 170, 400, 175)
+
 let startTaxi = new Taxi(-200)
+let taxi9 = new Taxi(-200)
 
 
-
+/**************************************************
+            PLAYER/OBJECT CREATIONS
+**************************************************/
 // rats --> 2 rats per each level
 function createRats() {
   for (var i = 0; i < 2; i++) {
     var x = fullWidth + i * (Math.random()*525 + 475)
+    rats.push(new Rat(x))
+  }
+}
+  // this is for when player hits a donut
+function createDelayedRats() {
+  for (var i = 0; i < 2; i++) {
+    var x = fullWidth * 1.5 + i * (Math.random()*525 + 475)
     rats.push(new Rat(x))
   }
 }
@@ -84,7 +105,13 @@ function createPigeons() {
     pigeons.push(new Pigeon(x))
   }
 }
-
+  // this is for when player hits a donut
+function createDelayedPigeons() {
+  for (var i = 0; i < 2; i++) {
+    var x = fullWidth * 1.5 + i * (Math.random()*525 + 475)
+    pigeons.push(new Pigeon(x))
+  }
+}
 
 // pizzas
 function createPizzas() {
@@ -98,9 +125,18 @@ function createPizzas() {
 // hearts/lives
 function createHearts() {
   for (var i = 0; i < levelHeart[curLevel]; i++) {
-    var x = fullWidth*1.5 + i * (Math.random()*400 + 375) + 350
+    var x = fullWidth * 1.5 + i * 1.75 * fullWidth + ((Math.random()*100 + 375) + 300)
     // hearts take in arguments (x, num, src) --> num is like an index
     hearts.push(new Heart(x, i+1, "img/collect/heart.png"))
+  }
+}
+
+// donuts
+function createDonuts() {
+  for (var i = 0; i < levelDonut[curLevel]; i++) {
+    var x = fullWidth * 4 + i * 4 * fullWidth + ((Math.random()*100 + 375) + 300)
+    // donuts take in arguments (x, num) --> num is like an index
+    donuts.push(new Donut(x, i+1))
   }
 }
 
@@ -115,8 +151,16 @@ function createCans() {
 
 
 /**************************************************
-              ANIMATION FUNCTIONS
+              LEVEL ANIMATION FUNCTIONS
 **************************************************/
+function clearObstacles() {
+  // this will be triggered when a player hits a donut
+  rats = []
+  createDelayedRats()
+  pigeons = []
+  createDelayedPigeons()
+}
+
 function levelDraws() {
   if (curLevel == 1) {
     bowlingGreenSign.draw()
@@ -140,7 +184,8 @@ function levelDraws() {
     streetSign.draw()
     taxi42.draw()
   } else if (curLevel == 9) {
-
+    warehouse.draw()
+    warehouseDoor.draw()
   }
 
   player.draw()
@@ -151,6 +196,7 @@ function levelMovesExceptBoss() {
   pizzas.forEach( p => p.move())
   rats.forEach( o => o.move())
   hearts.forEach( h => h.move())
+  donuts.forEach( d => d.move())
 }
 
 function levelMovesIntro() {
@@ -172,7 +218,7 @@ function levelMoves() {
     fultonStreetSign.move()
     fsColumn.move()
     levelMovesExceptBoss()
-  } else if (curLevel == 4) {
+  } else if (curLevel == 4) { // first boss level
     daBoss.move()
     rats.forEach( o => o.move())
     throws.forEach( t => t.move())
@@ -198,7 +244,10 @@ function levelMoves() {
     pigeons.forEach( p => p.move() )
     taxi42.move()
   } else if (curLevel == 9) {
-
+    warehouse.move()
+    warehouseDoor.move()
+    levelMovesExceptBoss()
+    pigeons.forEach( p => p.move() )
   }
 
   player.draw()
@@ -253,6 +302,9 @@ function driveTaxi() {
     c.clearRect(0, 0, innerWidth, innerHeight);
     taxi42.x += 5
     taxi42.draw()
+    streetSign.draw()
+  } else if (taxi42.x + 100 > fullWidth) {
+    renderLevelNineIntro()
   }
 }
 
@@ -270,22 +322,28 @@ function showTaxi() {
 }
 
 
+/**************************************************
+            BETWEEN LEVELS ANIMATIONS
+**************************************************/
+
+function driveTaxiToHudsonPiers() {
+  if (taxi9.x <= 600 ) {
+    requestAnimationFrame(driveTaxiToHudsonPiers)
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    taxi9.x += 5
+    taxi9.draw()
+    if (taxi9.x > 100 && taxi9.x <= 400) {
+      begin9.draw()
+    }
+  } else {
+    startLevelNine()
+  }
+}
+
 
 /**************************************************
-                EVENT LISTENERS
+                PLAYER MOVEMENTS
 **************************************************/
-// window.addEventListener("keydown", event => {
-//   if (event.code == "ArrowUp" && jumpKey == false) {
-//     jumpKey = true
-//   }
-// })
-//
-// window.addEventListener("keyup", event => {
-//   if (event.code == "ArrowUp") {
-//   jumpKey = false
-//   }
-// })
-
 window.addEventListener("keydown", event => {
   if (event.code == "ArrowUp" && jumpKey == false) {
     jumpKey = true
@@ -315,21 +373,3 @@ window.addEventListener("keyup", event => {
     leftKey = false
   }
 })
-
-// window.addEventListener("keydown", event => {
-//   if (event.code == "ArrowUp" && jumpKey == false) {
-//     jumpKey = true
-//
-//   if (player.y === floorPos - 100) {
-//     player.gravitySpeed = 0
-//   }
-//     player.gravity = -0.7
-//   }
-// })
-//
-// window.addEventListener("keyup", event => {
-//   if (event.code == "ArrowUp") {
-//   jumpKey = false
-//   player.gravity = 0.3
-//   }
-// })

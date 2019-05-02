@@ -20,21 +20,26 @@ class GameSound {
   }
 }
 
-let pickup = new GameSound("mp3/pizza.wav")
+let pickup = new GameSound("mp3/collect2.mp3")
 let jump = new GameSound("mp3/jump.wav")
 let gameOverSnd = new GameSound("mp3/gameover.wav")
 let hitRat = new GameSound("mp3/rat.wav")
 let hitPigeon = new GameSound("mp3/pigeon.wav")
 let hitBossWithCan = new GameSound("mp3/hit_boss_with_can.wav")
 let beer = new GameSound("mp3/beer.wav")
-let getNewHeart = new GameSound("mp3/life.wav")
+// let getNewHeart = new GameSound("mp3/life.wav")
+let getNewHeart = new GameSound("mp3/bonus1.mp3")
 let subwayMoving = new GameSound("mp3/standclear.m4a")
 let throwCan = new GameSound("mp3/throw_can_1.wav")
 let taxiDriving = new GameSound("mp3/taxi_drive.wav")
+let donut = new GameSound("mp3/bonus2.mp3")
 
 let level1 = new GameSound("mp3/level-run.mp3")
+    level1.loop = true
 let level5 = new GameSound("mp3/level-run-2.mp3")
-// let level7 = new GameSound("mp3/level-run-3.mp3")
+let level7 = new GameSound("mp3/level-run-2.mp3")
+let level9 = new GameSound("mp3/treasure.mp3")
+
 let boss1 = new GameSound("mp3/boss-1.mp3")
 let boss2 = new GameSound("mp3/boss-2.mp3")
 
@@ -46,10 +51,10 @@ let pass3 = new GameSound("mp3/sfx_sounds_fanfare3.wav")
 function addAllLevelSounds() {
   music.push(level1)
   music.push(level5)
-  // music.push(level7)
+  music.push(level7)
+  music.push(level9)
   music.push(boss1)
   music.push(boss2)
-  // music.push(subwayMoving)
 }
 
 
@@ -433,6 +438,40 @@ class Pizza {
   }
 } // end of Pizza class
 
+class Donut {
+  constructor(x, num) {
+    this.num = num
+    this.x = x
+    this.y = floorPos - 50
+    this.dx = pizzaSpeed
+    this.size = 40
+    this.image = new Image(50,50);
+    this.image.src = "img/collect/donut.png"
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.size, this.size)
+  }
+
+  move() {
+    // if the donut hits the left side of canvas, it gets destroyed
+    if (this.x < 0) {
+      donuts.shift()
+    }
+
+    // this is moving the donut left
+    this.x += this.dx;
+    this.draw();
+
+    if (this.x > player.x && this.x < (player.x + player.width)
+      && this.y < (player.y + player.height) && this.y > player.y ) {
+        donuts = donuts.filter( p => p.num != this.num)
+        donut.play()
+        clearObstacles()
+    }
+  }
+} // end of Donut class
+
 class Can {
   constructor(x, num) {
     this.num = num
@@ -722,11 +761,14 @@ class GameSign {
     c.fillStyle = ("#afff14")
     c.fillText(this.line1, 310, 200);
 
-    c.fillStyle = "rgba(0,0,0)"
-    c.fillRect(420, 250, 320, 25)
-    c.font = "30px Courier New";
-    c.fillStyle = ("#afff14")
-    c.fillText(this.line2, 430, 270)
+    if (this.line2 !== "") {
+      c.fillStyle = "rgba(0,0,0)"
+      c.fillRect(420, 250, 320, 25)
+      c.font = "30px Courier New";
+      c.fillStyle = ("#afff14")
+      c.fillText(this.line2, 430, 270)
+    }
+
   }
 } // end of GameSign class
 
