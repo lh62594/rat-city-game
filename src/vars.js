@@ -26,15 +26,15 @@ const levelPizza = {
   2: 15,
   3: 18,
   4: 0,
-  5: 15,
-  6: 15,
-  7: 20,
-  8: 15,
-  9: 24,
+  5: 20,
+  6: 22,
+  7: 25,
+  8: 28,
+  9: 30,
   10: 0,
-  11: 25,
-  12: 23,
-  13: 26
+  11: 30,
+  12: 33,
+  13: 36
 }
 
 const levelCan = {
@@ -82,7 +82,7 @@ const levelDonut = {
   10: 1,
   11: 2,
   12: 2,
-  13: 1,
+  13: 2,
   14: 1,
 }
 
@@ -119,7 +119,7 @@ let cockroaches = [] // used in level 11
 
 // collected variables
 let collectedPizzas = 0
-let collectedCans = 10
+let collectedCans = 0
 let lives = 3
 
 
