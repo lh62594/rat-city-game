@@ -2,6 +2,7 @@
                 RENDER LEVELS
 **************************************************/
 function allLevelRender() {
+  direction = "right"
   rats = []
   createRats()
   createPizzas()
@@ -17,8 +18,7 @@ function renderIntro() {
   curLevel = "intro"
   canvas.style.backgroundImage = "url('img/menu.png')"
   canvas.style.backgroundSize = "1200px 450px"
-  canvas.classList.remove("scrolling-bg")
-  instructions.innerText = "click to get on the subway!"
+  instructions.innerText = "hit enter to get on the subway!"
 
   addAllLevelSounds()
   // backgroundMusic.play()
@@ -27,16 +27,32 @@ function renderIntro() {
 // bowling green
 function renderLevelOne() {
   curLevel = 1
-  canvas.style.backgroundImage = "url('img/1/bowling_green_1.png')";
   score.innerHTML = "🍕 0"
   cansCollected.innerHTML = "🍺 0"
   livesLeft.innerHTML = "❤️ ❤️ ❤️ "
   instructions.innerHTML = `use the left, right, and up arrow to avoid rats and collect pizza
     <br />
     reach the subway station column to move on to the next level!`
-  canvas.style.backgroundSize = "750px 450px"
-  canvas.classList.add("scrolling-bg")
   allLevelRender()
+  levelDraws()
+
+  //reset all the variables
+  collectedPizzas = 0
+  collectedCans = 10
+  lives = 3
+
+  pizzaSpeed = -2.5 // pizza speed
+  ratSpeed = -4 // rat speed
+  bossSpeed = -1.5 // rat speed
+  pigeonSpeed = -4 // pigeon speed
+  cockroachSpeed = 4
+
+  paused = false
+  levelComplete = false
+
+  // reset all the backgrounds
+  bowlingGreenSign.x = 400
+  col1.x = fullWidth + 500
 
   level1.play()
 }
@@ -48,15 +64,11 @@ function renderLevelTwo() {
   curLevel = 2
 
   instructions.innerHTML = "collect crumpled beer cans to throw at boss rats!"
-  canvas.style.backgroundImage = "url('img/2/wall_st.png')";
-  canvas.classList.add("scrolling-bg")
   allLevelRender()
-
 }
 
 // fulton street
 function renderLevelThree() {
-
   pizzaSpeed = -5
   ratSpeed = -8
   curLevel = 3
@@ -78,7 +90,6 @@ function renderLevelFour() {
   instructions.innerHTML = "press [space] to throw beer cans - hit the boss 3x!"
   canvas.style.backgroundImage = "url('img/4/bklyn-br-bg.png')";
   canvas.style.backgroundSize = "1200px 450px"
-  canvas.classList.remove("scrolling-bg")
 
   levelComplete = false
   subway.x = fullWidth + 100
@@ -96,9 +107,9 @@ function renderLevelFive() {
   levelComplete = false
   subway.x = fullWidth + 100
   instructions.innerHTML = "watch out for the pigeons!"
-  canvas.style.backgroundImage = "url('img/5/union-sq-bg.png')";
-  canvas.style.backgroundSize = "750px 450px"
-  canvas.classList.add("scrolling-bg")
+  // canvas.style.backgroundImage = "url('img/5/union-sq-bg.png')";
+  // canvas.style.backgroundSize = "750px 450px"
+  // canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
 }
@@ -113,8 +124,8 @@ function renderLevelSix() {
   levelComplete = false
   subway.x = fullWidth + 100
   instructions.innerHTML = "the speed of rats and pigeons increase every level"
-  canvas.style.backgroundImage = "url('img/6/grand-central-bg.png')";
-  canvas.classList.add("scrolling-bg")
+  // canvas.style.backgroundImage = "url('img/6/grand-central-bg.png')";
+  // canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
 }
@@ -128,8 +139,8 @@ function renderLevelSeven() {
   pigeonSpeed = -6
   levelComplete = false
   instructions.innerHTML = "make it through the grand central concourse to get outside!"
-  canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
-  canvas.classList.add("scrolling-bg")
+  // canvas.style.backgroundImage = "url('img/7/gc-concourse-bg.png')";
+  // canvas.classList.add("scrolling-bg")
   createTicketWindows()
   allLevelRender()
   createPigeons()
@@ -144,8 +155,8 @@ function renderLevelEight() {
   pigeonSpeed = -6.5
   levelComplete = false
   instructions.innerHTML = "head down 42nd street and get in a cab!"
-  canvas.style.backgroundImage = "url('img/8/42-st-bg.png')";
-  canvas.classList.add("scrolling-bg")
+  // canvas.style.backgroundImage = "url('img/8/42-st-bg.png')";
+  // canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
 }
@@ -155,7 +166,7 @@ function renderLevelNineIntro() {
   instructions.innerHTML = ""
   canvas.style.backgroundImage = "url('img/9/transition-bg.png')";
   canvas.style.backgroundSize = "1200px 450px"
-  canvas.classList.remove("scrolling-bg")
+  // canvas.classList.remove("scrolling-bg")
   driveTaxiToHudsonPiers()
 
 }
@@ -166,14 +177,93 @@ function renderLevelNine() {
   pizzaSpeed = -5.5
   ratSpeed = -7.5
   pigeonSpeed = -6.5
+
   levelComplete = false
   instructions.innerHTML = "collect donuts to make obstacles temporarily disappear!"
-  canvas.style.backgroundImage = "url('img/9/hudson-piers-bg.png')";
-  canvas.style.backgroundSize = "750px 450px"
-  canvas.classList.add("scrolling-bg")
+  // canvas.style.backgroundImage = "url('img/9/hudson-piers-bg.png')";
+  // canvas.style.backgroundSize = "750px 450px"
+  // canvas.classList.add("scrolling-bg")
   allLevelRender()
   createPigeons()
 }
+
+function renderLevelTen() {
+  player.x = 100
+  ratSpeed = -6
+  pigeonSpeed = -4
+  curLevel = 10
+  bossSpeed = -2.5
+
+  instructions.innerHTML = "you need to hit the boss with more beer cans!"
+  canvas.style.backgroundImage = "url('img/10/warehouse-bg.png')";
+  canvas.style.backgroundSize = "1200px 450px"
+  // canvas.classList.remove("scrolling-bg")
+
+  levelComplete = false
+  allLevelRender()
+  createPigeons()
+  player.draw()
+}
+
+function renderLevelEleven() {
+  curLevel = 11
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -7.5
+  levelComplete = false
+  instructions.innerHTML = "watch out for the falling cockroaches!"
+  allLevelRender()
+  createCockroaches()
+  player.draw()
+}
+
+function renderLevelTwelve() {
+  curLevel = 12
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -7.5
+  cockroachSpeed = 4.5
+  levelComplete = false
+  instructions.innerHTML = "you're almost at the end... things get harder!"
+  allLevelRender()
+  createCockroaches()
+  player.draw()
+}
+
+function renderLevelThirteen() {
+  curLevel = 13
+  player.x = 100
+  pizzaSpeed = -5.5
+  ratSpeed = -7.5
+  cockroachSpeed = 4.5
+  pigeonSpeed = -4
+  levelComplete = false
+  instructions.innerHTML = "watch out for the pigeons again!"
+  allLevelRender()
+  createCockroaches()
+  createOnePigeon()
+  player.draw()
+}
+
+function renderLevelFourteen() {
+  curLevel = 14
+  player.x = 100
+  ratSpeed = -7.5
+  cockroachSpeed = 4.5
+  pigeonSpeed = -4
+  bossSpeed = -3
+
+  instructions.innerHTML = "this is the ultimate boss battle! "
+  canvas.style.backgroundImage = "url('img/14/81-bg.png')";
+  canvas.style.backgroundSize = "1200px 450px"
+
+  levelComplete = false
+  allLevelRender()
+  createCockroaches()
+  createOnePigeon()
+  player.draw()
+}
+
 /**************************************************
           COMPLETE / CONTINUE / GAME OVER
 **************************************************/
@@ -182,7 +272,6 @@ function renderLevelNine() {
 // }
 
 function continueLevel() {
-
   music.forEach( s => s.pause())
 
   livesLeft.innerText = ""
@@ -191,55 +280,110 @@ function continueLevel() {
   }
 
   continueSign.draw()
-  canvas.classList.remove("scrolling-bg")
-  canvas.addEventListener("click", continueAfterClick)
+  // canvas.classList.remove("scrolling-bg")
+  window.addEventListener("keypress", continueAfterClick)
 }
 
 function completedLevel() {
-
   music.forEach( s => s.pause())
-
   rats = []
   pizzas = []
   pigeons = []
+  cockroaches = []
 
   if (curLevel < 7 && curLevel != "intro") {
     subwayMoving.play()
     bringSubway()
-  } else if (curLevel == 7) {
+  } else if (curLevel === 7) {
     continueTo8.draw()
-  } else if (curLevel == 8) {
+  } else if (curLevel === 8) {
     continueTo9.draw()
+  } else if (curLevel === 9) {
+    continueTo10.draw()
+  } else if (curLevel === 10) {
+    c.clearRect(0, 0, innerWidth, innerHeight);
+    player.draw()
+    daBoss.x = fullWidth + 100
+    daBoss.draw()
+    runPlayerToDoor()
+  } else if (curLevel === 11) {
+    continueTo12.draw()
+  } else if (curLevel <= 14) {
+    bringCTrain()
   }
 
-  canvas.classList.remove("scrolling-bg")
-  canvas.addEventListener("click", continueToNextLevel)
-  // document.addEventListener("keydown", event => {
-  //     continueToNextLevel(event)
-  // })
+  window.addEventListener("keypress", continueToNextLevel)
 }
 
 /******************* GAME OVER SECTION **********************/
 function gameOver() {
+  // renderIntro()
   gameOverSign.draw()
   fetchScores()
 
   gameOverSnd.play()
-  livesLeft.innerText = `😭 `
 
+  // replace the instructions with form
+  livesLeft.innerText = `😭 `
   instructions.innerHTML = renderUsernameForm()
 
-  canvas.classList.remove("scrolling-bg")
+  // reset all the arrays
+  rats = []
+  pizzas = []
+  cans = []
+  throws = []
+  hearts = []
+  pigeons = [] // used in Level 6
+  ticketWindows = [] // used in Level 7
+  lamps = [] // used in Level 7
+  donuts = [] // used in Level 9
+  cockroaches = [] // used in level 11
+
+  // canvas.classList.remove("scrolling-bg")
   // gameOverSign.draw()
   // canvas.addEventListener("click", clearCanvas)
+  saveScore()
+}
 
+function renderUsernameForm() {
+  return (`
+    your final score is ${collectedPizzas}, enter your username to save your score!
+    <br />
+    <input id="user-input" maxlength="30" type="text" placeholder="enter username" />
+    <button id="save-button"> save </button>
+    <button id="play-button"> play again </button>
+  `)
+}
+
+function restartGame(e) {
+    e.target.removeEventListener(e.type, arguments.callee, false)
+    startLevelOne()
+}
+
+/******************* GAME OVER SECTION **********************/
+
+/************************************************************
+*************************************************************
+                        WIN GAME
+*************************************************************
+************************************************************/
+
+function winGame() {
+  music.forEach( s => s.pause())
+  c.clearRect(0, 0, innerWidth, innerHeight); // clearing canvas each time
+  instructions.innerHTML = renderUsernameForm()
+  canvas.style.backgroundImage = "url('img/end-bg.png')";
+  winGameSign.draw()
+  fetchScores()
+  saveScore()
+}
+
+function saveScore() {
   const userInput = document.querySelector('#user-input')
   const saveButton = document.querySelector('#save-button')
   const playButton = document.querySelector('#play-button')
 
-  playButton.addEventListener('click', event => {
-    clearCanvas()
-  })
+  playButton.addEventListener('click', restartGame)
 
   saveButton.addEventListener('click', event => {
     let data = {
@@ -264,60 +408,57 @@ function gameOver() {
         <button id="play-again"> play again </button>
       `
       const playAgain = document.querySelector('#play-again')
-      playAgain.addEventListener('click', event => {
-        clearCanvas()
-      })
+      playAgain.addEventListener('click', restartGame)
     })
   })
-
-
 }
-
-function renderUsernameForm() {
-  return (`
-    your final score is ${collectedPizzas}, enter your username to save your score!
-    <br />
-    <input id="user-input" maxlength="30" type="text" placeholder="enter username" />
-    <button id="save-button"> save </button>
-    <button id="play-button"> play again </button>
-  `)
-}
-
-/******************* GAME OVER SECTION **********************/
-
-
 
 /**************************************************
               EVENT LISTENER HELPERS
 **************************************************/
-function continueAfterClick() {
-  // makes all the rats and pizza disappear
-  rats = []
-  createRats()
-  pigeons = []
-  createPigeons()
-  // changes the pause to false
-  paused = false
-  canvas.classList.add("scrolling-bg")
+function continueAfterClick(e) {
+  if (e.key === "Enter") {
+    // makes all the rats and pizza disappear
+    rats = []
+    createRats()
+    pigeons = []
+    if (curLevel >= 13) {
+      createOnePigeon()
+    } else {
+      createPigeons()
+    }
 
-  if (curLevel < 4) {
-    level1.play()
-  } else if (curLevel == 4) {
-    boss1.play()
-  } else if (curLevel < 7) {
-    level5.play()
-  } else if (curLevel < 9) {
-    level7.play()
-  } else if (curLevel < 11) {
-    level9.play()
+    if (curLevel > 10) {
+      cockroaches = []
+      createCockroaches()
+    }
+
+    // changes the pause to false
+    paused = false
+    // canvas.classList.add("scrolling-bg")
+
+    if (curLevel < 4) {
+      level1.play()
+    } else if (curLevel == 4) {
+      boss1.play()
+    } else if (curLevel < 7) {
+      level5.play()
+    } else if (curLevel < 9) {
+      level7.play()
+    } else if (curLevel < 11) {
+      level9.play()
+    } else if (curLevel < 15) {
+      level11.play()
+    }
+
+    animate()
+    // removes the event listener
+    window.removeEventListener("keypress", continueAfterClick)
   }
-
-  animate()
-  // removes the event listener
-  canvas.removeEventListener("click", continueAfterClick)
 }
 
-function continueToNextLevel() {
+function continueToNextLevel(e) {
+  if (e.key === "Enter") {
     if (curLevel == "intro") {
       startLevelOne()
     } else if (curLevel == 1) {
@@ -349,10 +490,22 @@ function continueToNextLevel() {
       boss2.play()
       startLevelTen()
     } else if (curLevel == 10) {
+      level11.play()
+      startLevelEleven()
+    } else if (curLevel == 11) {
+      level11.play()
+      startLevelTwelve()
+    } else if (curLevel == 12) {
+      level11.play()
+      startLevelThirteen()
+    } else if (curLevel == 13) {
+      boss2.play()
+      startLevelFourteen()
+    } else if (curLevel == 14) {
       winGame()
     }
-  canvas.removeEventListener("click", continueToNextLevel, false)
-
+    window.removeEventListener("keypress", continueToNextLevel, false)
+  }
 }
 
 function clearCanvas() {
@@ -427,19 +580,40 @@ function startLevelTen() {
   animate()
 }
 
+function startLevelEleven() {
+  renderLevelEleven()
+  animate()
+}
+
+function startLevelTwelve() {
+  // columbus circle
+  renderLevelTwelve()
+  animate()
+}
+
+function startLevelThirteen() {
+  // 72nd street
+  renderLevelThirteen()
+  animate()
+}
+
+function startLevelFourteen() {
+  // museum of natural history --> END GAME
+  renderLevelFourteen()
+  animate()
+}
+
 
 /**************************************************
                 INVOKING FUNCTIONS
 **************************************************/
-// startLevelOne()
-// startIntro()
-// startLevelTwo()
-// startLevelThree()
-// startLevelFour()
-// startTest()
 
+// startLevelFour()
 // startLevelSeven()
 // startLevelNine()
-// renderLevelNineIntro()
+startLevelFourteen()
+// startLevelThirteen()
 
-startIntro()
+// startLevelFour()
+
+// startIntro()

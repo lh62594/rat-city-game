@@ -20,8 +20,8 @@ class GameSound {
   }
 }
 
-let pickup = new GameSound("mp3/collect2.mp3")
-let jump = new GameSound("mp3/jump.wav")
+let pickup = new GameSound("mp3/collect3.mp3")
+let jump = new GameSound("mp3/jump.mp3")
 let gameOverSnd = new GameSound("mp3/gameover.wav")
 let hitRat = new GameSound("mp3/rat.wav")
 let hitPigeon = new GameSound("mp3/pigeon.wav")
@@ -31,14 +31,14 @@ let beer = new GameSound("mp3/beer.wav")
 let getNewHeart = new GameSound("mp3/bonus1.mp3")
 let subwayMoving = new GameSound("mp3/standclear.m4a")
 let throwCan = new GameSound("mp3/throw_can_1.wav")
-let taxiDriving = new GameSound("mp3/taxi_drive.wav")
-let donut = new GameSound("mp3/bonus2.mp3")
+let taxiDriving = new GameSound("mp3/car.mp3")
+let donut = new GameSound("mp3/donut.mp3")
 
 let level1 = new GameSound("mp3/level-run.mp3")
-    level1.loop = true
 let level5 = new GameSound("mp3/level-run-2.mp3")
 let level7 = new GameSound("mp3/level-run-2.mp3")
 let level9 = new GameSound("mp3/treasure.mp3")
+let level11 = new GameSound("mp3/boat.mp3")
 
 let boss1 = new GameSound("mp3/boss-1.mp3")
 let boss2 = new GameSound("mp3/boss-2.mp3")
@@ -47,12 +47,14 @@ let boss2 = new GameSound("mp3/boss-2.mp3")
 let pass1 = new GameSound("mp3/sfx_sounds_fanfare1.wav")
 let pass2 = new GameSound("mp3/sfx_sounds_fanfare2.wav")
 let pass3 = new GameSound("mp3/sfx_sounds_fanfare3.wav")
+let beatBoss = new GameSound("mp3/beatBoss.mp3")
 
 function addAllLevelSounds() {
   music.push(level1)
   music.push(level5)
   music.push(level7)
   music.push(level9)
+  music.push(level11)
   music.push(boss1)
   music.push(boss2)
 }
@@ -111,19 +113,16 @@ class Pigeon {
       if (this.y < 50) {
         this.y += 2.5
         this.flight = false
-      }
-      else if (this.flight == false) {
+      } else if (this.flight == false) {
         this.y += 2.5
-        if (this.y > floorPos - 40) {
+        if (this.y > floorPos - 30) {
           this.flight = true
         }
-      }
-      else if (Math.random() > 0 && Math.random() < 0.3 && this.flight == true) {
-        this.y -= 3
-      }
-      else if (Math.random() > 0.3 && Math.random() < 0.4 && this.flight == true) {
+      } else if (Math.random() > 0 && Math.random() < 0.3 && this.flight == true) {
+        this.y -= 2.5
+      } else if (Math.random() > 0.3 && Math.random() < 0.4 && this.flight == true) {
         if (this.y != floorPos - 40) {
-          this.y += 0.5
+          this.y += 1
         }
       }
 
@@ -140,6 +139,66 @@ class Pigeon {
   }
 
 } // end of Pigeon class
+
+class Cockroach {
+  constructor(x, y) {
+    this.x = x
+    this.y = y
+    this.dx = bgSpeed
+    this.dy = cockroachSpeed
+    this.width = 60
+    this.height = 45
+    this.image = new Image(50,50)
+    this.image.src = "img/cockroach/3.png"
+    this.flight = true
+  }
+
+  draw() {
+    if (counter > 1 && counter <= 10) {
+      this.image.src = "img/cockroach/0.png"
+    } else if (counter > 10 && counter <= 19) {
+      this.image.src = "img/cockroach/1.png"
+    } else if (counter > 19 && counter <= 28) {
+      this.image.src = "img/cockroach/2.png"
+    } else if (counter > 28 && counter <= 36) {
+      this.image.src = "img/cockroach/3.png"
+    } else if (counter > 36 && counter <= 43) {
+      this.image.src = "img/cockroach/4.png"
+    } else if (counter > 43 && counter <= 52) {
+      this.image.src = "img/cockroach/5.png"
+    } else if (counter > 52 && counter <= 61) {
+      this.image.src = "img/cockroach/0.png"
+    } else if (counter > 61 && counter <= 70) {
+      this.image.src = "img/cockroach/1.png"
+    } else if (counter > 70 && counter <= 80) {
+      this.image.src = "img/cockroach/2.png"
+    }
+
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+
+  }
+
+  move() {
+    if (lives > -1) {
+      if (this.x + this.width < 0 || this.y + this.height > floorPos) {
+        this.x = ( Math.floor(Math.random() * 20) + 4) * 50
+        this.y = (Math.random() * -600) + -300
+      }
+
+      this.x += this.dx
+      this.y += this.dy
+      this.draw();
+
+      //if player hits an rat
+      if (this.x > (player.x - 10) && this.x < (player.x + player.width - 10)
+        && this.y < (player.y + player.height - 10) && this.y > ( player.y - 10) ) {
+          lives -= 1  // lives decrease
+          paused = true // the game is paused
+          hitPigeon.play()
+        }
+    }
+  }
+} // end of Cockroach class
 
 class Rat {
   constructor(x) {
@@ -330,49 +389,62 @@ class Player {
     this.x = 100
     this.y = floorPos - 100
     this.dx = playerSpeed
-    this.width = 90
-    this.height = 100
+    this.width = 100
+    this.height = 110
     this.image = new Image(50, 50)
-    // this.image.src = "img/mario-pose2.png"
-    this.image.src = "img/mario/1.gif"
-    // this.gif = GIF()
-    // this.gif.load("img/mario-run.gif")
+    this.image.src = "img/character/1.png"
     this.gravity = 0
     this.gravitySpeed = 0
     this.jumping = false
   }
 
   draw() {
-
-    if (counter > 1 && counter <= 8) {
-      this.image.src = gif[0]
-    } else if (counter > 8 && counter <= 16) {
-      this.image.src = gif[1]
-    } else if (counter > 16 && counter <= 24) {
-      this.image.src = gif[2]
-    } else if (counter > 24 && counter <= 32) {
-      this.image.src = gif[3]
-    } else if (counter > 32 && counter <= 40) {
-      this.image.src = gif[4]
-    } else if (counter > 40 && counter <= 48) {
-      this.image.src = gif[5]
-    } else if (counter > 48 && counter <= 56) {
-      this.image.src = gif[6]
-    } else if (counter > 56 && counter <= 64) {
-      this.image.src = gif[7]
-    } else if (counter > 64 && counter <= 72) {
-      this.image.src = gif[8]
-    } else if (counter > 72 && counter <= 80) {
-      this.image.src = gif[9]
-      counter = 1
+    if (direction === "right") {
+      if (counter > 1 && counter <= 10) {
+        this.image.src = right[0]
+      } else if (counter > 10 && counter <= 20) {
+        this.image.src = right[1]
+      } else if (counter > 20 && counter <= 30) {
+        this.image.src = right[2]
+      } else if (counter > 30 && counter <= 40) {
+        this.image.src = right[3]
+      } else if (counter > 40 && counter <= 50) {
+        this.image.src = right[4]
+      } else if (counter > 50 && counter <= 60) {
+        this.image.src = right[5]
+      } else if (counter > 60 && counter <= 70) {
+        this.image.src = right[6]
+      } else if (counter > 70 && counter <= 80) {
+        this.image.src = right[7]
+        counter = 1
+      }
+    } else if (direction === "left") {
+      if (counter > 1 && counter <= 10) {
+        this.image.src = left[0]
+      } else if (counter > 10 && counter <= 20) {
+        this.image.src = left[1]
+      } else if (counter > 20 && counter <= 30) {
+        this.image.src = left[2]
+      } else if (counter > 30 && counter <= 40) {
+        this.image.src = left[3]
+      } else if (counter > 40 && counter <= 50) {
+        this.image.src = left[4]
+      } else if (counter > 50 && counter <= 60) {
+        this.image.src = left[5]
+      } else if (counter > 60 && counter <= 70) {
+        this.image.src = left[6]
+      } else if (counter > 70 && counter <= 80) {
+        this.image.src = left[7]
+        counter = 1
+      }
     }
+
+
     counter += 1
 
     // this.image.src = gif[counter/counter - counter]
     c.drawImage(this.image, this.x, this.y, this.width, this.height)
     // c.drawImage(this.gif.image, 100, 100)
-
-
     if (player.x < 1) {
       player.x = 1
     } else if ( (player.x + player.width) > fullWidth) {
@@ -511,11 +583,12 @@ class Can {
 }
 
 class Throw {
-  constructor(x, y, obstacle) {
+  constructor(x, y, dx, obstacle) {
     this.x = x
     this.y = y + 50
     // this.num = num
-    this.dx = throwSpeed
+    // this.dx = throwSpeed
+    this.dx = dx
     this.size = 40
     this.image = new Image(50,50);
     this.image.src = "img/collect/stella.png"
@@ -527,13 +600,12 @@ class Throw {
   }
 
   move() {
-    // console.log(this.obstacle.x);
     this.x += this.dx
     this.draw()
 
     if (this.x > fullWidth) {
       throws.shift()
-    } else if (this.x > this.obstacle.x) {
+    } else if (this.obstacle.x - player.x < 400 && this.x > this.obstacle.x && this.x < this.obstacle.x + this.obstacle.width) {
       throws.shift()
       hits += 1
       hitBossWithCan.play()
@@ -583,6 +655,38 @@ class Heart {
 /**************************************************
                   BACKGROUND CLASSES
 **************************************************/
+class Background {
+  constructor(src, x, y=0, w=750, h=450, repeat=true) {
+    this.x = x
+    this.y = y
+    this.dx = bgSpeed
+    this.width = w
+    this.height = h
+    this.image = new Image(50,50)
+    this.image.src = src
+    this.repeat = repeat
+  }
+
+  draw() {
+    c.drawImage(this.image, this.x, this.y, this.width, this.height)
+  }
+
+  move() {
+    if (this.repeat === true) {
+      if (this.x + this.width < 0) {
+        this.x = 1499
+      }
+      this.x += this.dx;
+      this.draw();
+    } else if (this.x + this.width > -1) {
+      this.x += this.dx;
+      this.draw();
+    }
+  }
+
+} // end of Background class
+
+
 class StationSign {
   constructor(src, x, y, w, h) {
     this.x = x
@@ -599,8 +703,8 @@ class StationSign {
   }
 
   move() {
-    if (this.x + this.width < 0) {
-      this.x = fullWidth + 250 + this.x
+    if (this.x + this.width < -5) {
+      this.x = fullWidth + 5
     }
     this.x += this.dx;
     this.draw();
@@ -608,12 +712,14 @@ class StationSign {
 } // end of StationSign class
 
 class Subway {
-  constructor(x) {
+  constructor(x, train) {
     this.x = x
     this.y = floorPos - 200
     this.dx = -10
     this.width = fullWidth
     this.height = 275
+    this.train = train
+    // this.color = color
   }
 
   draw() {
@@ -651,10 +757,11 @@ class Subway {
     c.fillRect(this.x + 450, 160, 320, 40) // second window sign
     c.font = "18px Arial"; // 4 train circle
     c.fillStyle = ("#afff14")
-    c.fillText("4      LEXINGTON EXPRESS", this.x + 495, 187)
+    c.textAlign = "left";
+    c.fillText(this.train, this.x + 495, 187)
     c.font = "14px Arial"; // continue sign
     c.fillStyle = "rgba(0,0,0,1)"
-    c.fillText("CLICK HERE FOR NEXT LEVEL", this.x + 500, 310)
+    c.fillText("HIT ENTER TO CONTINUE", this.x + 500, 310)
 
     c.beginPath() // 4 train sign circle
     c.arc((this.x + 500), 180, 15, 0, Math.PI * 2, false)
@@ -748,8 +855,6 @@ class Taxi {
 
 class GameSign {
   constructor(line1, line2) {
-    // this.image = new Image(50,50);
-    // this.image.src = src
     this.line1 = line1
     this.line2 = line2
   }
@@ -759,14 +864,16 @@ class GameSign {
     c.fillRect(300, 160, 550, 50)
     c.font = "60px Courier New";
     c.fillStyle = ("#afff14")
-    c.fillText(this.line1, 310, 200);
+    c.textAlign = "center";
+    c.fillText(this.line1, 575, 200);
 
     if (this.line2 !== "") {
       c.fillStyle = "rgba(0,0,0)"
-      c.fillRect(420, 250, 320, 25)
+      c.fillRect(370, 250, 420, 25)
       c.font = "30px Courier New";
       c.fillStyle = ("#afff14")
-      c.fillText(this.line2, 430, 270)
+      c.textAlign = "center";
+      c.fillText(this.line2, 580, 270)
     }
 
   }
@@ -784,7 +891,8 @@ class GameOverBanner {
     c.font = "60px Courier New";
     c.fillStyle = ("#afff14")
     // putting the text from "line1" into first box
-    c.fillText(this.line1, 310, 140);
+    c.textAlign = "center";
+    c.fillText(this.line1, 575, 140);
   }
 } // end of GameOverBanner class
 
@@ -836,28 +944,3 @@ class Column {
     }
   }
 } // end of Column class
-
-
-
-
-
-
-// function Sound(src) {
-//   this.sound = document.createElement("audio");
-//   this.sound.src = src;
-//   this.sound.setAttribute("preload", "auto");
-//   this.sound.setAttribute("controls", "none");
-//   this.sound.style.display = "none";
-//   document.body.appendChild(this.sound);
-//
-// }
-//
-// Sound.prototype.play = function(){
-//     this.sound.play();
-//   }
-//
-// Sound.prototype.stop = function(){
-//     this.sound.pause();
-//   }
-//
-// let backgroundMusic = new Sound("mp3/level-run-1.mp3")
