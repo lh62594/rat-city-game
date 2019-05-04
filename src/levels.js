@@ -611,9 +611,9 @@ function startLevelFourteen() {
 // startLevelFour()
 // startLevelSeven()
 // startLevelNine()
-startLevelFourteen()
+// startLevelFourteen()
 // startLevelThirteen()
 
 // startLevelFour()
 
-// startIntro()
+startIntro()
