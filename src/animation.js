@@ -564,6 +564,7 @@ function driveTaxiToHudsonPiers() {
 
 function runPlayerToDoor() {
   beatBoss.play()
+  direction = "right"
   if (player.x <= 990) {
     requestAnimationFrame(runPlayerToDoor)
     c.clearRect(0, 0, innerWidth, innerHeight);
