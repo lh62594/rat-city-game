@@ -47,7 +47,7 @@ let boss2 = new GameSound("mp3/boss-2.mp3")
 let pass1 = new GameSound("mp3/sfx_sounds_fanfare1.wav")
 let pass2 = new GameSound("mp3/sfx_sounds_fanfare2.wav")
 let pass3 = new GameSound("mp3/sfx_sounds_fanfare3.wav")
-let beatBoss = new GameSound("mp3/beatBoss.mp3")
+let beatBoss = new GameSound("mp3/beatboss.mp3")
 
 function addAllLevelSounds() {
   music.push(level1)
