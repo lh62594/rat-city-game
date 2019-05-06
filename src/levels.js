@@ -38,7 +38,7 @@ function renderLevelOne() {
 
   //reset all the variables
   collectedPizzas = 0
-  collectedCans = 10
+  collectedCans = 0
   lives = 3
 
   pizzaSpeed = -2.5 // pizza speed
@@ -318,6 +318,7 @@ function completedLevel() {
 /******************* GAME OVER SECTION **********************/
 function gameOver() {
   // renderIntro()
+  music.forEach( s => s.pause())
   gameOverSign.draw()
   fetchScores()
 
@@ -383,7 +384,7 @@ function saveScore() {
   const saveButton = document.querySelector('#save-button')
   const playButton = document.querySelector('#play-button')
 
-  playButton.addEventListener('click', restartGame)
+  playButton.addEventListener('click', clearCanvas)
 
   saveButton.addEventListener('click', event => {
     let data = {
@@ -408,7 +409,7 @@ function saveScore() {
         <button id="play-again"> play again </button>
       `
       const playAgain = document.querySelector('#play-again')
-      playAgain.addEventListener('click', restartGame)
+      playAgain.addEventListener('click', clearCanvas)
     })
   })
 }
