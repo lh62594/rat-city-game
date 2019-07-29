@@ -18,7 +18,7 @@ function renderIntro() {
   curLevel = "intro"
   canvas.style.backgroundImage = "url('img/menu.png')"
   canvas.style.backgroundSize = "1200px 450px"
-  instructions.innerText = "hit enter to get on the subway!"
+  instructions.innerText = ""
 
   addAllLevelSounds()
   // backgroundMusic.play()
